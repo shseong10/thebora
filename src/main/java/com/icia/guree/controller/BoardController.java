@@ -32,7 +32,6 @@ public class BoardController {
     @Autowired
     private FileDao pDao;
 
-    ////git test////
     // 경매 물품 올리기 페이지로
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/board/auctionRegister")
