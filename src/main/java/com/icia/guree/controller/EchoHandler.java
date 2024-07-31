@@ -45,31 +45,31 @@ public class EchoHandler extends TextWebSocketHandler {
             String[] strs = msg.split(",");
 
             if (strs != null && strs.length == 5) {
-                String pushCategory = strs[0];			//댓글, 좋아요 구분
-                String replyWriter = strs[1];			//댓글, 좋아요 보낸 유저
-                String sendedPushUser = strs[2];		//푸시 알림 받을 유저
-                String boardId = strs[3];				//게시글번호
+                String pushCategory = strs[0];			//구매신청, 채팅 등등 구분
+                String buyer = strs[1];			//보낸 유저
+                String seller = strs[2];		//푸시 알림 받을 유저
+                String sb_num = strs[3];				//게시글번호
                 String title = strs[4];					//게시글제목
 
-                WebSocketSession sendedPushSession = userSessionMap.get(sendedPushUser);	//로그인상태일때 알람 보냄
+                WebSocketSession sendedPushSession = userSessionMap.get(seller);	//로그인상태일때 알람 보냄
 
-                //부모댓글
-                if ("reply".equals(pushCategory) && sendedPushSession != null) {
-                    TextMessage textMsg = new TextMessage(replyWriter + " 님이 " + "<a href='/board/marketDetail?sb_num="+boardId+"' style=\"color:black\"><strong>" + title + "</strong> 에 구매신청을 하였습니다..</a>");
+                //구매신청
+                if ("apply".equals(pushCategory) && sendedPushSession != null) {
+                    TextMessage textMsg = new TextMessage(buyer + " 님이 " + "<a href='/board/marketDetail?sb_num="+sb_num+"' style=\"color:black\"><strong>" + title + "</strong> 에 구매신청을 하였습니다..</a>");
                     sendedPushSession.sendMessage(textMsg);
                 }
 
                 //좋아요
-                else if ("like".equals(pushCategory) && sendedPushSession != null) {
-                    TextMessage textMsg = new TextMessage(replyWriter + " 님이 " + "<a href='/porfolDetail/" + boardId + "' style=\"color:black\"><strong>" + title + "</strong> 을 좋아요♡ 했습니다.</a>");
-                    sendedPushSession.sendMessage(textMsg);
-                }
-
-                //자식댓글
-                else if ("reReply".equals(pushCategory) && sendedPushSession != null) {
-                    TextMessage textMsg = new TextMessage(replyWriter + " 님이 " + "<a href='/porfolDetail/" + boardId + "' style=\"color:black\"><strong>" + title + "</strong> 글의 회원님 댓글에 답글을 남겼습니다.</a>");
-                    sendedPushSession.sendMessage(textMsg);
-                }
+//                else if ("like".equals(pushCategory) && sendedPushSession != null) {
+//                    TextMessage textMsg = new TextMessage(buyer + " 님이 " + "<a href='/porfolDetail/" + sb_num + "' style=\"color:black\"><strong>" + title + "</strong> 을 좋아요♡ 했습니다.</a>");
+//                    sendedPushSession.sendMessage(textMsg);
+//                }
+//
+//                //자식댓글
+//                else if ("reReply".equals(pushCategory) && sendedPushSession != null) {
+//                    TextMessage textMsg = new TextMessage(buyer + " 님이 " + "<a href='/porfolDetail/" + sb_num + "' style=\"color:black\"><strong>" + title + "</strong> 글의 회원님 댓글에 답글을 남겼습니다.</a>");
+//                    sendedPushSession.sendMessage(textMsg);
+//                }
             }
         }
     }

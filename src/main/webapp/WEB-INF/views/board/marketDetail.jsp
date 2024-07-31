@@ -172,12 +172,13 @@
             data: {"sb_num": "${bDto.sb_num}", "sb_id": "${bDto.sb_id}", "a_joinId": user},
         }).done((resp) => {
             if (resp){
-                alert('구매신청완료.');
-                location.reload();
+
                 //웹 소켓 관련 로직 추가
                 if (socket) {
-                    let socketMsg = "reply," + replyWriter + "," + boardWriter + "," + boardId + "," + boardTitle;
+                    let socketMsg = "apply," + replyWriter + "," + boardWriter + "," + boardId + "," + boardTitle;
                     socket.send(socketMsg);
+                    alert('구매신청완료.');
+                    location.reload();
                 }
             }else{
                 alert('이미 구매 신청하셨습니다.');

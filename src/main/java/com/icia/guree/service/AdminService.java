@@ -4,6 +4,7 @@ import com.icia.guree.common.BoardFileManager;
 import com.icia.guree.dao.BoardDao;
 import com.icia.guree.dao.FileDao;
 import com.icia.guree.dao.MemberDao;
+import com.icia.guree.entity.BoardDto;
 import com.icia.guree.entity.MemberDto;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,9 @@ public class AdminService {
 
     public void memberUpdate(MemberDto mDto) {
          mDao.memberUpdate(mDto) ;
+    }
+
+    public boolean reUpload(BoardDto bDto) {
+        return bDao.reUpload(bDto);
     }
 }

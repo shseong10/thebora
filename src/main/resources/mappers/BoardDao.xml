@@ -260,5 +260,9 @@
         delete from watchlist where w_sb_num = #{sb_num}
     </delete>
 
+    <update id="reUpload">
+        update saleboard set sb_scope = 1, sb_timer = #{sb_timer} where sb_num = #{sb_num}
+    </update>
+
 
 </mapper>
