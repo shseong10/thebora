@@ -68,7 +68,7 @@ class MyUploadAdapter {
 	_initRequest() {
 		const xhr = this.xhr = new XMLHttpRequest();
 
-		xhr.open( 'POST', '/admin/upload', true );
+		xhr.open( 'POST', '/upload/hotdeal', true );
 		xhr.responseType = 'json';
 	}
 
@@ -353,10 +353,17 @@ ClassicEditor.create(document.querySelector('#sb_contents'), editorConfig)
 		console.error( error );
 	} );
 
-//관리자페이지에서 비동기로 데이터를 가져올때에 사용
+//관리자페이지에서 비동기로 데이터를 가져올때 사용
 const modalViewDesc = document.getElementById('sb_contents_hidden');
 modalViewDesc.addEventListener('click', () => {
 	const savedData = document.getElementById('sb_contents_hidden').innerHTML;
-	console.log('savedData: ' + savedData);
 	editor.setData(savedData);
+})
+
+//관리자페이지에서 비동기로 데이터를 수정하고 저장할때 사용
+document.getElementById('quicksave').addEventListener('click', () => {
+	const editorData = editor.getData();
+	const textarea = document.getElementById('sb_contents');
+	textarea.innerHTML = editorData;
+	quickUpdate();
 })

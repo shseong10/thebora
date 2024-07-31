@@ -392,22 +392,22 @@ public class BoardController {
     }
 
     //구매신청
-    @GetMapping("/board/buyApply")
-    public String buyApply(BoardDto bDto, RedirectAttributes redirectAttributes) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            bDto.setA_joinId(userDetails.getUsername());
-
-
-            boolean buyApply = bSer.buyApply(bDto);
-            if(buyApply){
-                redirectAttributes.addFlashAttribute("msg", "구매신청완료");
-            }else{
-                redirectAttributes.addFlashAttribute("msg", "이미 구매 신청한 상품입니다.");            }
-        }
-        return "redirect:/";
-    }
+//    @GetMapping("/board/buyApply")
+//    public String buyApply(BoardDto bDto, RedirectAttributes redirectAttributes) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//            bDto.setA_joinId(userDetails.getUsername());
+//
+//
+//            boolean buyApply = bSer.buyApply(bDto);
+//            if(buyApply){
+//                redirectAttributes.addFlashAttribute("msg", "구매신청완료");
+//            }else{
+//                redirectAttributes.addFlashAttribute("msg", "이미 구매 신청한 상품입니다.");            }
+//        }
+//        return "redirect:/";
+//    }
 
     //관심목록 삭제
     @GetMapping("/board/myCartDel")

@@ -240,7 +240,33 @@
             return
 
         }
-        location.href = "/board/buyApply?sb_num=${bDto.sb_num}&sb_id=${bDto.sb_id}"
+        var boardId = "${bDto.sb_num}"
+        var boardTitle = "${bDto.sb_title}"
+        var boardWriter = "${bDto.sb_id}"
+        var replyWriter = "${bDto.sb_id}"
+        var replyText = $('#replyText').val();
+        var param = { "sb_num" : ${bDto.sb_num}, "sb_id" : ${bDto.sb_id}};
+
+        $.ajax({
+            url 	: "/board/buyApply",
+            type 	: "post",
+            data 	: param,
+            success : function(resp){
+                alert('구매신청완료.');
+                location.reload();
+                //웹 소켓 관련 로직 추가
+                if (boardWriter != replyWriter){	//글쓴이와 댓글작성자가 다를 경우 소켓으로 메세지 보냄
+                    if (socket){
+                        let socketMsg = "reply," + replyWriter + "," + boardWriter + "," + boardId + "," + boardTitle;
+                        socket.send(socketMsg);
+                    }
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown){
+                alert('댓글 등록이 실패하였습니다.');
+            }
+        });
+
 
     }
     function saleCart(){

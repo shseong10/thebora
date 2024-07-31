@@ -21,7 +21,7 @@
     <!-- 상품 수정 -->
     <update id="updateItem">
         update saleboard set sb_title = #{sb_title}, sb_category = #{sb_category}, sb_startprice = #{sb_startprice},
-        sb_count = #{sb_count}, sb_contents = #{sb_contents}, sb_date = default, sb_buylevel = #{sb_buylevel}
+        sb_count = #{sb_count}, sb_contents = #{sb_contents}, sb_date = default, sb_timer = #{sb_timer}, sb_buylevel = #{sb_buylevel}
         where sb_num = #{sb_num}
     </update>
     <!-- 목록 출력 -->
@@ -32,6 +32,8 @@
         <result property="sb_startprice" column="sb_startprice" />
         <result property="sb_count" column="sb_count" />
         <result property="sb_contents" column="sb_contents" />
+        <result property="sb_timer" column="sb_timer" />
+        <result property="sb_timer_str" column="sb_timer_str" />
         <result property="sb_buylevel" column="sb_buylevel" />
         <collection property="ifList" javaType="ArrayList" ofType="InventoryFile">
             <result property="bf_orifilename" column="bf_orifilename" />
@@ -40,7 +42,7 @@
     </resultMap>
     <select id="getInventoryList" parameterType="HashMap" resultMap="ifList" resultType="InventoryDto">
         select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_buylevel,
-        date_format(sb_date,'%Y-%m-%d %H:%i') sb_date,
+        date_format(sb_timer,'%Y-%m-%d %H:%i') sb_timer_str,
         bf_orifilename, bf_sysfilename
         from saleboard left join boardfile
         on sb_num=bf_sb_num
@@ -49,8 +51,8 @@
         limit #{startIdx}, #{listCnt}
     </select>
     <select id="getInventoryListSearch" parameterType="HashMap" resultMap="ifList" resultType="InventoryDto">
-        select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_date, sb_buylevel,
-        date_format(sb_date,'%Y-%m-%d %H:%i') sb_date,
+        select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel,
+        date_format(sb_timer,'%Y-%m-%d %H:%i') sb_timer_str,
         bf_orifilename, bf_sysfilename
         from saleboard left join boardfile
         on sb_num=bf_sb_num
@@ -63,8 +65,8 @@
     </select>
     <!-- 관리자 페이지 보기 -->
     <select id="getAdmin" parameterType="HashMap" resultMap="ifList" resultType="InventoryDto">
-        select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_date, sb_buylevel,
-        date_format(sb_date,'%Y-%m-%d %H:%i') sb_date,
+        select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel,
+        date_format(sb_timer,'%Y-%m-%d %H:%i') sb_timer_str,
         bf_orifilename, bf_sysfilename
         from saleboard left join boardfile
         on sb_num=bf_sb_num order by sb_num desc
@@ -73,8 +75,8 @@
     </select>
     <!-- 상품 상세 보기 -->
     <select id="getInventoryDetail" parameterType="Integer" resultMap="ifList">
-        select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_date, sb_buylevel,
-        date_format(sb_date,'%Y-%m-%d %H:%i') sb_date,
+        select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel,
+        date_format(sb_timer,'%Y-%m-%d %H:%i') sb_timer_str,
         bf_orifilename, bf_sysfilename
         from saleboard left join boardfile
         on sb_num=bf_sb_num
@@ -82,8 +84,8 @@
     </select>
     <!-- 상품 상세 보기 -->
     <select id="getQuickView" parameterType="Integer" resultMap="ifList">
-        select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_date, sb_buylevel,
-        date_format(sb_date,'%Y-%m-%d %H:%i') sb_date,
+        select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel,
+        date_format(sb_timer,'%Y-%m-%d %H:%i') sb_timer_str,
         bf_orifilename, bf_sysfilename
         from saleboard left join boardfile
         on sb_num=bf_sb_num
@@ -92,7 +94,7 @@
     <!-- 관리자 상품 빠른 수정-->
     <update id="quickUpdate" parameterType="InventoryDto">
         update saleboard set sb_title = #{sb_title}, sb_category = #{sb_category}, sb_startprice = #{sb_startprice},
-        sb_count = #{sb_count}, sb_contents = #{sb_contents}, sb_date = default, sb_date = #{sb_date}, sb_buylevel = #{sb_buylevel}
+        sb_count = #{sb_count}, sb_contents = #{sb_contents}, sb_date = default, sb_timer = #{sb_timer}, sb_buylevel = #{sb_buylevel}
         where sb_num = #{sb_num}
     </update>
     <!-- 전체 상품 개수 -->
