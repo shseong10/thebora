@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icia.guree.dao.ChattingDao">
+
+    <insert id="startChatting">
+        insert into chatmessage(c_receiveid, c_sendid, c_contents, c_sendtime)
+        values(#{m_id}, #{username}, #{c_contents}, default)
+    </insert>
+
+    <select id="getMyChattingList" resultType="com.icia.guree.entity.ChattingDto">
+        select * from chatting where c_id = #{m_id}
+    </select>
+
+    <select id="chattingSearch" resultType="com.icia.guree.entity.ChattingDto">
+        select * from chatting where c_title like concat('%', #{keyWord}, '%')
+    </select>
+
+    <select id="getChattingCount" resultType="java.lang.Integer">
+        select count(*) from chatting
+        <if test="colName != null">
+            where ${colName} like concat('%', #{keyWord}, '%')
+        </if>
+    </select>
+
+    <select id="getMemberId" resultType="arraylist">
+        select m_id from member m join saleboard sb on m.m_id = sb.sb_id
+        where m_id = #{m_id}
+    </select>
+
+    <insert id="insertChatRoom">
+        insert into chatting values(#{m_id}, #{title})
+    </insert>
+
+</mapper>
