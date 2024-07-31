@@ -13,9 +13,10 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-
-
     </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 </head>
 <style>
     input{
@@ -25,6 +26,15 @@
 </style>
 
 <script>
+    $(()=>{
+        const msg = '${msg}';
+        if (msg !== '') {
+
+            alert(msg);
+        }
+
+    })
+
     function goBoardManager() {
 
         $.ajax({
@@ -237,7 +247,7 @@
                     </td>
 			        <td id="">
                          <select name="m_role" id="">
-                             <option value="` + mList.m_role +`">` + mList.m_role +`</option>
+                             <option value="` + mList.m_role + `">` + mList.m_role + `</option>
                              <option value="admin">admin</option>
                              <option value="user">user</option>
                              <option value="company">company</option>
@@ -248,12 +258,13 @@
 			        	<button class="btn btn-primary"> 수정 </button>
 		        	</td>
                     <td>
-			        	<a href="/admin/memberDelete?m_id=`+mList.m_id + `" class="btn btn-primary"> 삭제 </a>
+			        	<a href="/admin/memberDelete?m_id=` + mList.m_id + `" class="btn btn-primary"> 삭제 </a>
 		        	</td>
 
                 </tr>
-</tbody> </table>   </form>
-                `
+</tbody>
+</table>
+</form>`
 
             })
 
@@ -311,7 +322,7 @@
 			        	<a href="/admin/realDelete?sb_num=` + delList.sb_num + `" class="btn btn-primary"> 삭제 </a>
 		        	</td>
                      <td>
-			        	<a href="/admin/restore?sb_num=` + delList.sb_num + `" class="btn btn-primary"> 다시올리기 </a>
+			        	<button class="btn btn-primary" type="button" onclick="reUpload(`+delList.sb_num +`)"> 다시올리기 </button>
 		        	</td>
 	        	</tr>
  </tbody>`
@@ -324,7 +335,6 @@
             console.log(err)
         })
     }
-
 
 </script>
 
@@ -351,5 +361,63 @@
 
 </div>
 
+<div id="reUp" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">경매시간</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/admin/reUpload" method="post">
+                    <input type="text" id="reUpNum" name="sb_num" hidden="hidden">
+                    종료시간 : <input type="datetime-local" id="myDatetime"  class="form-control myInput mt-1" placeholder="날짜를 선택하세요." readonly="readonly"     ></p>
+                    <input type="text" name="sb_timer" id="sb_timer" hidden="hidden">
+                    <button class="btn btn-primary">올리기</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function reUpload(num){
+        $('#reUpNum').val(num)
+        $('#reUp').modal('show');
+    }
+
+    const datetimeInput = document.getElementById('myDatetime');
+
+    datetimeInput.addEventListener('change', function () {
+
+        // const datetimeValue = this.value; // 현재 입력된 값
+        // 이 값에 대해 필요한 처리 (예: 특정 형식으로 변경)
+        // 예시: ISO 8601 형식 (24시간 형식)으로 변환
+        // const isoDatetime = new Date(datetimeValue).toISOString().slice(0, 16); // 초 단위는 생략
+        // this.value = isoDatetime;
+        console.log(datetimeInput.value);
+    });
+
+    const myInput = document.querySelector(".myInput");
+    const fp = flatpickr(myInput, {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        "locale": "ko",
+        minDate: new Date().fp_incr(1) ,
+        minTime: "12:00",
+        maxDate: new Date().fp_incr(7) // 7 days from now
+
+    });
+
+    //달력에서 선택한 날짜를 전송용 필드에 입력하게 함
+    fp.config.onChange.push(function (selectedDates, dateStr, fp) {
+        const isoDatetime = new Date(dateStr).toISOString().slice(0, 16);
+        document.getElementById('sb_timer').value = isoDatetime;
+    })
+
+
+</script>
 </body>
 </html>

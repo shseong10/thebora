@@ -85,4 +85,6 @@ public interface BoardDao {
     boolean getBuyApply(BoardDto bDto);
 
     void myCartDel(BoardDto bDto);
+
+    boolean reUpload(BoardDto bDto);
 }
