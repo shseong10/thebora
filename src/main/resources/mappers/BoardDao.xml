@@ -59,7 +59,7 @@
 
     <insert id="productRegister" >
         insert into saleboard
-        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, #{sb_startPrice}, 0, #{sb_price}, #{sb_bid}, #{sb_timer}, #{sb_local}, #{sb_count}, default, #{sb_scope}, default)
+        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, #{sb_startPrice}, 0, #{sb_price}, #{sb_bid}, #{sb_timer}, #{sb_local}, #{sb_count}, default, #{sb_scope}, default,default)
     </insert>
 
     <insert id="auctionUser">
@@ -69,7 +69,7 @@
 
     <insert id="marketProductRegister">
         insert into saleboard
-        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, null, 0, #{sb_price}, null, null, #{sb_local}, #{sb_count}, default, #{sb_scope}, default)
+        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, null, 0, #{sb_price}, null, null, #{sb_local}, #{sb_count}, default, #{sb_scope}, default,default)
     </insert>
     <insert id="myCartAttend">
         insert into watchlist values (null,#{sb_num},#{username})
@@ -243,6 +243,22 @@
     <select id="boardEndList" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
         select * from auction where sb_scope = 3
     </select>
+
+    <insert id="buyApply">
+        insert into saleapply values (null,#{sb_num},#{a_joinId},#{sb_id},1,now())
+    </insert>
+
+    <select id="myTrading" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
+        select * from saleboard join saleapply on sb_num = s_sb_num left join boardfile on sb_num = bf_sb_num where s_sellerid = #{name} or s_buyerid =#{name} order by s_num desc
+    </select>
+
+    <select id="getBuyApply">
+        select count(*) from saleapply where s_sb_num = #{sb_num} and s_buyerid =#{a_joinId}
+    </select>
+
+    <delete id="myCartDel">
+        delete from watchlist where w_sb_num = #{sb_num}
+    </delete>
 
 
 </mapper>

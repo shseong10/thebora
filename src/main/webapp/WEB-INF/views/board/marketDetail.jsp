@@ -19,9 +19,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
 </head>
 <style>
-    .carousel-item{
+    .carousel-item {
 
         margin: auto;
         width: auto; /* 너비를 자동으로 조정하여 가로 세로 비율 유지 */
@@ -29,7 +30,8 @@
 
 
     }
-    .carousel-inner{
+
+    .carousel-inner {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -39,10 +41,12 @@
         width: 450px;
         height: 500px;
     }
-    .allDiv-box{
+
+    .allDiv-box {
         height: 600px;
 
     }
+
     .carousel-item img {
         max-height: 500px; /* 높이를 자동으로 조정하여 가로 세로 비율 유지 */
 
@@ -137,36 +141,63 @@
 </div>
 
 
-
 <script>
-    const joinId = '${bDto.sb_id}';
+    const sellerId = '${bDto.sb_id}';
     const user = '<sec:authentication property="name"/>';
+    let boardId = "${bDto.sb_num}"
+    let boardTitle = "${bDto.sb_title}"
+    let boardWriter = "${bDto.sb_id}"
+    let replyWriter = user
 
-    if (user === joinId) {
+
+    if (user === sellerId) {
         $('#reset-button').show();
     } else {
         $('#reset-button').hide();
     }
 
     function deleteBtn() {
-        location.href = "/board/marketDelete?sb_num="+${bDto.sb_num}
+        location.href = "/board/marketDelete?sb_num=" +
+        ${bDto.sb_num}
     }
-    function buyApply(){
-        if(user === joinId){
+
+    function buyApply() {
+        if (user === sellerId) {
             alert("본인의 상품은 구매하실 수 없습니다.")
             return
-
         }
-        location.href = "/board/buyApply?sb_num=${bDto.sb_num}&sb_id=${bDto.sb_id}"
+        $.ajax({
+            url: "/board/buyApply",
+            method: "post",
+            data: {"sb_num": "${bDto.sb_num}", "sb_id": "${bDto.sb_id}", "a_joinId": user},
+        }).done((resp) => {
+            if (resp){
+                alert('구매신청완료.');
+                location.reload();
+                //웹 소켓 관련 로직 추가
+                if (socket) {
+                    let socketMsg = "reply," + replyWriter + "," + boardWriter + "," + boardId + "," + boardTitle;
+                    socket.send(socketMsg);
+                }
+            }else{
+                alert('이미 구매 신청하셨습니다.');
+                location.reload();
+            }
+
+        }).fail((err) => {
+                console.log(err)
+        })
+
 
     }
-    function saleCart(){
-        if(user === joinId){
+
+    function saleCart() {
+        if (user === joinId) {
             alert("본인의 상품은 장바구니에 넣을 수 없습니다.")
             return
 
         }
-        location.href="/board/mySalesCart?sb_num=${bDto.sb_num}"
+        location.href = "/board/mySalesCart?sb_num=${bDto.sb_num}"
     }
 
 
