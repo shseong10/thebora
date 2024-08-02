@@ -77,8 +77,6 @@
     })
 
 
-
-
 </script>
 <script>
     $(() => {
@@ -139,31 +137,28 @@
                 <hr>
                 <p class="card-text">즉시구매가 : ${bDto.sb_price}</p>
                 <p class="card-text">시작가 : ${bDto.sb_startPrice}</p>
-                <p class="card-text">현재가 : ${bDto.sb_nowPrice}</p>
+                <p id="nowPrice" class="card-text">현재가 : ${bDto.sb_nowPrice}</p>
                 <p class="card-text">최소입찰가 : ${bDto.sb_bid}</p>
                 <p class="card-text">경매시작일 : ${bDto.sb_date}</p>
                 <p class="card-text">경매종료일 : ${bDto.sb_timer}</p>
                 <p>판매자 : ${bDto.sb_id}</p>
-                <p>현재 입찰 예정자 : ${bDto.a_joinId}</p>
+                <p id="buyer">현재 입찰 예정자 : ${bDto.a_joinId}</p>
 
                 <div id="timer"></div>
-                <form action="/board/attend" method="post" class="bid_form">
-                    <div class="d-grid gap-2 d-md-block mb-3">
-
-                        <input type="hidden" name="sb_num" value="${bDto.sb_num}">
-                        <input type="hidden" name="sb_nowPrice" value="${bDto.sb_nowPrice}">
-                        <input type="hidden" name="sb_bid" value="${bDto.sb_bid}">
-                        <input type="text" name="a_bidPrice" class="bidPrice" placeholder="입찰가격">
-                        <input type="button" class="btn btn-primary" onclick="userbtnclic()" value="입찰하기">
-                    </div>
-                </form>
+                <%--                <form action="/board/attend" method="post" class="bid_form">--%>
+                <div class="d-grid gap-2 d-md-block mb-3">
+                    <%--                        <input type="hidden" name="sb_num" value="${bDto.sb_num}">--%>
+                    <input type="text" name="a_bidPrice" id="bidPrice" placeholder="입찰가격">
+                    <input type="button" class="btn btn-primary" onclick="userbtnclic()" value="입찰하기">
+                </div>
+                <%--                </form>--%>
 
                 <form action="#">
                     <input type="hidden" name="h_o_p_num" value="${bDto.sb_num}">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#now-buy">
                         즉시구매
                     </button>
-                    <button  class="btn btn-primary" type="button" onclick="saleCart()">찜하기</button>
+                    <input class="btn btn-primary" type="button" onclick="saleCart()" value="찜하기">
                     <input type="button" id="reset-button" class="btn btn-primary" value="삭제하기" onclick="deleteBtn()">
 
                 </form>
@@ -208,8 +203,19 @@
     const user = '<sec:authentication property="name"/>'
     let bid = '${bDto.sb_bid}';
     let nowPrice = '${bDto.sb_nowPrice}';
-    console.log(bid);
-    console.log(nowPrice);
+    const boardId = "${bDto.sb_num}";
+    const boardTitle = "${bDto.sb_title}";
+    const boardWriter = "${bDto.sb_id}";
+    const replyWriter = "${bDto.sb_id}";
+
+    function saleCart() {
+        if (user === joinId) {
+            alert("본인의 상품은 장바구니에 넣을 수 없습니다.")
+            return
+
+        }
+        location.href = "/board/myAuctionCart?sb_num=${bDto.sb_num}"
+    }
 
 
     if (user === joinId) {
@@ -220,13 +226,37 @@
 
     function userbtnclic() {
         if (joinId === user) {
+
             alert("판매자는 경매에 참여할 수 없습니다.")
 
-        }else if ($('.bidPrice').val()-nowPrice<bid){
-            alert("최소입찰가는"+bid+"입니다");
+        } else if ($('#bidPrice').val() - nowPrice < bid) {
+            alert("최소입찰가는" + bid + "입니다");
 
-        }else{
-            $('.bid_form').submit();
+        } else {
+            $.ajax({
+                url: "/board/attend",
+                method: "POST",
+                data: {"sb_num": "${bDto.sb_num}", "a_joinId": user, "a_bidPrice": $('#bidPrice').val()},
+            }).done((resp) => {
+                console.log(resp)
+                if (resp === "입찰 성공") {
+                    if (socket) {
+                        let socketMsg = {"type": "attend", "buyer": user, "a_bidPrice": $('#bidPrice').val()};
+                        socket.send(JSON.stringify(socketMsg));
+                        alert('입찰완료.');
+                        location.reload();
+                    }
+                } else {
+                    alert('이미 입찰 하셨습니다.');
+                }
+            }).fail((err) => {
+                console.log(err)
+            })
+
+
+            // $('.bid_form').submit();
+
+
         }
     }
 
@@ -234,48 +264,73 @@
     function deleteBtn() {
         location.href = "/board/auctionDelete?sb_num=${bDto.sb_num}"
     }
-    function buyApply(){
-        if(user === joinId){
+
+    function buyApply() {
+        if (user === joinId) {
             alert("본인의 상품은 구매하실 수 없습니다.")
             return
 
         }
-        var boardId = "${bDto.sb_num}"
-        var boardTitle = "${bDto.sb_title}"
-        var boardWriter = "${bDto.sb_id}"
-        var replyWriter = "${bDto.sb_id}"
-        var replyText = $('#replyText').val();
-        var param = { "sb_num" : ${bDto.sb_num}, "sb_id" : ${bDto.sb_id}};
 
-        $.ajax({
-            url 	: "/board/buyApply",
-            type 	: "post",
-            data 	: param,
-            success : function(resp){
-                alert('구매신청완료.');
-                location.reload();
-                //웹 소켓 관련 로직 추가
-                if (boardWriter != replyWriter){	//글쓴이와 댓글작성자가 다를 경우 소켓으로 메세지 보냄
-                    if (socket){
-                        let socketMsg = "reply," + replyWriter + "," + boardWriter + "," + boardId + "," + boardTitle;
-                        socket.send(socketMsg);
-                    }
-                }
-            },
-            error : function(XMLHttpRequest, textStatus, errorThrown){
-                alert('댓글 등록이 실패하였습니다.');
-            }
-        });
+        //
+        // $.ajax({
+        //     url: "/board/attend",
+        //     type: "post",
+        //     data: param,
+        //     success: function (resp) {
+        //         alert('구매신청완료.');
+        //         location.reload();
+        //         //웹 소켓 관련 로직 추가
+        //         if (boardWriter != replyWriter) {	//글쓴이와 댓글작성자가 다를 경우 소켓으로 메세지 보냄
+        //             if (socket) {
+        //                 let socketMsg = "reply," + replyWriter + "," + boardWriter + "," + boardId + "," + boardTitle;
+        //                 socket.send(socketMsg);
+        //             }
+        //         }
+        //     },
+        //     error: function (XMLHttpRequest, textStatus, errorThrown) {
+        //         alert('댓글 등록이 실패하였습니다.');
+        //     }
+        // });
 
 
     }
-    function saleCart(){
-        if(user === joinId){
-            alert("본인의 상품은 장바구니에 넣을 수 없습니다.")
-            return
 
-        }
-        location.href="/board/myAuctionCart?sb_num=${bDto.sb_num}"
+    let websocket = null;
+    $(document).ready(function () {
+        //소켓 연결
+        webConnectWs();
+    });
+
+    function webConnectWs() {
+        //WebSocketConfig에서 설정한 endPoint("/push")로 연결
+        const ws = new SockJS("/push");
+        websocket = ws;
+
+        ws.onopen = function () {
+            console.log('open');
+        };
+
+        ws.onmessage = function (event) {
+            try {
+                const result = JSON.parse(event.data);
+                console.log(result);
+                if (result.type === "price") {
+                    $('#nowPrice').html("현재가 : "+result.value);
+                }
+                if (result.type === "buyer") {
+                    $('#buyer').html("현재 입찰 예정자 : "+result.name);
+                }
+            } catch (e) {
+                console.error("에러원인", e);
+            }
+
+        };
+
+        ws.onclose = function () {
+            console.log('close');
+        };
+
     }
 
 

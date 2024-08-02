@@ -1,15 +1,20 @@
 package com.icia.guree.controller;
 
+import com.icia.guree.entity.AlertDto;
+import com.icia.guree.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.springframework.util.StringUtils;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,66 +25,92 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 public class EchoHandler extends TextWebSocketHandler {
+    @Autowired
+    BoardService bSer;
+
+
     // 전체 로그인 유저
     private List<WebSocketSession> sessions = new ArrayList<>();
-
+    private Map<String, List<String>> notificationBuffer = new HashMap<>();
     // 1대1 매핑
     private Map<String, WebSocketSession> userSessionMap = new HashMap<>();
+    private final ObjectMapper objectMapper;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         log.info("Socket 연결");
         sessions.add(session);
-        log.info(sendPushUsername(session));				//현재 접속한 사람의 username이 출력됨
+        log.info(sendPushUsername(session));                //현재 접속한 사람의 username이 출력됨
         String senderId = sendPushUsername(session);
         userSessionMap.put(senderId, session);
+
+        if (notificationBuffer.containsKey(senderId)) {
+            List<String> bufferedMessages = notificationBuffer.get(senderId);
+            for (String msg : bufferedMessages) {
+                session.sendMessage(new TextMessage(msg));
+            }
+            notificationBuffer.remove(senderId);
+        }
+
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         log.info("session = " + sendPushUsername(session));
-        String msg = message.getPayload();				//js에서 넘어온 메세지
+        String msg = message.getPayload();                //js에서 넘어온 메세지
         log.info("msg = " + msg);
 
-        if (!StringUtils.isEmpty(msg)) {
-            String[] strs = msg.split(",");
+        AlertDto alertMsg = objectMapper.readValue(msg, AlertDto.class);
+        WebSocketSession sendedPushSession = userSessionMap.get(alertMsg.getSeller()); //로그인상태일때 알람 보냄
+        LocalDateTime now = LocalDateTime.now();
+        // 초를 2자리로 포맷하기 위한 DateTimeFormatter 생성
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String dateFm = now.format(formatter);
+        String result = dateFm.substring(0, 19);
+        if (alertMsg.getType().equals("apply")) {
 
-            if (strs != null && strs.length == 5) {
-                String pushCategory = strs[0];			//구매신청, 채팅 등등 구분
-                String buyer = strs[1];			//보낸 유저
-                String seller = strs[2];		//푸시 알림 받을 유저
-                String sb_num = strs[3];				//게시글번호
-                String title = strs[4];					//게시글제목
-
-                WebSocketSession sendedPushSession = userSessionMap.get(seller);	//로그인상태일때 알람 보냄
-
-                //구매신청
-                if ("apply".equals(pushCategory) && sendedPushSession != null) {
-                    TextMessage textMsg = new TextMessage(buyer + " 님이 " + "<a href='/board/marketDetail?sb_num="+sb_num+"' style=\"color:black\"><strong>" + title + "</strong> 에 구매신청을 하였습니다..</a>");
-                    sendedPushSession.sendMessage(textMsg);
+            alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +
+                    "<div class='toast-header'>" +
+                    "<button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
+                    "</div>" +
+                    "<div class='toast-body'>" +
+                    alertMsg.getBuyer() + " 님이 " + "<a href='/board/marketDetail?sb_num=" + alertMsg.getSb_num() + "' style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong> 에 구매신청을 하였습니다..</a>" +
+                    "</div>" +
+                    "</div>");
+//            bSer.alertMsg(alertMsg);
+            if (sendedPushSession != null) {
+                sendedPushSession.sendMessage(new TextMessage(alertMsg.getMsg()));
+            } else {
+                notificationBuffer.computeIfAbsent(alertMsg.getSeller(), k -> new ArrayList<>()).add(alertMsg.getMsg());
+            }
+        }
+        if (alertMsg.getType().equals("attend")) {
+//            if (sendedPushSession != null) {
+//                sendedPushSession.sendMessage(new TextMessage(alertMsg.getA_bidPrice()));
+//                sendedPushSession.sendMessage(new TextMessage(alertMsg.getBuyer()));
+//            } else {
+//                notificationBuffer.computeIfAbsent(alertMsg.getSeller(), k -> new ArrayList<>()).add(alertMsg.getMsg());
+//            }
+            String price = "{\"type\":\"price\",\"value\":\""+alertMsg.getA_bidPrice()+"\"}";
+            String buyer = "{\"type\":\"buyer\",\"name\":\""+alertMsg.getBuyer()+"\"}";
+            for (WebSocketSession webSocketSession : sessions) {
+                if (webSocketSession.isOpen()) {
+                    webSocketSession.sendMessage(new TextMessage(price));
+                    webSocketSession.sendMessage(new TextMessage(buyer));
                 }
 
-                //좋아요
-//                else if ("like".equals(pushCategory) && sendedPushSession != null) {
-//                    TextMessage textMsg = new TextMessage(buyer + " 님이 " + "<a href='/porfolDetail/" + sb_num + "' style=\"color:black\"><strong>" + title + "</strong> 을 좋아요♡ 했습니다.</a>");
-//                    sendedPushSession.sendMessage(textMsg);
-//                }
-//
-//                //자식댓글
-//                else if ("reReply".equals(pushCategory) && sendedPushSession != null) {
-//                    TextMessage textMsg = new TextMessage(buyer + " 님이 " + "<a href='/porfolDetail/" + sb_num + "' style=\"color:black\"><strong>" + title + "</strong> 글의 회원님 댓글에 답글을 남겼습니다.</a>");
-//                    sendedPushSession.sendMessage(textMsg);
-//                }
             }
         }
     }
 
-//    @Override
-//    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-//        log.info("Socket 연결 해제");
-//        sessions.remove(session);
-//        userSessionMap.remove(sendPushUsername(session), session);
-//    }
+
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        log.info("Socket 연결 해제");
+        sessions.remove(session);
+        String userId = sendPushUsername(session);
+        userSessionMap.remove(userId, session);
+    }
 
     //알람을 보내는 유저(댓글작성, 좋아요 누르는 유저)
     private String sendPushUsername(WebSocketSession session) {

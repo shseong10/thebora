@@ -60,7 +60,8 @@
         width: 100%;
         height: 100%;
     }
-    .none-auction{
+
+    .none-auction {
         display: flex;
         justify-content: center;
         align-content: center;
@@ -75,7 +76,7 @@
 
 </header>
 
-<hr class="w-75 mx-auto" >
+<hr class="w-75 mx-auto">
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">
     <h2 class="article-t">찜한 경매</h2>
 </div>
@@ -86,7 +87,7 @@
 
     <c:forEach var="item" items="${myAuctionCart}">
         <div class="col">
-            <a href="/board/myCartDel?sb_num=${item.sb_num}">삭제</a>
+            <a type="button" class="btn-close" aria-label="Close" href="/board/myCartDel?sb_num=${item.sb_num}"></a>
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
@@ -120,7 +121,7 @@
         </div>
     </c:forEach>
 </div>
-<hr class="w-75 mx-auto" >
+<hr class="w-75 mx-auto">
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">
     <h2 class="article-t">찜한 상품</h2>
 </div>
@@ -170,8 +171,6 @@
 
 
 </script>
-
-
 
 
 <footer>

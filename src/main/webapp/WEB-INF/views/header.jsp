@@ -20,7 +20,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
 
 
-
     <style>
         @font-face {
             font-family: 'LINESeedKR-Bd';
@@ -41,8 +40,9 @@
             margin: 0 auto;
 
         }
-        .d-flex{
-        margin: 1px;
+
+        .d-flex {
+            margin: 1px;
 
         }
 
@@ -131,80 +131,82 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <input id="header-keyWord" class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
-                    <button id="header-search" class="btn btn-primary" type="button"><i class="bi bi-search"></i></button>
+                    <input id="header-keyWord" class="form-control me-2" type="search" placeholder="검색"
+                           aria-label="Search">
+                    <button id="header-search" class="btn btn-primary" type="button"><i class="bi bi-search"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </nav>
     <div class="d-flex justify-content-end">
         <div class="d-flex">
-            <ul class="nav nav-pills">
-                <li class="nav-item">
+            <div class="nav nav-pills">
+                <div class="nav-item">
                     <sec:authorize access="isAnonymous()">
                         <a class="nav-link" href="/member/login">로그인</a>
                     </sec:authorize>
 
 
-                </li>
-                <li class="nav-item">
+                </div>
+                <div class="nav-item">
                     <sec:authorize access="isAnonymous()">
                         <a class="nav-link" href="/member/joindetail">회원가입</a>
                     </sec:authorize>
-                </li>
-                <li class="nav-item">
+                </div>
+                <div class="nav-item">
                     <sec:authorize access="isAuthenticated()">
                         <a class="nav-link disabled" aria-disabled="true"><sec:authentication property="name"/>님</a>
                     </sec:authorize>
-                </li>
-                <li class="nav-item">
+                </div>
+                <div class="nav-item">
                     <sec:authorize access="isAuthenticated()">
                         <button class="nav-link" onclick="btn_logout()">로그아웃</button>
                     </sec:authorize>
-                </li>
-                <li class="nav-item">
+                </div>
+                <div class="nav-item">
 
                     <sec:authorize access="isAuthenticated()">
                         <a class="nav-link" aria-current="page" href="/member/myPage">마이페이지</a>
                     </sec:authorize>
-                </li>
-                <li class="nav-item">
+                </div>
+                <div class="nav-item">
 
                     <sec:authorize access="hasRole('admin')">
                         <a class="nav-link" aria-current="page" href="/member/admin">관리자페이지</a>
                     </sec:authorize>
-                </li>
-                <li class="nav-item dropdown">
+                </div>
+                <div class="nav-item dropdown">
                     <sec:authorize access="isAuthenticated()">
 
                         <a class="nav-link" aria-expanded="false" href="/member/attendance">출석체크</a>
 
                     </sec:authorize>
-                </li>
-                <li class="nav-item">
+                </div>
+                <div class="nav-item">
                     <sec:authorize access="isAuthenticated()">
                         <a class="nav-link" href="/member/chat">채팅하기</a>
 
                     </sec:authorize>
-                </li>
-                <li class="nav-item">
-                <div id="socketAlertDiv">
-                    <div id="socketAlert" class="alert alert-warning" role="alert"></div>
                 </div>
-                </li>
-            </ul>
+            </div>
         </div>
     </div>
+    <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3">
+<%--        알람--%>
+    </div>
+
 
 </header>
 <script>
+
     $("#header-search").click(function () {
         let keyWord = $("#header-keyWord").val();
         if (keyWord === "") {
             alert("검색어를 입력하세요.");
             return;
         }
-        location.href ="/board/allList?&keyWord="+keyWord+"&pageNum=1";
+        location.href = "/board/allList?&keyWord=" + keyWord + "&pageNum=1";
     })
 
     $("#header-keyWord").keydown(function (e) {
@@ -214,49 +216,52 @@
         }
     });
 
-    function btn_logout(){
+    function btn_logout() {
 
-      if(confirm("로그아웃 하시겠습니까?"))  {
-            location.href="/member/logout";
+        if (confirm("로그아웃 하시겠습니까?")) {
+            location.href = "/member/logout";
         }
 
     }
 
     let socket = null;
-    $(document).ready(function(){
+    $(document).ready(function () {
         //소켓 연결
         connectWs();
     });
 
-    function connectWs(){
+    function connectWs() {
         //WebSocketConfig에서 설정한 endPoint("/push")로 연결
         const ws = new SockJS("/push");
         socket = ws;
 
-        ws.onopen = function() {
+        ws.onopen = function () {
             console.log('open');
         };
 
-        ws.onmessage = function(event) {
-            console.log(event.data);
-            let $socketAlert = $('#socketAlert');
-            //EchoHandler에서 설정한 메세지 넣어줌
-            $socketAlert.html(event.data)
-            $socketAlert.css('display', 'block');
+        ws.onmessage = function (event) {
 
-            //일정 시간 지나면 알림 사라짐
-            // setTimeout(function(){
-            //     $socketAlert.css('display','none');
-            // }, 5000);
+
+            console.log(event.data);
+
+            $('#toastContainer').append(event.data);
+            const toastElements = document.querySelectorAll('.choose');
+            toastElements.forEach((toastElement) => {
+                const toastBootstrap = new bootstrap.Toast(toastElement);
+                toastBootstrap.show();
+            });
+
         };
 
-        ws.onclose = function() {
+        ws.onclose = function () {
             console.log('close');
         };
 
     }
 
-
+    // function alertbtn(){
+    //
+    // }
 
 </script>
 

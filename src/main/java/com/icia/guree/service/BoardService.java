@@ -79,11 +79,11 @@ public class BoardService {
     public String attend(BoardDto bDto) {
         String attender = bDao.getAttender(bDto);
         log.info("나는 누구인가 제발 나와라요" + attender);
-        log.info("나는 누구인가 제발 나와라요22" + bDto.getSb_id());
+        log.info("나는 누구인가 제발 나와라요22" + bDto.getA_joinId());
 
         String msg = "현재 입찰 예정자이십니다.";
         String successmsg = "입찰 성공";
-        if (attender == null || !bDto.getSb_id().equals(attender)) {
+        if (attender == null || !bDto.getA_joinId().equals(attender)) {
             bDao.attend(bDto);
             return successmsg;
         }

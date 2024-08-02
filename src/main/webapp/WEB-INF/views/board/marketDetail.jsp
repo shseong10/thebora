@@ -120,7 +120,7 @@
                 <div id="timer"></div>
                 <form action="/board/attend" method="post" class="bid_form">
                     <div class="d-grid gap-2 d-md-block mb-3">
-                        <button class="btn btn-primary" type="button" onclick="saleCart()">찜하기</button>
+                        <button class="btn btn-primary" type="button" onclick="marketCart()">찜하기</button>
                         <button type="button" class="btn btn-primary" onclick="buyApply()">구매신청</button>
                         <input type="hidden" name="sb_num" value="${bDto.sb_num}">
                     </div>
@@ -172,11 +172,10 @@
             data: {"sb_num": "${bDto.sb_num}", "sb_id": "${bDto.sb_id}", "a_joinId": user},
         }).done((resp) => {
             if (resp){
-
                 //웹 소켓 관련 로직 추가
                 if (socket) {
-                    let socketMsg = "apply," + replyWriter + "," + boardWriter + "," + boardId + "," + boardTitle;
-                    socket.send(socketMsg);
+                    let socketMsg = {"type":"apply","buyer":replyWriter,"seller":boardWriter,"sb_num":boardId ,"sb_title":boardTitle};
+                    socket.send(JSON.stringify(socketMsg));
                     alert('구매신청완료.');
                     location.reload();
                 }
@@ -188,17 +187,15 @@
         }).fail((err) => {
                 console.log(err)
         })
-
-
     }
 
-    function saleCart() {
-        if (user === joinId) {
+    function marketCart(){
+        if(user === sellerId){
             alert("본인의 상품은 장바구니에 넣을 수 없습니다.")
             return
 
         }
-        location.href = "/board/mySalesCart?sb_num=${bDto.sb_num}"
+        location.href="/board/mySalesCart?sb_num=${bDto.sb_num}"
     }
 
 

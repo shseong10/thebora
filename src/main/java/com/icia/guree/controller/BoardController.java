@@ -118,42 +118,40 @@ public class BoardController {
         model.addAttribute("bDto", detail);
         model.addAttribute("file", file);
         return "board/auctionDetail";
-
-
     }
-
     // 입찰하기
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/board/attend")
-    public String attend(BoardDto bDto, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            bDto.setSb_id(userDetails.getUsername());
-            log.info("======================" + bDto.toString());
-            String result = bSer.attend(bDto);
-            log.info("=================sadasdasdasdas=====" + result);
-            if (result.equals("입찰 성공")) {
-                bSer.auctionUser(bDto);
-                BoardDto detail = bSer.auctionDetail(bDto);
-                List<BoardFileDto> file = bSer.getFile(bDto);
-                if (detail != null) {
-                    model.addAttribute("bDto", detail);
-                    model.addAttribute("file", file);
-                    model.addAttribute("successMsg", result);
-                    return "board/auctionDetail";
-                }
-            } else {
-                BoardDto detail = bSer.auctionDetail(bDto);
-                List<BoardFileDto> file = bSer.getFile(bDto);
-                model.addAttribute("bDto", detail);
-                model.addAttribute("file", file);
-                model.addAttribute("successMsg", result);
-                return "board/auctionDetail";
-            }
-        }
-        return "redirect:/member/login";
-    }
+//    @PreAuthorize("isAuthenticated()")
+//    @PostMapping("/board/attend")
+//    public String attend(BoardDto bDto, Model model) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//            bDto.setA_joinId(userDetails.getUsername());
+//            log.info("======================" + bDto.toString());
+//            String result = bSer.attend(bDto);
+//            log.info("=================sadasdasdasdas=====" + result);
+//            if (result.equals("입찰 성공")) {
+//                bSer.auctionUser(bDto);
+//                BoardDto detail = bSer.auctionDetail(bDto);
+//                List<BoardFileDto> file = bSer.getFile(bDto);
+//                if (detail != null) {
+//                    model.addAttribute("bDto", detail);
+//                    model.addAttribute("file", file);
+//                    model.addAttribute("successMsg", result);
+//                    return "board/auctionDetail";
+//                }
+//            } else {
+//                BoardDto detail = bSer.auctionDetail(bDto);
+//                List<BoardFileDto> file = bSer.getFile(bDto);
+//                model.addAttribute("bDto", detail);
+//                model.addAttribute("file", file);
+//                model.addAttribute("successMsg", result);
+//                return "board/auctionDetail";
+//            }
+//        }
+//        return "redirect:/member/login";
+//    }
+
 
     // 경매 게시글 삭제
     @GetMapping("/board/auctionDelete")
