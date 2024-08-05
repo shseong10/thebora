@@ -72,6 +72,7 @@ public class EchoHandler extends TextWebSocketHandler {
             alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +
                     "<div class='toast-header'>" +
                     "<button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
+                    result +
                     "</div>" +
                     "<div class='toast-body'>" +
                     alertMsg.getBuyer() + " 님이 " + "<a href='/board/marketDetail?sb_num=" + alertMsg.getSb_num() + "' style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong> 에 구매신청을 하였습니다..</a>" +

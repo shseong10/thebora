@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -77,15 +78,17 @@ public class BoardService {
 
 
     public String attend(BoardDto bDto) {
-        String attender = bDao.getAttender(bDto);
+        BoardDto attender = bDao.getAttender(bDto);
         log.info("나는 누구인가 제발 나와라요" + attender);
         log.info("나는 누구인가 제발 나와라요22" + bDto.getA_joinId());
 
-        String msg = "현재 입찰 예정자이십니다.";
+        String msg = "입찰 실패.";
         String successmsg = "입찰 성공";
-        if (attender == null || !bDto.getA_joinId().equals(attender)) {
-            bDao.attend(bDto);
-            return successmsg;
+        if (attender == null || !bDto.getA_joinId().equals(attender.getA_joinId())) {
+            if(bDto.getA_bidPrice() - Objects.requireNonNull(attender).getA_bidPrice() >= bDto.getSb_bid()){
+                bDao.attend(bDto);
+                return successmsg;
+            }
         }
         return msg;
     }

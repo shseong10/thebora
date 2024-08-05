@@ -26,7 +26,7 @@ public interface BoardDao {
 
     List<BoardFileDto> getFile(BoardDto bDto);
 
-    String getAttender(BoardDto bDto);
+    BoardDto getAttender(BoardDto bDto);
 
     int countAuctionItems(BoardDto bDto);
 

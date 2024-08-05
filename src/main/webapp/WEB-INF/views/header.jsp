@@ -241,9 +241,6 @@
 
         ws.onmessage = function (event) {
 
-
-            console.log(event.data);
-
             $('#toastContainer').append(event.data);
             const toastElements = document.querySelectorAll('.choose');
             toastElements.forEach((toastElement) => {
