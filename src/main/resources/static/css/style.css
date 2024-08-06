@@ -1,0 +1,124 @@
+/* 폰트 */
+@font-face {
+  font-family: 'LINESeedKR-Bd';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* 메뉴 */
+#main_nav li a {
+  font-family: 'LINESeedKR-Bd' !important;
+  font-size: 1rem !important;
+}
+
+/* 검색 */
+#button_search {
+  background-color: #712cf9;
+  border: 0;
+}
+
+#button_search:hover {
+  background-color: #5c25ca;
+}
+
+/* 개인메뉴 */
+.d-flex{
+  margin: 1px;
+}
+
+/* 출석체크 */
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin: 20px auto;
+  width: 80%;
+}
+
+.calendar-day {
+  position: relative;
+  border: 1px solid #ccc;
+  padding: 14px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #fff;
+  transition: background-color 0.3s;
+}
+
+.calendar-day.attended {
+  background-color: #90ee90;
+}
+
+.calendar-day:hover {
+  background-color: #f0f0f0;
+}
+
+.calendar-day::before {
+  content: attr(data-date);
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 0.8em;
+  color: #666;
+}
+
+/* 광고상품, 추천상품 h1 */
+.article-t {
+  font-family: 'LINESeedKR-Bd';
+  font-size: 1.5rem !important;
+}
+
+/* 푸터 */
+footer {
+  background-color: rgb(247, 249, 250);
+  color: #757575;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0;
+}
+
+#footer-wrapper {
+  width: 75%;
+  margin: 0 auto;
+  font-size: 0.7em;
+}
+
+/* 푸터 로고 */
+.footer-logo {
+  width: 10em;
+  margin-bottom: 2em;;
+}
+
+/* 사업자정보 */
+#company-info {
+  list-style-type: none;
+  line-height:160%;
+  padding-left: 0;
+}
+
+
+
+/* 페이지 상단 이동 버튼 */
+.goingTop {
+  width: 20px;
+  height: 20px;
+  padding: 20px;
+  background: #986eaf;
+  font-weight: bold;
+  border-radius: 50%;
+  color: #444;
+  text-decoration: none;
+  position: fixed;
+  bottom: 100px;
+  right: 120px;
+
+  display: flex; /* Flexbox로 변경 */
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+}
+
+.goingTop:hover{
+  text-decoration:none;
+}
