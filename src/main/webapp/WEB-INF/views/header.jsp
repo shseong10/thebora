@@ -101,32 +101,41 @@
                     </sec:authorize>
                 </li>
                 <li class="nav-item dropdown">
-                    <sec:authorize access="isAuthenticated()">
-                        <a class="nav-link" aria-expanded="false" href="/member/attendance">출석체크</a>
-                    </sec:authorize>
+                    <div class="notification-target">
+                        <sec:authorize access="isAuthenticated()">
+                            <a class="nav-link" aria-expanded="false" href="/member/attendance">출석체크</a>
+                        </sec:authorize>
+                        <span class="notification-badge">NEW</span>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <sec:authorize access="isAuthenticated()">
-                        <div class="nav-link">
-                            <a  href="/member/chat" aria-expanded="false">
-                                <i class="bi bi-chat-text"></i>
-
-                            </a>
-                        </div>
-                    </sec:authorize>
+                    <div class="notification-target">
+                        <sec:authorize access="isAuthenticated()">
+                            <div class="nav-link">
+                                <a  href="/member/chat" aria-expanded="false">
+                                    <i class="bi bi-chat-text"></i>
+                                </a>
+                            </div>
+                        </sec:authorize>
+                        <span class="notification-badge">NEW</span>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <sec:authorize access="isAuthenticated()">
-                        <div class="dropdown nav-link">
-                            <a id="alertLink" type="button" data-bs-toggle="dropdown" aria-expanded="false"
-                               onclick="alertInfo()">
-                                <i class="bi bi-bell"></i>
-                            </a>
-                            <ul id="alertBtn" class="dropdown-menu">
+                    <div class="notification-target">
+                        <sec:authorize access="isAuthenticated()">
+                            <div class="dropdown nav-link">
+                                <a class="" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                                   onclick="alertInfo()">
+                                    <i class="bi bi-bell"></i>
+                                </a>
+                                <ul id="alertBtn" class="dropdown-menu">
 
-                            </ul>
-                        </div>
-                    </sec:authorize>
+                                </ul>
+                            </div>
+                        </sec:authorize>
+                        <span class="notification-badge">NEW</span>
+                    </div>
+
                 </li>
             </ul>
         </div>
@@ -137,7 +146,6 @@
 </header>
 <script>
     const userId = '<sec:authentication property="name"/>';
-
 
 
     function alertDel(sb_num) {

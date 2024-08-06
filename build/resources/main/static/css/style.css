@@ -12,10 +12,14 @@
   overflow: scroll;
 }
 /*알람 아이콘*/
+.notification-target {
+  position: relative;
+}
+
 .notification-badge {
   position: absolute;
-  top: -5px; /* 아이콘 위쪽에 위치 */
-  right: -10px; /* 아이콘 오른쪽에 위치 */
+  top: -5px;
+  right: -10px;
   background-color: red; /* 배경 색상 */
   color: white; /* 텍스트 색상 */
   border-radius: 50%; /* 원형으로 만들기 */
