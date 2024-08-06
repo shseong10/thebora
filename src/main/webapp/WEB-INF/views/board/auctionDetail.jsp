@@ -137,7 +137,7 @@
                 <hr>
                 <p class="card-text">즉시구매가 : ${bDto.sb_price}</p>
                 <p class="card-text">시작가 : ${bDto.sb_startPrice}</p>
-                <p id="nowPrice" class="card-text">현재가 : ${bDto.sb_nowPrice}</p>
+                <p id="nowPrice" class="card-text">현재가 : <span id="np">${bDto.sb_nowPrice}</span> </p>
                 <p class="card-text">최소입찰가 : ${bDto.sb_bid}</p>
                 <p class="card-text">경매시작일 : ${bDto.sb_date}</p>
                 <p class="card-text">경매종료일 : ${bDto.sb_timer}</p>
@@ -207,7 +207,8 @@
     const boardTitle = "${bDto.sb_title}";
     const boardWriter = "${bDto.sb_id}";
     const replyWriter = "${bDto.sb_id}";
-
+    const np = $('#np').html();
+    console.log(np);
     function saleCart() {
         if (user === joinId) {
             alert("본인의 상품은 장바구니에 넣을 수 없습니다.")
@@ -225,18 +226,16 @@
     }
 
     function userbtnclic() {
+        console.log($('#bidPrice').val() - np);
         if (joinId === user) {
 
             alert("판매자는 경매에 참여할 수 없습니다.")
-
-        } else if ($('#bidPrice').val() - nowPrice < bid) {
-            alert("최소입찰가는" + bid + "입니다");
 
         } else {
             $.ajax({
                 url: "/board/attend",
                 method: "POST",
-                data: {"sb_num": "${bDto.sb_num}", "a_joinId": user, "a_bidPrice": $('#bidPrice').val()},
+                data: {"sb_num": "${bDto.sb_num}", "a_joinId": user, "a_bidPrice": $('#bidPrice').val(), "sb_bid":${bDto.sb_bid}},
             }).done((resp) => {
                 console.log(resp)
                 if (resp === "입찰 성공") {
@@ -247,7 +246,7 @@
                         location.reload();
                     }
                 } else {
-                    alert('이미 입찰 하셨습니다.');
+                    alert('이미 입찰 했거나 최소입찰가보다 낮습니다.');
                 }
             }).fail((err) => {
                 console.log(err)
@@ -316,7 +315,7 @@
                 const result = JSON.parse(event.data);
                 console.log(result);
                 if (result.type === "price") {
-                    $('#nowPrice').html("현재가 : "+result.value);
+                    $('#np').html(result.value);
                 }
                 if (result.type === "buyer") {
                     $('#buyer').html("현재 입찰 예정자 : "+result.name);

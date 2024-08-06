@@ -68,21 +68,23 @@ public class EchoHandler extends TextWebSocketHandler {
         String dateFm = now.format(formatter);
         String result = dateFm.substring(0, 19);
         if (alertMsg.getType().equals("apply")) {
+            alertMsg.setAlertDate(result);
 
             alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +
                     "<div class='toast-header'>" +
                     "<button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
+                    result +
                     "</div>" +
                     "<div class='toast-body'>" +
                     alertMsg.getBuyer() + " 님이 " + "<a href='/board/marketDetail?sb_num=" + alertMsg.getSb_num() + "' style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong> 에 구매신청을 하였습니다..</a>" +
                     "</div>" +
                     "</div>");
-//            bSer.alertMsg(alertMsg);
             if (sendedPushSession != null) {
                 sendedPushSession.sendMessage(new TextMessage(alertMsg.getMsg()));
             } else {
                 notificationBuffer.computeIfAbsent(alertMsg.getSeller(), k -> new ArrayList<>()).add(alertMsg.getMsg());
             }
+            bSer.alertMsg(alertMsg);
         }
         if (alertMsg.getType().equals("attend")) {
 //            if (sendedPushSession != null) {

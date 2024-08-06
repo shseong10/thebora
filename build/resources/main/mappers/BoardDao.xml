@@ -104,12 +104,20 @@
         delete from category where c_kind = #{c_kind}
     </delete>
 
+    <delete id="alertDel">
+        delete from alertinfo where sb_num =#{sb_num}
+    </delete>
+
     <insert id="setViewInfo">
         insert  into boardview values (null,#{username},#{sb_num})
     </insert>
 
     <insert id="cateAttend">
         insert into category values(null,#{c_kind})
+    </insert>
+
+    <insert id="alertMsg">
+        insert into alertinfo values (#{buyer}, #{seller}, #{sb_num}, #{sb_title}, #{msg}, #{a_bidPrice})
     </insert>
 
     <select id="auctionList" resultMap="boardList">
@@ -143,7 +151,7 @@
     </select>
 
     <select id="getAttender">
-        select a_joinid from auctionprogress where progressnum = #{sb_num} order by a_num desc limit 1
+        select a_joinid, a_bidprice from auctionprogress where progressnum = #{sb_num} order by a_num desc limit 1
     </select>
 
     <select id="countAuctionItems" resultType="java.lang.Integer">
@@ -242,6 +250,10 @@
 
     <select id="boardEndList" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
         select * from auction where sb_scope = 3
+    </select>
+
+    <select id="getAlertInfo">
+        select * from alertinfo where seller = #{sb_id} order by sb_num desc
     </select>
 
     <insert id="buyApply">

@@ -101,7 +101,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="card-body">
-                            <h5 class="card-title"><a href="/board/auctionDetail?sb_num=${trading.sb_num}"
+                            <h5 class="card-title"><a href="/board/marketDetail?sb_num=${trading.sb_num}"
                                                       class="stretched-link">${trading.sb_title}</a></h5>
                             <p class="card-text">분류:${trading.sb_category}</p>
                             <p class="card-text">즉시구매가:${trading.sb_price}</p>

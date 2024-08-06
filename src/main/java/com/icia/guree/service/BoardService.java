@@ -2,6 +2,7 @@ package com.icia.guree.service;
 
 import com.icia.guree.common.BoardFileManager;
 import com.icia.guree.dao.BoardDao;
+import com.icia.guree.entity.AlertDto;
 import com.icia.guree.entity.BoardDto;
 import com.icia.guree.entity.BoardFileDto;
 import com.icia.guree.entity.SearchDto;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -77,15 +79,17 @@ public class BoardService {
 
 
     public String attend(BoardDto bDto) {
-        String attender = bDao.getAttender(bDto);
+        BoardDto attender = bDao.getAttender(bDto);
         log.info("나는 누구인가 제발 나와라요" + attender);
         log.info("나는 누구인가 제발 나와라요22" + bDto.getA_joinId());
 
-        String msg = "현재 입찰 예정자이십니다.";
+        String msg = "입찰 실패.";
         String successmsg = "입찰 성공";
-        if (attender == null || !bDto.getA_joinId().equals(attender)) {
-            bDao.attend(bDto);
-            return successmsg;
+        if (attender == null || !bDto.getA_joinId().equals(attender.getA_joinId())) {
+            if(bDto.getA_bidPrice() - Objects.requireNonNull(attender).getA_bidPrice() >= bDto.getSb_bid()){
+                bDao.attend(bDto);
+                return successmsg;
+            }
         }
         return msg;
     }
@@ -208,5 +212,27 @@ public class BoardService {
 
     public void myAuctionCartDel(BoardDto bDto) {
         bDao.myCartDel(bDto);
+    }
+
+    public void alertMsg(AlertDto alertMsg) {
+        alertMsg.setMsg("<li>" +
+                "<div>" +
+                "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
+                alertMsg.getAlertDate() +
+                "</div>" +
+                "<div>" +
+                alertMsg.getBuyer() + " 님이 " + "<a href='/board/marketDetail?sb_num=" + alertMsg.getSb_num() + "' style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong> 에 구매신청을 하였습니다..</a>" +
+                "</div>" +
+                "</li>");
+        bDao.alertMsg(alertMsg);
+    }
+
+    public List<AlertDto> alertInfo(String sb_id) {
+
+        return bDao.getAlertInfo(sb_id);
+    }
+
+    public boolean alertDel(String sb_num) {
+        return bDao.alertDel(sb_num);
     }
 }

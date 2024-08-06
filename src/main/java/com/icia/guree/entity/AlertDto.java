@@ -19,4 +19,5 @@ public class AlertDto {
     private String sb_title;
     private String msg;
     private String a_bidPrice;
+    private String alertDate;
 }
