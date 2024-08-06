@@ -110,7 +110,7 @@
                         <div class="nav-link">
                             <a  href="/member/chat" aria-expanded="false">
                                 <i class="bi bi-chat-text"></i>
-                                <span class="notification-badge">NEW</span>
+
                             </a>
                         </div>
                     </sec:authorize>
@@ -118,10 +118,9 @@
                 <li class="nav-item">
                     <sec:authorize access="isAuthenticated()">
                         <div class="dropdown nav-link">
-                            <a class="" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                            <a id="alertLink" type="button" data-bs-toggle="dropdown" aria-expanded="false"
                                onclick="alertInfo()">
                                 <i class="bi bi-bell"></i>
-                                <span class="notification-badge">NEW</span>
                             </a>
                             <ul id="alertBtn" class="dropdown-menu">
 
@@ -138,6 +137,7 @@
 </header>
 <script>
     const userId = '<sec:authentication property="name"/>';
+
 
 
     function alertDel(sb_num) {
@@ -159,9 +159,11 @@
             data: {"sb_id": userId},
             url: "/board/alertInfo",
         }).done((resp) => {
+            $('#newIcon').hide();
+            localStorage.removeItem("newItem");
             let alertList = ``;
             $.each(resp, function (i, aList) {
-                console.log(aList.msg)
+                                console.log(aList.msg)
                 alertList +=
                     `<hr>` +
                     aList.msg
@@ -202,6 +204,7 @@
     $(document).ready(function () {
         //소켓 연결
         connectWs();
+        $('#alertLink').append(localStorage.getItem("newItem"))
     });
 
     function connectWs() {
@@ -216,11 +219,16 @@
         ws.onmessage = function (event) {
 
             $('#toastContainer').append(event.data);
+            localStorage.setItem("newItem","<span id='newIcon' class='notification-badge'>NEW</span>");
+            $('#alertLink').append(localStorage.getItem("newItem"))
+
             const toastElements = document.querySelectorAll('.choose');
             toastElements.forEach((toastElement) => {
                 const toastBootstrap = new bootstrap.Toast(toastElement);
                 toastBootstrap.show();
             });
+
+
 
         };
 
