@@ -1,5 +1,6 @@
 package com.icia.guree.controller;
 
+import com.icia.guree.entity.AlertDto;
 import com.icia.guree.entity.BoardDto;
 import com.icia.guree.entity.BoardFileDto;
 import com.icia.guree.service.BoardService;
@@ -11,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -41,5 +43,21 @@ public class BoardRestController {
                 return result;
             }
         }
+
+    @PostMapping("/board/alertInfo")
+    public List<AlertDto> alertInfo(@RequestParam("sb_id") String sb_id) {
+        List<AlertDto> alertInfo = bSer.alertInfo(sb_id);
+
+        return alertInfo;
+    }
+
+    @PostMapping("/board/alertDel")
+    public  boolean alertDel(AlertDto aDto) {
+      boolean aDel=  bSer.alertDel(aDto.getSb_num());
+//        List<AlertDto> alertInfo = bSer.alertInfo(aDto.getSeller());
+
+            return aDel;
+
+    }
 
 }

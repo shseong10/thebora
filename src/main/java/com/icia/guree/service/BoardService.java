@@ -2,6 +2,7 @@ package com.icia.guree.service;
 
 import com.icia.guree.common.BoardFileManager;
 import com.icia.guree.dao.BoardDao;
+import com.icia.guree.entity.AlertDto;
 import com.icia.guree.entity.BoardDto;
 import com.icia.guree.entity.BoardFileDto;
 import com.icia.guree.entity.SearchDto;
@@ -211,5 +212,27 @@ public class BoardService {
 
     public void myAuctionCartDel(BoardDto bDto) {
         bDao.myCartDel(bDto);
+    }
+
+    public void alertMsg(AlertDto alertMsg) {
+        alertMsg.setMsg("<li>" +
+                "<div>" +
+                "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
+                alertMsg.getAlertDate() +
+                "</div>" +
+                "<div>" +
+                alertMsg.getBuyer() + " 님이 " + "<a href='/board/marketDetail?sb_num=" + alertMsg.getSb_num() + "' style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong> 에 구매신청을 하였습니다..</a>" +
+                "</div>" +
+                "</li>");
+        bDao.alertMsg(alertMsg);
+    }
+
+    public List<AlertDto> alertInfo(String sb_id) {
+
+        return bDao.getAlertInfo(sb_id);
+    }
+
+    public boolean alertDel(String sb_num) {
+        return bDao.alertDel(sb_num);
     }
 }

@@ -7,10 +7,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>더보라</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -20,7 +24,9 @@
             <a class="navbar-brand" href="/">
                 <img src="/img/logo.png" style="width: 150px;">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -38,20 +44,24 @@
                         <a class="nav-link display-4" href="/notice/list">공지사항</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle display-4" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle display-4" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
                             고객지원
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">자주묻는질문</a></li>
                             <li><a class="dropdown-item" href="/report/list">문의하기</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
-                    <button class="btn btn-primary" type="submit" id="button_search"><i class="bi bi-search"></i></button>
+                    <button class="btn btn-primary" type="submit" id="button_search"><i class="bi bi-search"></i>
+                    </button>
                 </form>
             </div>
         </div>
@@ -97,7 +107,26 @@
                 </li>
                 <li class="nav-item">
                     <sec:authorize access="isAuthenticated()">
-                        <a class="nav-link" href="/member/chat">채팅하기</a>
+                        <div class="nav-link">
+                            <a  href="/member/chat" aria-expanded="false">
+                                <i class="bi bi-chat-text"></i>
+                                <span class="notification-badge">NEW</span>
+                            </a>
+                        </div>
+                    </sec:authorize>
+                </li>
+                <li class="nav-item">
+                    <sec:authorize access="isAuthenticated()">
+                        <div class="dropdown nav-link">
+                            <a class="" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                               onclick="alertInfo()">
+                                <i class="bi bi-bell"></i>
+                                <span class="notification-badge">NEW</span>
+                            </a>
+                            <ul id="alertBtn" class="dropdown-menu">
+
+                            </ul>
+                        </div>
                     </sec:authorize>
                 </li>
             </ul>
@@ -108,6 +137,42 @@
     </div>
 </header>
 <script>
+    const userId = '<sec:authentication property="name"/>';
+
+
+    function alertDel(sb_num) {
+        $.ajax({
+            method: "post",
+            data: {"sb_num": sb_num, "sb_id": userId},
+            url: "/board/alertDel",
+        }).done((resp) => {
+
+        }).fail((err) => {
+            console.log("에러원인:" + err)
+        })
+    }
+
+
+    function alertInfo() {
+        $.ajax({
+            method: "post",
+            data: {"sb_id": userId},
+            url: "/board/alertInfo",
+        }).done((resp) => {
+            let alertList = ``;
+            $.each(resp, function (i, aList) {
+                console.log(aList.msg)
+                alertList +=
+                    `<hr>` +
+                    aList.msg
+            })
+            $('#alertBtn').html(alertList);
+
+        }).fail((err) => {
+            console.log("에러원인:" + err)
+        })
+    }
+
 
     $("#header-search").click(function () {
         let keyWord = $("#header-keyWord").val();

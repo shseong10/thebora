@@ -1,5 +1,6 @@
 package com.icia.guree.dao;
 
+import com.icia.guree.entity.AlertDto;
 import com.icia.guree.entity.BoardDto;
 import com.icia.guree.entity.BoardFileDto;
 import com.icia.guree.entity.SearchDto;
@@ -87,4 +88,10 @@ public interface BoardDao {
     void myCartDel(BoardDto bDto);
 
     boolean reUpload(BoardDto bDto);
+
+    void alertMsg(AlertDto alertMsg);
+
+    List<AlertDto> getAlertInfo(String sb_id);
+
+    boolean alertDel(String sb_num);
 }
