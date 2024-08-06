@@ -15,7 +15,7 @@
 </head>
 <body>
     <section class="w-75 mx-auto mb-5">
-        <h1 class="article-t">추천상품</h1>
+        <h4 class="article-t">추천상품</h4>
         <div class="row row-cols-1 row-cols-md-4 g-4">
             <c:forEach var="item" items="${items}">
                 <div class="col">

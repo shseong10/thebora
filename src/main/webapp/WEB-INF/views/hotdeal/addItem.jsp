@@ -224,7 +224,7 @@
         </div>
     </div>
     <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-        <input type="submit" class="btn btn-primary" value="등록하기">
+        <input type="submit" class="btn btn-primary btn-color-thebora" value="등록하기">
     </div>
     <script type="importmap">
         {

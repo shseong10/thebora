@@ -120,15 +120,15 @@
                 <div id="timer"></div>
                 <form action="/board/attend" method="post" class="bid_form">
                     <div class="d-grid gap-2 d-md-block mb-3">
-                        <button class="btn btn-primary" type="button" onclick="marketCart()">찜하기</button>
-                        <button type="button" class="btn btn-primary" onclick="buyApply()">구매신청</button>
+                        <button class="btn btn-primary btn-color-thebora" type="button" onclick="marketCart()">찜하기</button>
+                        <button type="button" class="btn btn-primary btn-color-thebora" onclick="buyApply()">구매신청</button>
                         <input type="hidden" name="sb_num" value="${bDto.sb_num}">
                     </div>
                 </form>
                 <form action="#">
                     <input type="hidden" name="h_o_p_num" value="${bDto.sb_num}">
 
-                    <input type="button" id="reset-button" class="btn btn-primary" value="삭제하기" onclick="deleteBtn()">
+                    <input type="button" id="reset-button" class="btn btn-primary btn-color-thebora" value="삭제하기" onclick="deleteBtn()">
 
                 </form>
             </div>
@@ -137,7 +137,7 @@
 </div>
 
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-    <a href="/board/marketList" class="btn btn-primary" role="button">목록으로</a>
+    <a href="/board/marketList" class="btn btn-primary btn-color-thebora" role="button">목록으로</a>
 </div>
 
 

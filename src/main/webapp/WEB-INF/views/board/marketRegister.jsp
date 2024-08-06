@@ -164,8 +164,8 @@
 
 </form>
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-    <button type="button" class="btn btn-primary" id="product-register">물품등록</button>
-    <a href="/board/auctionList" class="btn btn-primary" role="button">목록으로</a>
+    <button type="button" class="btn btn-primary btn-color-thebora" id="product-register">물품등록</button>
+    <a href="/board/auctionList" class="btn btn-primary btn-color-thebora" role="button">목록으로</a>
 </div>
 
 <script>

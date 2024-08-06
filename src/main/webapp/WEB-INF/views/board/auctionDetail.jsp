@@ -149,17 +149,17 @@
                 <div class="d-grid gap-2 d-md-block mb-3">
                     <%--                        <input type="hidden" name="sb_num" value="${bDto.sb_num}">--%>
                     <input type="text" name="a_bidPrice" id="bidPrice" placeholder="입찰가격">
-                    <input type="button" class="btn btn-primary" onclick="userbtnclic()" value="입찰하기">
+                    <input type="button" class="btn btn-primary btn-color-thebora" onclick="userbtnclic()" value="입찰하기">
                 </div>
                 <%--                </form>--%>
 
                 <form action="#">
                     <input type="hidden" name="h_o_p_num" value="${bDto.sb_num}">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#now-buy">
+                    <button type="button" class="btn btn-primary btn-color-thebora" data-bs-toggle="modal" data-bs-target="#now-buy">
                         즉시구매
                     </button>
-                    <input class="btn btn-primary" type="button" onclick="saleCart()" value="찜하기">
-                    <input type="button" id="reset-button" class="btn btn-primary" value="삭제하기" onclick="deleteBtn()">
+                    <input class="btn btn-primary btn-color-thebora" type="button" onclick="saleCart()" value="찜하기">
+                    <input type="button" id="reset-button" class="btn btn-primary btn-color-thebora" value="삭제하기" onclick="deleteBtn()">
 
                 </form>
 
@@ -169,7 +169,7 @@
 </div>
 
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-    <a href="/board/auctionList" class="btn btn-primary" role="button">목록으로</a>
+    <a href="/board/auctionList" class="btn btn-primary btn-color-thebora" role="button">목록으로</a>
 </div>
 
 <%--즉시구매--%>
@@ -183,7 +183,7 @@
             </div>
             <div class="modal-body">
                 <form action="/board/buyNowGo">
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary btn-color-thebora">
                         QR코드로 구매하기
                     </button>
 

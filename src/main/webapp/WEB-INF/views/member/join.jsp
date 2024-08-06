@@ -1,114 +1,51 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 24. 7. 3.
-  Time: 오후 3:12
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-            crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
+    <meta charset="UTF-8">
+    <title>더보라</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8f6f1644b141b69c4253753e1f438f04&libraries=services"></script>
 </head>
-<style>
-    #join_logo {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 5% 0 0 0;
-
-    }
-
-    #join_join {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 30px;
-        font-size: 45px;
-
-    }
-
-    #join_input {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 30px;
-    }
-
-    #login_finder {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 30px;
-    }
-
-    input {
-        margin-top: 10px;
-        height: 50px;
-        width: 300px;
-        border: none;
-        border-bottom: 2px solid;
-        outline: none;
-    }
-
-    input[placeholder] {
-        font-size: 25px;
-    }
-
-
-
-
-    button {
-        margin-top: 20px;
-        height: 50px;
-        width: 300px;
-    }
-
-</style>
 <body>
-<div id="join_logo">
-    <a href="/"><img src="/img/logo.png" alt="logo" width="200"> </a>
-</div>
-<div id="join_input">
-
-    <form action="/member/join" method="post" id="join-form">
-        <div id="join_join">JOIN</div>
-        <div><input type="text" name="m_id" id="id" placeholder="id "></div>
-        <div><span></span></div>
-        <div><input type="password" name="m_pw" id="pw" placeholder="pw "></div>
-        <div><span></span></div>
-        <div><input type="password" name="re_m_pw" id="re_pw" placeholder="Re-pw"></div>
-        <div><span></span></div>
-        <div><input type="text" name="m_name" id="name" placeholder="name"></div>
-        <div><input type="text" name="m_phone" id="phone" placeholder="phone"></div>
-        <div>
-            <input type="text" name="m_addr" id="address" placeholder="주소"><br>
-            <input type="button" onclick="execDaumPostcode()" value="주소 검색"><br>
+<div id="login_wrapper">
+    <div id="login_logo">
+        <a href="/"></a>
+    </div>
+    <div id="join_input">
+        <form action="/member/login" method="post" id="join-form">
+            <input type="text" class="form-control me-2" id="id" name="m_id" placeholder="아이디"><br>
+            <input type="password" class="form-control me-2" id="pw" name="m_pw" placeholder="패스워드"><br>
+            <input type="text" class="form-control me-2" id="re-pw" name="re_m_pw" placeholder="패스워드 확인"><br>
+            <input type="text" class="form-control me-2" id="m_name" name="re_m_pw" placeholder="이름"><br>
+            <input type="text" class="form-control me-2" id="m-phone" name="re_m_pw" placeholder="핸드폰 번호"><br>
+            <div class="row">
+                <div class="col-8">
+                    <input type="text" class="form-control me-2" name="m_addr" id="address" placeholder="주소">
+                </div>
+                <div class="col-4">
+                    <button type="button" onclick="execDaumPostcode()" class="btn btn-primary btn-findAddress">주소 검색</button>
+                </div>
+            </div>
             <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
-        </div>
-        <div><input type="text" name="m_companyNum" id="companyNum" placeholder="company number"></div>
-        <button type="button" onclick="join()" class="btn btn-primary">회원가입</button>
-        <div><span></span></div>
-    </form>
+            <input type="text" class="form-control me-2" name="m_companyNum" id="companyNum" placeholder="사업자번호">
+            <button type="button" onclick="join()" class="btn btn-primary btn-color-thebora">회원가입</button>
+        </form>
+    </div>
+    <ul class="login_finder">
+        <li><a href="/member/idFind">아이디 찾기</a></li>
+        <li><a href="/member/pwFind">패스워드 찾기</a></li>
+        <li><a href="/member/joindetail">회원가입</a></li>
+    </ul>
 </div>
 <script>
-
-
     const idj = /^(?=.*[a-z])(?=.*\d)[a-z\d]{4,16}$/
     const id = $('#id');
     let idCheck = false;
-
-
 
     console.log(idj.test(id.val()));
     id.on('input', function () {

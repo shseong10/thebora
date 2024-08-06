@@ -8,92 +8,28 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>더보라</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
-<style>
-    #logo {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 12% 0 0 0;
-
-    }
-
-    #id-finder {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 30px;
-        font-size: 45px;
-
-    }
-
-    .info-input {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-    }
-
-    input {
-        margin-bottom: 20px;
-        height: 50px;
-        width: 300px;
-        border: none;
-        border-bottom: 2px solid;
-        outline: none;
-    }
-
-    input[placeholder] {
-        font-size: 25px;
-    }
-
-
-
-    .button-center {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 20px;
-
-    }
-
-    button {
-
-        height: 50px;
-        width: 300px;
-        margin: 5px;
-    }
-
-</style>
-
-
 <body>
-
-
-<div id="logo">
-    <a href="/"><img src="/img/logo.png" alt="logo" width="200"> </a>
+<div id="login_wrapper">
+    <div id="login_logo">
+        <a href="/"></a>
+    </div>
+    <div id="login_input">
+        <input type="text" class="form-control me-2" name="m_name" id="name" placeholder="이름"><br>
+        <input type="text" class="form-control me-2" name="m_phone" id="phone" placeholder="전화번호"><br>
+        <button type="button" class="btn btn-primary btn-color-thebora" onclick="idFinder()">찾기</button>
+        <ul class="login_finder">
+            <li><a href="/member/pwFind">패스워드 찾기</a></li>
+            <li><a href="/member/joindetail">회원가입</a></li>
+        </ul>
+    </div>
 </div>
-<div id="id-finder">
-    ID 찾기
-</div>
-
-<div class="info-input"><input type="text" name="m_name" id="name" placeholder="name"></div>
-<div class="info-input"><input type="text" name="m_phone" id="phone" placeholder="phone"></div>
-<div id="id" class="info-input" hidden="hidden">아이디</div>
-
-
-<div class="button-center"><button type="button" class="btn btn-primary" onclick="idFinder()">찾기</button> </div>
-
-<div class="info-input"><a href="/member/pwFind"> 비밀번호 찾기</a>/<a href="/member/joindetail">회원가입</a> </div>
-
-
 <script>
     function idFinder() {
         let name = document.getElementById("name");
