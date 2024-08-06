@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <section class="w-75 mx-auto mb-5">
+    <section class="w-75 mx-auto mb-5 main-section">
         <h4 class="article-t">추천상품</h4>
         <div class="row row-cols-1 row-cols-md-4 g-4">
             <c:forEach var="item" items="${items}">

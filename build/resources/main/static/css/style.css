@@ -1,3 +1,9 @@
+/* 링크 밑줄 삭제(공통) */
+a {
+  text-decoration: none !important;
+}
+
+
 /* 폰트 */
 @font-face {
   font-family: 'LINESeedKR-Bd';
@@ -7,7 +13,7 @@
 }
 
 /* 부트스트랩 요소 색상 강제변경 */
-.btn-color-thebora {
+.btn-color-thebora, .active>.page-link {
   background: #712cf9 !important;
   border-color: #712cf9 !important;
   color: #ffffff !important;
@@ -25,6 +31,10 @@ a:link, a:visited {
 
 a:hover, a:active {
   color: #5c25ca;
+}
+
+.pagination a:link, a:visited {
+  color: #212529;
 }
 
 /* 알람 */
@@ -115,6 +125,17 @@ a:hover, a:active {
 h1, h2, h3, h4, h5 {
   font-family: 'LINESeedKR-Bd';
 }
+
+/* 메인 섹션(광고상품, 추천상품) */
+.main-section h5 {
+  font-weight: 300 !important;
+}
+
+.main-section div a, .main-section p {
+  text-decoration: none !important;
+  color: #212529 !important;
+}
+
 
 /* 푸터 */
 footer {
