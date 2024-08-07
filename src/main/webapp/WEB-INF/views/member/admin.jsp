@@ -74,10 +74,10 @@
                     + delList.sb_date +
                     `</td>
                     <td>
-			        	<a href="/admin/realDelete?sb_num=` + delList.sb_num + `" class="btn btn-primary"> 삭제 </a>
+			        	<a href="/admin/realDelete?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 삭제 </a>
 		        	</td>
                      <td>
-			        	<a href="/admin/restore?sb_num=` + delList.sb_num + `" class="btn btn-primary"> 복원 </a>
+			        	<a href="/admin/restore?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 복원 </a>
 		        	</td>
 	        	</tr>
  </tbody>`
@@ -129,10 +129,10 @@
                     + delList.sb_date +
                     `</td>
                      <td>
-			        	<a href="/admin/realDelete?sb_num=` + delList.sb_num + `" class="btn btn-primary"> 삭제 </a>
+			        	<a href="/admin/realDelete?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 삭제 </a>
 		        	</td>
                     <td>
-			        	<a href="/admin/restore?sb_num=` + delList.sb_num + `" class="btn btn-primary"> 복원 </a>
+			        	<a href="/admin/restore?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 복원 </a>
 		        	</td>
 	        	</tr>
    </tbody>`
@@ -165,7 +165,7 @@
 
     <tr>
  <td><input type="text" name="c_kind" placeholder="카테고리 추가"></td>
-<td><button type="submit" class="btn btn-primary">추가</button></td>
+<td><button type="submit" class="btn btn-primary btn-color-thebora">추가</button></td>
 </tr>
 </form>
     </thead>
@@ -177,7 +177,7 @@
                     + cList +
                     `</td>
          <td>
-			        	<a href="/admin/cateDelete?c_kind=` + cList + `" class="btn btn-primary"> 삭제 </a>
+			        	<a href="/admin/cateDelete?c_kind=` + cList + `" class="btn btn-primary btn-color-thebora"> 삭제 </a>
 		        	</td>
 
 </tr>
@@ -255,10 +255,10 @@
                     </td>
 
                     <td>
-			        	<button class="btn btn-primary"> 수정 </button>
+			        	<button class="btn btn-primary btn-color-thebora"> 수정 </button>
 		        	</td>
                     <td>
-			        	<a href="/admin/memberDelete?m_id=` + mList.m_id + `" class="btn btn-primary"> 삭제 </a>
+			        	<a href="/admin/memberDelete?m_id=` + mList.m_id + `" class="btn btn-primary btn-color-thebora"> 삭제 </a>
 		        	</td>
 
                 </tr>
@@ -319,10 +319,10 @@
                     + delList.a_joinId +
                     `</td>
                     <td>
-			        	<a href="/admin/realDelete?sb_num=` + delList.sb_num + `" class="btn btn-primary"> 삭제 </a>
+			        	<a href="/admin/realDelete?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 삭제 </a>
 		        	</td>
                      <td>
-			        	<button class="btn btn-primary" type="button" onclick="reUpload(`+delList.sb_num +`)"> 다시올리기 </button>
+			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="reUpload(`+delList.sb_num +`)"> 다시올리기 </button>
 		        	</td>
 	        	</tr>
  </tbody>`
@@ -347,11 +347,11 @@
 
 
     <div>
-        <button type="button" class="btn btn-primary" onclick="goAuctionEndManager()">경매 완료 게시글 관리</button>
-        <button type="button" class="btn btn-primary" onclick="goBoardManager()">경매 삭제 게시글 관리</button>
-        <button type="button" class="btn btn-primary" onclick="goMarketBoardManager()">중고거래 삭제 게시글 관리</button>
-        <button type="button" class="btn btn-primary" onclick="categoryList()">카테고리 관리</button>
-        <button type="button" class="btn btn-primary" onclick="memberList()">회원 관리</button>
+        <button type="button" class="btn btn-primary btn-color-thebora" onclick="goAuctionEndManager()">경매 완료 게시글 관리</button>
+        <button type="button" class="btn btn-primary btn-color-thebora" onclick="goBoardManager()">경매 삭제 게시글 관리</button>
+        <button type="button" class="btn btn-primary btn-color-thebora" onclick="goMarketBoardManager()">중고거래 삭제 게시글 관리</button>
+        <button type="button" class="btn btn-primary btn-color-thebora" onclick="categoryList()">카테고리 관리</button>
+        <button type="button" class="btn btn-primary btn-color-thebora" onclick="memberList()">회원 관리</button>
 
     </div>
     <div id="management_btn">
@@ -373,7 +373,7 @@
                     <input type="text" id="reUpNum" name="sb_num" hidden="hidden">
                     종료시간 : <input type="datetime-local" id="myDatetime"  class="form-control myInput mt-1" placeholder="날짜를 선택하세요." readonly="readonly"     ></p>
                     <input type="text" name="sb_timer" id="sb_timer" hidden="hidden">
-                    <button class="btn btn-primary">올리기</button>
+                    <button class="btn btn-primary btn-color-thebora">올리기</button>
                 </form>
             </div>
             <div class="modal-footer">

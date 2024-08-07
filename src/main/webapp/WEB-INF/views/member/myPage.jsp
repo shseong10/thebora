@@ -118,7 +118,7 @@
             <div class="info-title">
                 <h1 style="display: inline;">Management</h1>
                 <div class="float-end">
-                    <a class="btn btn-primary" href="/member/infoUpdate">정보수정</a>
+                    <a class="btn btn-primary btn-color-thebora" href="/member/infoUpdate">정보수정</a>
                 </div>
             </div>
             <div class="profile-info-all">
@@ -164,13 +164,13 @@
                 <div class="profile-update">
                     <form action="/member/profileUpdate" method="post" enctype="multipart/form-data">
                         <input type="text" class="upload-name" value="파일선택" readonly>
-                        <label for="attachment" class="btn btn-primary">프로필 사진찾기</label>
+                        <label for="attachment" class="btn btn-primary btn-color-thebora">프로필 사진찾기</label>
                         <input type="file" id="attachment" name="attachment" hidden="hidden">
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="basicProfile()">기본 프로필</button>
-                            <button type="submit" class="btn btn-primary">등록</button>
+                            <button type="button" class="btn btn-primary btn-color-thebora" onclick="basicProfile()">기본 프로필</button>
+                            <button type="submit" class="btn btn-primary btn-color-thebora">등록</button>
                         </div>
                     </form>
                 </div>

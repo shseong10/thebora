@@ -217,12 +217,18 @@
     </script>
 </head>
 <body>
+<header>
+    <jsp:include page="../header.jsp"></jsp:include>
+</header>
 <div class="w-75 mt-5 mx-auto">
     <div class="d-flex mb-2">
-        <div class="p-2"><a href="/hotdeal/admin/main"><img src="/upload/logo.png" width="25%"></a></div>
+        <div class="p-2">
+<%--            <a href="/hotdeal/admin/main"><img src="/upload/logo.png" width="25%"></a>--%>
+            <h3>관리자페이지</h3>
+        </div>
         <div class="d-flex ms-auto h-75 align-self-end">
             <input type="text" id="keyWord" class="form-control me-2" placeholder="검색하기" style="width: 10rem;">
-            <button type="button" id="search" onclick="search()" class="btn btn-primary"><i class="bi bi-search"></i></button>
+            <button type="button" id="search" onclick="search()" class="btn btn-primary btn-color-thebora"><i class="bi bi-search"></i></button>
         </div>
     </div>
     <div class="card mb-3">
@@ -275,8 +281,8 @@
     </div>
     <div class="d-grid gap-2 mb-3 mx-auto">
         <div class="paging">${paging}</div>
-        <a href="/hotdeal/add_item" class="btn btn-primary" role="button">상품 등록 페이지를 열기</a>
-        <a href="/hotdeal/list" class="btn btn-primary" role="button">판매 페이지로 돌아가기</a>
+        <a href="/hotdeal/add_item" class="btn btn-primary btn-color-thebora" role="button">상품 등록 페이지를 열기</a>
+        <a href="/hotdeal/list" class="btn btn-primary btn-color-thebora" role="button">판매 페이지로 돌아가기</a>
     </div>
 </div>
 
@@ -398,7 +404,7 @@
             <div class="modal-footer d-flex">
                 <button type="button" class="btn btn-danger me-auto" data-bs-dismiss="modal">상품 삭제</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary" onclick="quickUpdate()" data-bs-dismiss="modal">변경사항 저장</button>
+                <button type="button" class="btn btn-primary btn-color-thebora" onclick="quickUpdate()" data-bs-dismiss="modal">변경사항 저장</button>
             </div>
         </div>
     </div>

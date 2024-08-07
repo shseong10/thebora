@@ -180,6 +180,10 @@
     </style>
 </head>
 <body>
+<header>
+    <jsp:include page="../header.jsp"></jsp:include>
+</header>
+<main>
 <form action="/hotdeal/update_item" method="post" enctype="multipart/form-data">
     <div class="card mb-3 p-3 w-75 mx-auto">
         <div class="p-3">
@@ -287,7 +291,7 @@
     </div><!-- 컨테이너 끝-->
 
     <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-        <input type="submit" class="btn btn-primary" value="등록하기">
+        <input type="submit" class="btn btn-primary btn-color-thebora" value="등록하기">
     </div>
 
     <script type="importmap">
@@ -300,5 +304,6 @@
     </script>
     <script type="module" src="/api/ckeditor5/main.js"></script>
 </form>
+</main>
 </body>
 </html>

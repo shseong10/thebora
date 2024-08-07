@@ -1,3 +1,9 @@
+/* 링크 밑줄 삭제(공통) */
+a {
+  text-decoration: none !important;
+}
+
+
 /* 폰트 */
 @font-face {
   font-family: 'LINESeedKR-Bd';
@@ -5,6 +11,32 @@
   font-weight: 700;
   font-style: normal;
 }
+
+/* 부트스트랩 요소 색상 강제변경 */
+.btn-color-thebora, .active>.page-link {
+  background: #712cf9 !important;
+  border-color: #712cf9 !important;
+  color: #ffffff !important;
+}
+
+.btn-color-thebora:hover {
+  background-color: #5c25ca !important;
+  border-color: #5c25ca !important;
+  color: #ffffff !important;
+}
+
+a:link, a:visited {
+  color: #712cf9;
+}
+
+a:hover, a:active {
+  color: #5c25ca;
+}
+
+.pagination a:link, a:visited {
+  color: #212529;
+}
+
 /* 알람 */
 #alertBtn{
   width: 350px;
@@ -35,6 +67,7 @@
 #main_nav li a {
   font-family: 'LINESeedKR-Bd' !important;
   font-size: 1rem !important;
+  color: #212529 !important;
 }
 
 /* 검색 */
@@ -89,11 +122,21 @@
   color: #666;
 }
 
-/* 광고상품, 추천상품 h1 */
-.article-t {
+/* 타이틀 강조 */
+h1, h2, h3, h4, h5 {
   font-family: 'LINESeedKR-Bd';
-  font-size: 1.5rem !important;
 }
+
+/* 메인 섹션(광고상품, 추천상품) */
+.main-section h5 {
+  font-weight: 300 !important;
+}
+
+.main-section div a, .main-section p {
+  text-decoration: none !important;
+  color: #212529 !important;
+}
+
 
 /* 푸터 */
 footer {
@@ -146,4 +189,119 @@ footer {
 
 .goingTop:hover{
   text-decoration:none;
+}
+
+/* 로그인 */
+#login_wrapper {
+  width: 25%;
+  margin: 0 auto;
+  padding-top: 5%;
+}
+
+/* 로그인 페이지 로고 */
+#login_logo {
+  width: 70%;
+  height: 5rem;
+  margin: 0 auto;
+  background-image: url("/img/logo.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+/* 폼 입력창 */
+#login_input, #join_input, #new_pw {
+  margin-top: 3rem;
+  color: #757575;
+}
+
+#login_input input[type="text"], #login_input input[type="password"],
+#join_input input[type="text"], #join_input input[type="password"],
+#new_pw input[type="text"], #new_pw input[type="password"] {
+  width: 100%;
+  height: 3rem;
+}
+
+#login_input button, #join_input button, #new_pw button{
+  width: 100%;
+  height: 3rem;
+  margin-top: 2rem;
+  background-color: #712cf9;
+  border-color: #712cf9;
+}
+
+.btn-findAddress {
+  margin-top: 0 !important;
+}
+
+#companyNum, #re-pw {
+  margin-top: 1.5rem;
+}
+
+/* 로그인 페이지 메뉴 */
+.login_finder {
+  display: flex;
+  list-style-type: none;
+  width: 100%;
+  padding: 0;
+  margin-top: 3rem;
+}
+
+.login_finder li {
+  flex: auto;
+  text-align: center;
+}
+
+.login_finder li a {
+  display: block;
+  color: #712cf9;
+  text-decoration: none;
+}
+
+.login_finder li a:hover {
+  color: #5c25ca;
+}
+
+
+/* 중고거래 */
+.fileWide {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  width: 245px;
+  height: 245px;
+
+}
+
+.fileWide img {
+  width: 100%;
+  height: 100%;
+}
+#market-keyWord{
+  width: 250px;
+}
+
+.search-bar{
+  display: flex;
+  justify-content: end;
+}
+
+/* 중고거래 카테고리 */
+#sb_category {
+  display: flex;
+  list-style-type: none;
+  width: 100%;
+  padding: 0;
+}
+
+#sb_category li {
+  flex: auto;
+  text-align: center;
+  cursor: pointer;
+}
+
+#sb_category li a {
+  color: #212529;
+  text-decoration: none;
 }

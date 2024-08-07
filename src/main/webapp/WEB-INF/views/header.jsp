@@ -60,7 +60,7 @@
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
-                    <button class="btn btn-primary" type="submit" id="button_search"><i class="bi bi-search"></i>
+                    <button class="btn btn-primary btn-color-thebora" type="submit" id="button_search"><i class="bi bi-search"></i>
                     </button>
                 </form>
             </div>
@@ -95,7 +95,6 @@
                     </sec:authorize>
                 </li>
                 <li class="nav-item">
-
                     <sec:authorize access="hasRole('admin')">
                         <a class="nav-link" aria-current="page" href="/member/admin">관리자페이지</a>
                     </sec:authorize>
@@ -112,9 +111,7 @@
                     <div class="notification-target">
                         <sec:authorize access="isAuthenticated()">
                             <div class="nav-link">
-                                <a  href="/member/chat" aria-expanded="false">
-                                    <i class="bi bi-chat-text"></i>
-                                </a>
+                                <a href="/member/chat" aria-expanded="false">채팅</a>
                             </div>
                         </sec:authorize>
 <%--                        <span class="notification-badge">NEW</span>--%>
@@ -124,18 +121,17 @@
                     <div class="notification-target">
                         <sec:authorize access="isAuthenticated()">
                             <div class="dropdown nav-link">
+                                <a href="#" data-bs-toggle="dropdown" aria-expanded="false" onclick="alertInfo()">알림</a>
                                 <a id="alertLink" type="button" data-bs-toggle="dropdown" aria-expanded="false"
                                    onclick="alertInfo()">
                                     <i class="bi bi-bell"></i>
                                 </a>
                                 <ul id="alertBtn" class="dropdown-menu">
-
                                 </ul>
                             </div>
                         </sec:authorize>
 <%--                        <span class="notification-badge">NEW</span>--%>
                     </div>
-
                 </li>
             </ul>
         </div>

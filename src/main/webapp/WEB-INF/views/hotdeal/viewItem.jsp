@@ -111,6 +111,10 @@
     </style>
 </head>
 <body>
+<header>
+    <jsp:include page="../header.jsp"></jsp:include>
+</header>
+<main>
     <div class="card mb-3 w-75 mx-auto">
         <div class="row g-0">
             <div class="col-md-4 carousel slide" id="carousel">
@@ -133,8 +137,8 @@
                     <p class="card-text"><small class="text-body-secondary">${inventory.sb_contents}</small></p>
                     <p class="card-text"><small class="text-body-secondary">수량 선택: <input type="text" id="view_qty" name="view_qty" value="3">개</small></p>
                     <div class="d-grid gap-2 d-md-block mb-3">
-                        <a href="javascript: view_cart();" class="btn btn-primary" role="button">장바구니</a>
-                        <a href="javascript: view_order();" class="btn btn-primary" role="button">주문하기</a>
+                        <a href="javascript: view_cart();" class="btn btn-primary btn-color-thebora" role="button">장바구니</a>
+                        <a href="javascript: view_order();" class="btn btn-primary btn-color-thebora" role="button">주문하기</a>
                     </div>
                     <a href="/hotdeal/update_item?sb_num=${inventory.sb_num}" class="btn btn-warning" role="button">수정</a>
                     <a href="/hotdeal/delete_item?sb_num=${inventory.sb_num}" class="btn btn-danger" role="button">삭제</a>
@@ -143,7 +147,8 @@
         </div>
     </div>
     <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-        <a href="/hotdeal/list" class="btn btn-primary" role="button">목록으로</a>
+        <a href="/hotdeal/list" class="btn btn-primary btn-color-thebora" role="button">목록으로</a>
     </div>
+</main>
 </body>
 </html>

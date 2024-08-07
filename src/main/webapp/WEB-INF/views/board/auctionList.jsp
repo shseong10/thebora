@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 24. 7. 9.
-  Time: 오후 3:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -14,84 +7,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>더보라</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        #auction-keyWord{
+            width: 250px;
+        }
+    </style>
+    <script>
+        $(() => {
+            const msg = '${msg}'
+            if (msg)
+
+                alert('${msg}')
+
+        })
+    </script>
 </head>
-<style>
-
-
-    .fileWide {
-        display: flex;
-        justify-content: center;
-        overflow: hidden;
-        width: 245px;
-        height: 245px;
-
-    }
-
-    .fileWide img {
-        width: 100%;
-        height: 100%;
-    }
-    #auction-keyWord{
-        width: 250px;
-    }
-    .search-bar{
-        display: flex;
-        justify-content: end;
-    }
-
-
-</style>
-<script>
-    $(() => {
-        const msg = '${msg}'
-        if (msg)
-
-            alert('${msg}')
-
-    })
-
-
-    function cateClick(cate) {
-       const category = cate.value;
-           location.href="/board/auctionList?sb_category="+category+"&pageNum=1";
-    }
-
-    function AllcateClick(){
-        location.href="/board/auctionList?pageNum=1";
-    }
-
-
-
-
-
-</script>
 <body>
 <header>
     <jsp:include page="../header.jsp"></jsp:include>
 </header>
 
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-    <h1>경매</h1>
+    <h1 class="">경매</h1>
     <div class="search-bar">
         <input id="auction-keyWord" class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
-        <button id="auction-search" class="btn btn-primary" type="button"><i class="bi bi-search"></i></button>
+        <button id="auction-search" class="btn btn-primary btn-color-thebora" type="button"><i class="bi bi-search"></i></button>
     </div>
-    <a href="/board/auctionRegister" class="btn btn-primary" role="button">상품등록</a>
+    <a href="/board/auctionRegister" class="btn btn-primary btn-color-thebora" role="button">상품등록</a>
     <div>
-
-        <input class="cate-btn" type="button" name="sb_category" onclick="AllcateClick()" value="전체">
-        <c:forEach  var="cList" items="${cateList}">
-        <input class="cate-btn" type="button" name="sb_category" onclick="cateClick(this)" value=${cList}>
-        </c:forEach>
-
+        <ul id="sb_category">
+            <li name="sb_category"><a href="/board/auctionList?pageNum=1">전체</a></li>
+            <c:forEach var="cList" items="${cateList}">
+                <li name="sb_category"><a href="/board/auctionList?sb_category=${cList}&pageNum=1">${cList}</a></li>
+            </c:forEach>
+        </ul>
     </div>
 </div>
 
