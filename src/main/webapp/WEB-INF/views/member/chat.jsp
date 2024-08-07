@@ -34,16 +34,18 @@
                 </c:if>
                 <c:if test="${!empty chat}">
                     <c:forEach items="${chat}" var="critem">
-                        <div class="col" onclick="chatRoom('${critem.c_sendid}','${critem.sellerId}','${critem.c_title}')">
-                            <c:if test="${critem.c_sendid == userId}">
-                                ${critem.sellerId}
-                            </c:if>
-                            <c:if test="${critem.sellerId == userId}">
-                                ${critem.c_sendid}
-                            </c:if>
-                        </div>
-                        <div class="col">
-                            ${critem.c_title}
+                        <div class="row">
+                            <div class="col" onclick="chatRoom('${critem.c_sendid}','${critem.sellerId}','${critem.c_title}')">
+                                <c:if test="${critem.c_sendid == userId}">
+                                    ${critem.sellerId}
+                                </c:if>
+                                <c:if test="${critem.sellerId == userId}">
+                                    ${critem.c_sendid}
+                                </c:if>
+                            </div>
+                            <div class="col">
+                                    ${critem.c_title}
+                            </div>
                         </div>
                     </c:forEach>
                 </c:if>
