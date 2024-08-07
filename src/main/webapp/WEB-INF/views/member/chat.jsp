@@ -34,7 +34,7 @@
                 </c:if>
                 <c:if test="${!empty chat}">
                     <c:forEach items="${chat}" var="critem">
-                        <div class="col" onclick="chatRoom('${critem.c_sendid}','${critem.sellerId}')">
+                        <div class="col" onclick="chatRoom('${critem.c_sendid}','${critem.sellerId}','${critem.c_title}')">
                             <c:if test="${critem.c_sendid == userId}">
                                 ${critem.sellerId}
                             </c:if>
@@ -72,11 +72,11 @@
 
     })
 
-    function chatRoom(buyer, seller) {
+    function chatRoom(buyer, seller, title) {
         $.ajax({
             method: "post",
             url: "/board/chatRoom",
-            data: {"c_sendid": buyer, "sellerId": seller}
+            data: {"c_sendid": buyer, "sellerId": seller, "c_title":title}
         }).done((resp) => {
             console.log(resp);
             let chatList = ``;

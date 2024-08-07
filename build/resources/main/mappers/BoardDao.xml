@@ -286,13 +286,13 @@
     </select>
 
     <select id="getChattingList" resultMap="chatting">
-        select c_sendid,sellerId from chatting  where c_sendid = #{name} or sellerId = #{name} GROUP BY c_sendid, sellerId
+        select c_sendid,sellerId,c_title from chatting  where c_sendid = #{name} or sellerId = #{name} GROUP BY c_sendid, sellerId,c_title
         ORDER BY MAX(c_num) desc ;
 
     </select>
 
     <select id="getChatRoom">
-        select * from chatting where c_sendid = #{c_sendid} and sellerId = #{sellerId}
+        select * from chatting where c_sendid = #{c_sendid} and sellerId = #{sellerId} and c_title = #{c_title}
     </select>
 
     <delete id="myCartDel">
