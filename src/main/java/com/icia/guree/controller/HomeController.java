@@ -2,10 +2,14 @@ package com.icia.guree.controller;
 
 import com.icia.guree.entity.BoardDto;
 import com.icia.guree.entity.BoardFileDto;
+import com.icia.guree.entity.ChattingDto;
 import com.icia.guree.service.BoardService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,7 +59,15 @@ public class HomeController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/member/chat")
-    public String chat() {
+    public String chat(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String name = userDetails.getUsername();
+           List<ChattingDto> cList = bSer.getChatting(name);
+           model.addAttribute("chat", cList);
+           model.addAttribute("userId",name);
+        }
         return "member/chat";
     }
 

@@ -57,6 +57,15 @@
         <result property="bf_sysFileName" column="bf_sysfilename"/>
         </resultMap>
 
+    <resultMap type="ChattingDto" id="chatting">
+        <id property="sellerId" column="sellerId" />
+<!--        <id property="c_sendid" column="c_sendid" />-->
+        <result property="c_num" column="c_num" />
+        <result property="c_title" column="c_title" />
+        <result property="c_contents" column="c_contents"/>
+        <result property="c_sendtime" column="c_sendtime"/>
+    </resultMap>
+
     <insert id="productRegister" >
         insert into saleboard
         values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, #{sb_startPrice}, 0, #{sb_price}, #{sb_bid}, #{sb_timer}, #{sb_local}, #{sb_count}, default, #{sb_scope}, default,default)
@@ -118,6 +127,14 @@
 
     <insert id="alertMsg">
         insert into alertinfo values (#{buyer}, #{seller}, #{sb_num}, #{sb_title}, #{msg}, #{a_bidPrice})
+    </insert>
+
+    <insert id="chatting">
+        insert into chatting values (null,#{buyer},#{seller},#{sb_title},concat(#{buyer},' : ',#{sb_title},'에 구매신청을 하셨습니다.'),default)
+    </insert>
+
+    <insert id="chatInsert">
+        insert into chatting values (null,#{c_sendid},#{sellerId},#{c_title},concat(#{username},' : ',#{c_contents}),default)
     </insert>
 
     <select id="auctionList" resultMap="boardList">
@@ -266,6 +283,14 @@
 
     <select id="getBuyApply">
         select count(*) from saleapply where s_sb_num = #{sb_num} and s_buyerid =#{a_joinId}
+    </select>
+
+    <select id="getChattingList" resultMap="chatting">
+        select * from chatting where c_sendid = #{name} or sellerId = #{name} order by c_sendtime desc limit 1
+    </select>
+
+    <select id="getChatRoom">
+        select * from chatting where c_sendid = #{c_sendid} and sellerId = #{sellerId}
     </select>
 
     <delete id="myCartDel">

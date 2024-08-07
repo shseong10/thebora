@@ -3,6 +3,7 @@ package com.icia.guree.controller;
 import com.icia.guree.entity.AlertDto;
 import com.icia.guree.entity.BoardDto;
 import com.icia.guree.entity.BoardFileDto;
+import com.icia.guree.entity.ChattingDto;
 import com.icia.guree.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +60,23 @@ public class BoardRestController {
             return aDel;
 
     }
+    @PostMapping("/board/chatRoom")
+    public List<ChattingDto> chatRoom(ChattingDto cDto){
+        List<ChattingDto> chat = bSer.chatRoom(cDto);
+
+        return chat;
+    }
+    @PostMapping("/board/chatInsert")
+    public boolean chatInsert(ChattingDto cDto){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String name = userDetails.getUsername();
+            cDto.setUsername(name);
+
+        }
+      return  bSer.chatInsert(cDto);
+    }
+
 
 }
