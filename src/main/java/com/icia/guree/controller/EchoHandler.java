@@ -67,6 +67,13 @@ public class EchoHandler extends TextWebSocketHandler {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String dateFm = now.format(formatter);
         String result = dateFm.substring(0, 19);
+
+        if (alertMsg.getType().equals("chat")) {
+            sendedPushSession.sendMessage(new TextMessage(alertMsg.getMsg()));
+        }
+
+
+
         if (alertMsg.getType().equals("apply")) {
             alertMsg.setAlertDate(result);
 
@@ -85,6 +92,7 @@ public class EchoHandler extends TextWebSocketHandler {
                 notificationBuffer.computeIfAbsent(alertMsg.getSeller(), k -> new ArrayList<>()).add(alertMsg.getMsg());
             }
             bSer.alertMsg(alertMsg);
+            bSer.chatting(alertMsg);
         }
         if (alertMsg.getType().equals("attend")) {
 //            if (sendedPushSession != null) {

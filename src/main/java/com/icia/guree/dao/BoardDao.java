@@ -1,9 +1,6 @@
 package com.icia.guree.dao;
 
-import com.icia.guree.entity.AlertDto;
-import com.icia.guree.entity.BoardDto;
-import com.icia.guree.entity.BoardFileDto;
-import com.icia.guree.entity.SearchDto;
+import com.icia.guree.entity.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -94,4 +91,12 @@ public interface BoardDao {
     List<AlertDto> getAlertInfo(String sb_id);
 
     boolean alertDel(String sb_num);
+
+    void chatting(AlertDto alertMsg);
+
+    List<ChattingDto> getChattingList(String name);
+
+    List<ChattingDto> getChatRoom(ChattingDto cDto);
+
+    boolean chatInsert(ChattingDto cDto);
 }

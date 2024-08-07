@@ -2,10 +2,7 @@ package com.icia.guree.service;
 
 import com.icia.guree.common.BoardFileManager;
 import com.icia.guree.dao.BoardDao;
-import com.icia.guree.entity.AlertDto;
-import com.icia.guree.entity.BoardDto;
-import com.icia.guree.entity.BoardFileDto;
-import com.icia.guree.entity.SearchDto;
+import com.icia.guree.entity.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -234,5 +231,21 @@ public class BoardService {
 
     public boolean alertDel(String sb_num) {
         return bDao.alertDel(sb_num);
+    }
+
+    public void chatting(AlertDto alertMsg) {
+        bDao.chatting(alertMsg);
+    }
+
+    public List<ChattingDto> getChatting(String name) {
+      return  bDao.getChattingList(name);
+    }
+
+    public List<ChattingDto> chatRoom(ChattingDto cDto) {
+        return  bDao.getChatRoom(cDto);
+    }
+
+    public boolean chatInsert(ChattingDto cDto) {
+        return bDao.chatInsert(cDto);
     }
 }
