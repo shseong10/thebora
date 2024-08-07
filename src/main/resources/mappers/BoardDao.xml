@@ -58,9 +58,9 @@
         </resultMap>
 
     <resultMap type="ChattingDto" id="chatting">
-        <id property="sellerId" column="sellerId" />
-<!--        <id property="c_sendid" column="c_sendid" />-->
-        <result property="c_num" column="c_num" />
+        <id property="c_num" column="c_num" />
+        <result property="sellerId" column="sellerId" />
+        <result property="c_sendid" column="c_sendid" />
         <result property="c_title" column="c_title" />
         <result property="c_contents" column="c_contents"/>
         <result property="c_sendtime" column="c_sendtime"/>
@@ -286,7 +286,9 @@
     </select>
 
     <select id="getChattingList" resultMap="chatting">
-        select * from chatting where c_sendid = #{name} or sellerId = #{name} order by c_sendtime desc limit 1
+        select c_sendid,sellerId from chatting  where c_sendid = #{name} or sellerId = #{name} GROUP BY c_sendid, sellerId
+        ORDER BY MAX(c_num) desc ;
+
     </select>
 
     <select id="getChatRoom">
