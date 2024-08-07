@@ -62,6 +62,7 @@ public class EchoHandler extends TextWebSocketHandler {
 
         AlertDto alertMsg = objectMapper.readValue(msg, AlertDto.class);
         WebSocketSession sendedPushSession = userSessionMap.get(alertMsg.getSeller()); //로그인상태일때 알람 보냄
+        WebSocketSession sendedPushSession2 = userSessionMap.get(alertMsg.getBuyer()); //로그인상태일때 알람 보냄
         LocalDateTime now = LocalDateTime.now();
         // 초를 2자리로 포맷하기 위한 DateTimeFormatter 생성
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -72,9 +73,14 @@ public class EchoHandler extends TextWebSocketHandler {
             String chat = "{\"type\":\"chat\",\"value\":\""+sendPushUsername(session)+" : "+alertMsg.getMsg()+"\"}";
             for (WebSocketSession webSocketSession : sessions) {
                 if (webSocketSession.isOpen()) {
-                    webSocketSession.sendMessage(new TextMessage(chat));
+                    if(sendPushUsername(session).equals(alertMsg.getSeller())){
+                        sendedPushSession2.sendMessage(new TextMessage(chat));
+                    }
+                    if(sendPushUsername(session).equals(alertMsg.getBuyer())){
+                        sendedPushSession.sendMessage(new TextMessage(chat));
+                    }
+//                    webSocketSession.sendMessage(new TextMessage(chat));
                 }
-
             }
         }
 
