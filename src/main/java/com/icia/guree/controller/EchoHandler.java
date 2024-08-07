@@ -69,7 +69,13 @@ public class EchoHandler extends TextWebSocketHandler {
         String result = dateFm.substring(0, 19);
 
         if (alertMsg.getType().equals("chat")) {
-            sendedPushSession.sendMessage(new TextMessage(alertMsg.getMsg()));
+            String chat = "{\"type\":\"chat\",\"value\":\""+sendPushUsername(session)+" : "+alertMsg.getMsg()+"\"}";
+            for (WebSocketSession webSocketSession : sessions) {
+                if (webSocketSession.isOpen()) {
+                    webSocketSession.sendMessage(new TextMessage(chat));
+                }
+
+            }
         }
 
 

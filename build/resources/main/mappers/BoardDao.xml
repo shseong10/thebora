@@ -130,11 +130,11 @@
     </insert>
 
     <insert id="chatting">
-        insert into chatting values (null,#{buyer},#{seller},#{sb_title},null,default)
+        insert into chatting values (null,#{buyer},#{seller},#{sb_title},concat(#{buyer},' : ',#{sb_title},'에 구매신청을 하셨습니다.'),default)
     </insert>
 
     <insert id="chatInsert">
-        insert into chatting values (null,#{c_sendid},#{sellerId},#{c_title},#{c_contents},default)
+        insert into chatting values (null,#{c_sendid},#{sellerId},#{c_title},concat(#{username},' : ',#{c_contents}),default)
     </insert>
 
     <select id="auctionList" resultMap="boardList">

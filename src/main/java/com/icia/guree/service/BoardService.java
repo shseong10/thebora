@@ -246,6 +246,7 @@ public class BoardService {
     }
 
     public boolean chatInsert(ChattingDto cDto) {
+
         return bDao.chatInsert(cDto);
     }
 }

@@ -34,6 +34,18 @@
         text-align: center;
         overflow: scroll;
     }
+    #chat_contents{
+
+        overflow: scroll;
+        max-width: 500px;
+        max-height: 400px;
+    }
+    #chatContents{
+        overflow: scroll;
+        max-width: 500px;
+        max-height: 400px;
+        height : 400px
+    }
 
 </style>
 <body>
@@ -82,7 +94,7 @@
                 <tr>
                     <th colspan="2" style="text-align: center">채팅내역</th>
                 </tr>
-                <tr style="height: 394px">
+                <tr id="chatContents">
                     <td id="chat_contents" colspan="2">
                     </td>
 
@@ -155,6 +167,41 @@
         }).fail(function (err) {
             console.log(err);
         })
+    }
+
+    let websocket = null;
+    $(document).ready(function () {
+        //소켓 연결
+        webConnectWs();
+    });
+
+    function webConnectWs() {
+        //WebSocketConfig에서 설정한 endPoint("/push")로 연결
+        const ws = new SockJS("/push");
+        websocket = ws;
+
+        ws.onopen = function () {
+            console.log('open');
+        };
+
+        ws.onmessage = function (event) {
+            try {
+                const result = JSON.parse(event.data);
+                console.log(result);
+                if (result.type === "chat") {
+                    $('#chat_contents').append(result.value);
+                }
+
+            } catch (e) {
+                console.error("에러원인", e);
+            }
+
+        };
+
+        ws.onclose = function () {
+            console.log('close');
+        };
+
     }
 </script>
 </body>

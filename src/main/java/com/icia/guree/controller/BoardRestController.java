@@ -68,6 +68,13 @@ public class BoardRestController {
     }
     @PostMapping("/board/chatInsert")
     public boolean chatInsert(ChattingDto cDto){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String name = userDetails.getUsername();
+            cDto.setUsername(name);
+
+        }
       return  bSer.chatInsert(cDto);
     }
 
