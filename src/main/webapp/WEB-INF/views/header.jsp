@@ -60,7 +60,8 @@
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
-                    <button class="btn btn-primary btn-color-thebora" type="submit" id="button_search"><i class="bi bi-search"></i>
+                    <button class="btn btn-primary btn-color-thebora" type="submit" id="button_search"><i
+                            class="bi bi-search"></i>
                     </button>
                 </form>
             </div>
@@ -104,7 +105,7 @@
                         <sec:authorize access="isAuthenticated()">
                             <a class="nav-link" aria-expanded="false" href="/member/attendance">출석체크</a>
                         </sec:authorize>
-<%--                        <span class="notification-badge">NEW</span>--%>
+                        <%--                        <span class="notification-badge">NEW</span>--%>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -114,7 +115,7 @@
                                 <a href="/member/chat" aria-expanded="false">채팅</a>
                             </div>
                         </sec:authorize>
-<%--                        <span class="notification-badge">NEW</span>--%>
+                        <%--                        <span class="notification-badge">NEW</span>--%>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -130,7 +131,7 @@
                                 </ul>
                             </div>
                         </sec:authorize>
-<%--                        <span class="notification-badge">NEW</span>--%>
+                        <%--                        <span class="notification-badge">NEW</span>--%>
                     </div>
                 </li>
             </ul>
@@ -167,7 +168,7 @@
             localStorage.removeItem("newItem");
             let alertList = ``;
             $.each(resp, function (i, aList) {
-                                console.log(aList.msg)
+                console.log(aList.msg)
                 alertList +=
                     `<hr>` +
                     aList.msg
@@ -222,16 +223,34 @@
 
         ws.onmessage = function (event) {
 
-            $('#toastContainer').append(event.data);
-            localStorage.setItem("newItem","<span id='newIcon' class='notification-badge'>NEW</span>");
-            $('#alertLink').append(localStorage.getItem("newItem"))
+            try {
+                const result = JSON.parse(event.data);
+                console.log("d이거슨 리절트 확인용",result);
+                if (result.type === "price") {
+                    $('#np').html(result.value);
+                }else
+                if (result.type === "buyer") {
+                    $('#buyer').html("현재 입찰 예정자 : " + result.name);
+                }else
+                if (result.type === "chat") {
+                    $('#chat_contents').append(result.value);
+                }else{
+                    console.log("이거슨 화긴용 :", event.data)
+                    console.log("이거슨 화긴용2 :",result.contents)
+                    $('#toastContainer').append(result.contents);
+                    localStorage.setItem("newItem", "<span id='newIcon' class='notification-badge'>NEW</span>");
+                    $('#alertLink').append(localStorage.getItem("newItem"))
+                    const toastElements = document.querySelectorAll('.choose');
+                    toastElements.forEach((toastElement) => {
+                        const toastBootstrap = new bootstrap.Toast(toastElement);
+                        toastBootstrap.show();
+                    });
+                }
 
-            const toastElements = document.querySelectorAll('.choose');
-            toastElements.forEach((toastElement) => {
-                const toastBootstrap = new bootstrap.Toast(toastElement);
-                toastBootstrap.show();
-            });
 
+            } catch (e) {
+                console.error("에러원인", e);
+            }
 
 
         };

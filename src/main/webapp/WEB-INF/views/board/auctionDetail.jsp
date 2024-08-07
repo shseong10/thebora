@@ -295,42 +295,6 @@
 
     }
 
-    let websocket = null;
-    $(document).ready(function () {
-        //소켓 연결
-        webConnectWs();
-    });
-
-    function webConnectWs() {
-        //WebSocketConfig에서 설정한 endPoint("/push")로 연결
-        const ws = new SockJS("/push");
-        websocket = ws;
-
-        ws.onopen = function () {
-            console.log('open');
-        };
-
-        ws.onmessage = function (event) {
-            try {
-                const result = JSON.parse(event.data);
-                console.log(result);
-                if (result.type === "price") {
-                    $('#np').html(result.value);
-                }
-                if (result.type === "buyer") {
-                    $('#buyer').html("현재 입찰 예정자 : "+result.name);
-                }
-            } catch (e) {
-                console.error("에러원인", e);
-            }
-
-        };
-
-        ws.onclose = function () {
-            console.log('close');
-        };
-
-    }
 
 
 </script>

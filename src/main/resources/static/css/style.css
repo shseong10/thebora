@@ -359,5 +359,5 @@ footer {
 }
 
 .toast-container {
-  visibility: hidden;
+  visibility: visible;
 }
