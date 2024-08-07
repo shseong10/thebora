@@ -73,6 +73,8 @@
     $(() => {
         console.log('${userId}');
 
+
+        if ('${userId}')
     })
 
     function chatRoom(buyer, seller, title) {
@@ -90,8 +92,6 @@
                 chatList +=`<input id="c_sendid" type="text" hidden="hidden" value="`+chat.c_sendid+`"/>`
             })
             $('#chat_contents').html(chatList);
-            $('#chat_contents').css("display", "flex");
-            $('#chat_contents').css("flex-direction", "column-reverse");
             $('#chat_contents').css("overflow-y", "scroll");
             $('#chat_input_field').css("visibility", "visible");
 
@@ -113,6 +113,7 @@
                 "c_contents": $('#c_contents').val()
             }
         }).done((resp) => {
+            $('#chat_contents').append(`<div>`+'${userId}'+` : `+$('#c_contents').val()+`</div>`);
             // console.log(resp);
             //웹 소켓 관련 로직 추가
             if (socket) {

@@ -73,9 +73,11 @@ public class EchoHandler extends TextWebSocketHandler {
 
         if (alertMsg.getType().equals("chat")) {
             String chat = "{\"type\":\"chat\",\"value\":\"<div>"+sendPushUsername(session)+" : "+alertMsg.getMsg()+"</div>\"}";
+            if(alertMsg.getSeller().equals(sendPushUsername(session))){
                 sendedPushSession2.sendMessage(new TextMessage(chat));
+            }else if(alertMsg.getBuyer().equals(sendPushUsername(session))){
                 sendedPushSession.sendMessage(new TextMessage(chat));
-
+            }
 
         }
 
