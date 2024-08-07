@@ -89,6 +89,8 @@
                 chatList +=`<input id="c_sendid" type="text" hidden="hidden" value="`+chat.c_sendid+`"/>`
             })
             $('#chat_contents').html(chatList);
+            $('#chat_contents').css("display", "flex");
+            $('#chat_contents').css("flex-direction", "column-reverse");
             $('#chat_contents').css("overflow-y", "scroll");
             $('#chat_input_field').css("visibility", "visible");
 
