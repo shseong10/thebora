@@ -140,17 +140,17 @@ h1, h2, h3, h4, h5 {
 
 /* 푸터 */
 footer {
+  width: 100%;
+  margin-top: 1rem;
   background-color: rgb(247, 249, 250);
-  color: #757575;
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem 0;
 }
 
 #footer-wrapper {
   width: 75%;
   margin: 0 auto;
+  padding: 3rem 0;
   font-size: 0.7em;
+  color: #757575;
 }
 
 /* 푸터 로고 */
@@ -304,4 +304,60 @@ footer {
 #sb_category li a {
   color: #212529;
   text-decoration: none;
+}
+
+
+/* 채팅 */
+#chatting-wrapper {
+  width: 60%;
+  min-height: 40%;
+  max-height: 60%;
+  display: flex;
+  margin: 0 auto;
+  border: 1px red dotted;
+  overflow: hidden;
+}
+
+#chat_left {
+  /*overflow: scroll;*/
+}
+
+#chat_left div {
+  cursor: pointer;
+}
+
+#chat_left .chat_name {
+  text-align: center;
+}
+
+#chat_right {
+  border: 1px blue solid;
+}
+
+#chat_contents {
+  max-height: 20rem !important;
+  border: 1px #000 solid;
+}
+
+#chat_contents h5 {
+  margin-top: 15%;
+  text-align: center;
+}
+
+#chat_input_field {
+  visibility: hidden;
+  display: flex;
+  margin-top: 1rem;
+}
+
+#chat_input_field input[type="text"] {
+  width: 80%;
+}
+
+#chat_input_field input[type="button"] {
+  width: 18%;
+}
+
+.toast-container {
+  visibility: hidden;
 }

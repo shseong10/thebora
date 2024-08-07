@@ -1,117 +1,68 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 24. 7. 29.
-  Time: 오후 4:42
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <html>
 <head>
-    <title>Title</title>
-    <script
-            src="https://code.jquery.com/jquery-3.7.1.js"
-            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-            crossorigin="anonymous">
-    </script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>더보라</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
-<style>
-    .chatting {
-        width: 900px;
-        height: 500px;
-        display: flex;
-        margin: auto;
-    }
-
-    .chatList {
-        text-align: center;
-        overflow: scroll;
-    }
-    #chat_contents{
-
-        overflow: scroll;
-        max-width: 500px;
-        max-height: 400px;
-    }
-    #chatContents{
-        overflow: scroll;
-        max-width: 500px;
-        max-height: 400px;
-        height : 400px
-    }
-
-</style>
 <body>
 <header>
     <jsp:include page="../header.jsp"></jsp:include>
 </header>
 <section>
-    <div class="chatting">
-        <div class="chatList">
-
-            <table class="table table-striped" style="width: 350px">
-                <tr>
-                    <th colspan="2" style="text-align: center">채팅목록</th>
-                </tr>
-                <tr style="text-align: center">
-                    <th>상대</th>
-                    <th>채팅방 제목</th>
-                </tr>
+    <div id="chatting-wrapper" class="row">
+        <div id="chat_left" class="col-4">
+            <div>
+                <h5>채팅목록</h5>
+            </div>
+            <div class="row chat_name">
+                <div class="col">대화상대</div>
+                <div class="col">채팅방 이름</div>
+            </div>
+            <div class="row chat_name">
                 <c:if test="${empty chat}">
-                    <tr style="height: 400px">
-                        <td colspan="2">참여 중인 채팅방이 없습니다.</td>
-                    </tr>
+                    <div>
+                        <h5>참여중인 채팅방이 없습니다.</h5>
+                    </div>
                 </c:if>
                 <c:if test="${!empty chat}">
                     <c:forEach items="${chat}" var="critem">
-                        <tr class="crList" style="text-align: center" >
-                            <td><a type="button" onclick="chatRoom('${critem.c_sendid}','${critem.sellerId}')">
-                                <c:if test="${critem.c_sendid == userId}">
-                                    ${critem.sellerId}
-                                </c:if>
-                                <c:if test="${critem.sellerId == userId}">
-                                    ${critem.c_sendid}
-                                </c:if>
-                            </a>
-                            </td>
-                            <td><a type="button"
-                            >${critem.c_title}</a>
-                            </td>
-                        </tr>
+                        <div class="col" onclick="chatRoom('${critem.c_sendid}','${critem.sellerId}')">
+                            <c:if test="${critem.c_sendid == userId}">
+                                ${critem.sellerId}
+                            </c:if>
+                            <c:if test="${critem.sellerId == userId}">
+                                ${critem.c_sendid}
+                            </c:if>
+                        </div>
+                        <div class="col">
+                            ${critem.c_title}
+                        </div>
                     </c:forEach>
                 </c:if>
-            </table>
+            </div>
         </div>
-        <div class="chattingRoom">
-            <table class="table table-dark table-striped" id="chatting" style="width: 550px">
-                <tr>
-                    <th colspan="2" style="text-align: center">채팅내역</th>
-                </tr>
-                <tr id="chatContents">
-                    <td id="chat_contents" colspan="2">
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>
-
-                        <input type="text" name="c_contents" id="c_contents" style="width: 350px"
-                               placeholder="상대에게 보낼 내용을 입력하세요."/>
-                    </td>
-                    <td><input type="button" value="보내기" onclick="chatInsert()"/></td>
-                </tr>
-            </table>
+        <div id="chat_right" class="col-8">
+            <div>
+                <h5>채팅하기</h5>
+            </div>
+            <div id="chat_contents">
+                <h5>목록에서 채팅방을 선택해주세요.</h5>
+            </div>
+            <div id="chat_input_field">
+                <input type="text" class="form-control me-2" name="c_contents" id="c_contents" placeholder="메시지 입력"/>
+                <input type="button" class="btn btn-primary btn-color-thebora" value="보내기" onclick="chatInsert()"/>
+            </div>
         </div>
     </div>
 </section>
-
 <footer>
     <jsp:include page="../footer.jsp"></jsp:include>
 </footer>
@@ -135,7 +86,10 @@
                 chatList +=`<input id="c_title" type="text" hidden="hidden" value="`+chat.c_title+`"/>`
                 chatList +=`<input id="c_sendid" type="text" hidden="hidden" value="`+chat.c_sendid+`"/>`
             })
-    $('#chat_contents').html(chatList);
+            $('#chat_contents').html(chatList);
+            $('#chat_contents').css("overflow-y", "scroll");
+            $('#chat_input_field').css("visibility", "visible");
+
 
         }).fail((err) => {
             console.log("에러원인:" + err);
