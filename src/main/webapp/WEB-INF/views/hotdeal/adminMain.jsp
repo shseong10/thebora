@@ -53,10 +53,10 @@
                         // const modalViewImg = document.getElementById('h_p_img');
                         // modalViewImg.setAttribute('src', '/upload/' + modalViewImgFilename);
                         //DTO로 가져온 데이터로 배열 생성(원본파일명, 시스템파일명 조합)
-                        const savedImgList = new Array();
-                        for (file : result[0].ifList) {
-
-                        }
+                        // const savedImgList = new Array();
+                        // for (file : result[0].ifList) {
+                        //
+                        // }
 
                         savedImgList.push({oriFileName: '${item.bf_orifilename}', sysFileName: '${item.bf_sysfilename}'});
 
@@ -280,7 +280,30 @@
         </table>
     </div>
     <div class="d-grid gap-2 mb-3 mx-auto">
-        <div class="paging">${paging}</div>
+        <div class="pagination justify-content-center mt-4">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <!-- Previous button -->
+                    <li class="page-item <c:if test='${startPage == 1}'> disabled </c:if>'">
+                        <a class="page-link" href="?pageNum=${startPage - pageCount}" aria-label="Previous">
+                            이전
+                        </a>
+                    </li>
+                    <!-- Page numbers -->
+                    <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                        <li class="page-item<c:if test='${currentPage == i}'> active </c:if>'" aria-current="page">
+                            <a class="page-link" href="?pageNum=${i}">${i}</a>
+                        </li>
+                    </c:forEach>
+                    <!-- Next button -->
+                    <li class="page-item <c:if test='${endPage == totalPages}'> disabled </c:if>'">
+                        <a class="page-link" href="?pageNum=${endPage + 1}" aria-label="Next">
+                            다음
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
         <a href="/hotdeal/add_item" class="btn btn-primary btn-color-thebora" role="button">상품 등록 페이지를 열기</a>
         <a href="/hotdeal/list" class="btn btn-primary btn-color-thebora" role="button">판매 페이지로 돌아가기</a>
     </div>

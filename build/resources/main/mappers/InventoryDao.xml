@@ -50,19 +50,7 @@
         order by sb_num desc
         limit #{startIdx}, #{listCnt}
     </select>
-    <select id="getInventoryListSearch" parameterType="HashMap" resultMap="ifList" resultType="InventoryDto">
-        select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel,
-        date_format(sb_timer,'%Y-%m-%d %H:%i') sb_timer_str,
-        bf_orifilename, bf_sysfilename
-        from saleboard left join boardfile
-        on sb_num=bf_sb_num
-        <if test="keyWord!=null">
-            where sb_title like concat('%',#{keyWord},'%')
-            or sb_contents like concat('%',#{keyWord},'%')
-        </if>
-        order by sb_num desc
-        limit #{startIdx}, #{listCnt}
-    </select>
+
     <!-- 관리자 페이지 보기 -->
     <select id="getAdmin" parameterType="HashMap" resultMap="ifList" resultType="InventoryDto">
         select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel,
@@ -105,4 +93,17 @@
             or sb_contents like concat('%',#{keyWord},'%')
         </if>
     </select>
+
+    <select id="countHotdealItems" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM saleboard WHERE sb_scope = 1 and sb_salekind = 3
+        <if test="sb_category != null and sb_category != ''">
+            and sb_category = #{sb_category}
+        </if>
+        <if test="keyWord != null and keyWord != ''">
+            and (sb_category like concat('%',#{keyWord},'%') or sb_title like concat('%',#{keyWord},'%') or sb_contents like concat('%',#{keyWord},'%')
+            or sb_local like concat('%',#{keyWord},'%'))
+        </if>
+
+    </select>
+
 </mapper>

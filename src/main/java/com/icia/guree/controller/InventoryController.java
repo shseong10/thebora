@@ -71,7 +71,7 @@ public class InventoryController {
 
     //상품 목록
     @GetMapping("/hotdeal/list")
-    public String inventoryList(BoardDto sDto, Model model, HttpSession session) throws JsonProcessingException {
+    public String inventoryList(SearchDto sDto, Model model, HttpSession session) throws JsonProcessingException {
         int totalItems = iSer.countMarketItems(sDto);
         int totalPages = (int) Math.ceil((double) totalItems / BoardService.LISTCNT);
         if (sDto.getPageNum() == null || sDto.getPageNum() < 1) {
@@ -84,7 +84,6 @@ public class InventoryController {
         int startPage = currentGroup * BoardService.PAGECOUNT + 1;
         int endPage = Math.min(startPage + BoardService.PAGECOUNT - 1, totalPages);
 
-
         List<InventoryDto> iList = iSer.getInventoryList(sDto.getPageNum());
 
         if (iList != null) {
@@ -96,11 +95,9 @@ public class InventoryController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("pageCount", BoardService.PAGECOUNT);
-
         }
 
         return "hotdeal/itemList";
-
         }
 
 //상품 상세
@@ -233,35 +230,39 @@ public String buyItem(OrderDto order, HttpSession session, RedirectAttributes rt
 //관리자페이지
 @GetMapping("/hotdeal/admin/main")
 public String getAdmin(SearchDto sDto, Model model, HttpSession session) throws JsonProcessingException {
-    // 기본값 설정
-    if (sDto.getPageNum() == null) {
-        sDto.setPageNum(1);
-    }
-    if (sDto.getListCnt() == null) {
-        sDto.setListCnt(InventoryService.LISTCNT);
-    }
-    if (sDto.getStartIdx() == null) {
-        sDto.setStartIdx(0);
-    }
     List<CategoryDto> cList = iSer.getCategoryList();
     if (cList != null) {
         System.out.println("cList:" + cList);
         model.addAttribute("cList", cList);
     }
-    List<InventoryDto> iList = null;
-    if (sDto.getKeyWord() == null || sDto.getKeyWord().equals("")) {
-        iList = iSer.getInventoryList(sDto.getPageNum());
-    } else {
-        iList = iSer.getInventoryListSearch(sDto);
+
+    int totalItems = iSer.countMarketItems(sDto);
+    int totalPages = (int) Math.ceil((double) totalItems / BoardService.LISTCNT);
+    if (sDto.getPageNum() == null || sDto.getPageNum() < 1) {
+        sDto.setPageNum(1);
+    } else if (sDto.getPageNum() > totalPages) {
+        sDto.setPageNum(totalPages);
     }
+
+    int currentGroup = (sDto.getPageNum() - 1) / BoardService.PAGECOUNT;
+    int startPage = currentGroup * BoardService.PAGECOUNT + 1;
+    int endPage = Math.min(startPage + BoardService.PAGECOUNT - 1, totalPages);
+
+    List<InventoryDto> iList = iSer.getInventoryList(sDto.getPageNum());
+
     if (iList != null) {
         System.out.println("관리자페이지 테이블 출력==================");
         System.out.println("iList:" + iList);
-        String pageHtml = iSer.getPaing(sDto);
-        model.addAttribute("json", new ObjectMapper().writeValueAsString(iList));
         model.addAttribute("iList", iList);
-        model.addAttribute("paging", pageHtml);
+        model.addAttribute("json", new ObjectMapper().writeValueAsString(iList));
+        model.addAttribute("keyWord", sDto.getKeyWord());
+        model.addAttribute("currentPage", sDto.getPageNum());
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("pageCount", BoardService.PAGECOUNT);
         return "hotdeal/adminMain";
+
     } else {
         return "redirect:/hotdeal/list";
     }
