@@ -31,6 +31,7 @@ public class BoardDto {
     private String sb_count;
     private String sb_date;
     private String sb_scope;
+    private String sb_buyLevel;
     private String sb_view;
     private String a_num;
     private String a_joinId;

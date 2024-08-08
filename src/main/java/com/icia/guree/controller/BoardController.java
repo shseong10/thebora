@@ -121,7 +121,7 @@ public class BoardController {
         model.addAttribute("file", file);
         return "board/auctionDetail";
     }
-    // 입찰하기
+    // 입찰하기 (이거 비동기로 바꿈)
 //    @PreAuthorize("isAuthenticated()")
 //    @PostMapping("/board/attend")
 //    public String attend(BoardDto bDto, Model model) {
@@ -153,6 +153,33 @@ public class BoardController {
 //        }
 //        return "redirect:/member/login";
 //    }
+
+ // 경매 신청 페이지
+    @GetMapping("/board/auctionApply")
+    public String auctionApply(Model model) {
+        List<String> cateList = bSer.cateList();
+        model.addAttribute("cateList", cateList);
+
+        return "board/auctionApply";
+    }
+    // 경매 신청
+    @PostMapping("/board/auctionApply")
+    public String auctionApply(BoardDto bDto, HttpSession session) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            bDto.setSb_id(userDetails.getUsername());
+            log.info("======================" + bDto.toString());
+            boolean result = bSer.auctionApply(bDto, session);
+            if (result) {
+                return "redirect:/board/auctionApply";
+            }
+            return "redirect:/board/auctionApply";
+        }
+
+        return "redirect:/member/login";
+    }
+
 
 
     // 경매 게시글 삭제

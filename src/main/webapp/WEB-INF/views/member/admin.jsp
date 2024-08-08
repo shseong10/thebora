@@ -35,6 +35,77 @@
 
     })
 
+    function goAuctionApply() {
+        $.ajax({
+            method: 'post',
+            url: '/admin/auctionApplyList',
+
+        }).done((resp) => {
+            let dList = `<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">상품명</th>
+        <th scope="col">카테고리</th>
+        <th scope="col">수량</th>
+        <th scope="col">희망 즉시구매가</th>
+        <th scope="col">희망 시작가</th>
+        <th scope="col">희망 최소입찰가</th>
+        <th scope="col">희망 판매기간</th>
+        <th scope="col">신청 시간</th>
+        <th scope="col">신청자</th>
+    </tr>
+    </thead>
+    <tbody id="delList">`;
+            $.each(resp, function (i, delList) {
+                dList += `
+                <tr>
+			        <th scope="row">` + delList.sb_num + `</th>
+			        <td>
+			        	<a href="/board/auctionDetail?sb_num=` + delList.sb_num + `">` + delList.sb_title + `</a>
+		        	</td>
+			        <td id="_category">`
+                    + delList.sb_category +
+                    `</td>
+			        <td id="_price">`
+                    + delList.sb_count +
+                    `</td>
+			        <td id="_enddate">`
+                    + delList.sb_price +
+                    `</td>
+			        <td id="_enddate">`
+                    + delList.sb_startPrice +
+                    `</td>
+                     <td id="_enddate">`
+                    + delList.sb_bid +
+                    `</td>
+                     <td id="_enddate">`
+                    + delList.sb_buyLevel +
+                    `</td>
+                     <td id="_enddate">`
+                    + delList.sb_date +
+                    `</td>
+                     <td id="_enddate">`
+                    + delList.sb_id +
+                    `</td>
+                    <td>
+			        	<button onclick="reject(`+ delList.sb_num +`)" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
+		        	</td>
+                     <td>
+			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="reUpload(`+delList.sb_num +`)"> 경매 올리기 </button>
+		        	</td>
+	        	</tr>
+ </tbody>`
+
+            })
+            dList += `</table>`
+            $('#management_btn').html(dList);
+            console.log(resp)
+        }).fail((err) => {
+
+        })
+    }
+
     function goBoardManager() {
 
         $.ajax({
@@ -347,6 +418,7 @@
 
 
     <div>
+        <button type="button" class="btn btn-primary btn-color-thebora" onclick="goAuctionApply()">경매 신청 관리</button>
         <button type="button" class="btn btn-primary btn-color-thebora" onclick="goAuctionEndManager()">경매 완료 게시글 관리</button>
         <button type="button" class="btn btn-primary btn-color-thebora" onclick="goBoardManager()">경매 삭제 게시글 관리</button>
         <button type="button" class="btn btn-primary btn-color-thebora" onclick="goMarketBoardManager()">중고거래 삭제 게시글 관리</button>

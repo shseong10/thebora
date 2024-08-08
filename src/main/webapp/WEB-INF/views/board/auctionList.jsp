@@ -41,7 +41,7 @@
         <input id="auction-keyWord" class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
         <button id="auction-search" class="btn btn-primary btn-color-thebora" type="button"><i class="bi bi-search"></i></button>
     </div>
-    <a href="/board/auctionRegister" class="btn btn-primary btn-color-thebora" role="button">상품등록</a>
+    <a href="/board/auctionApply" class="btn btn-primary btn-color-thebora" role="button">경매신청</a>
     <div>
         <ul id="sb_category">
             <li name="sb_category"><a href="/board/auctionList?pageNum=1">전체</a></li>

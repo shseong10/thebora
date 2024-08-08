@@ -130,7 +130,7 @@
             <div class="profile-info">
                 <ul class="nav nav-pills">
                     <li class="nav-item">
-                        <a class="nav-link" href="/board/auctionRegister">판매하기</a>
+                        <a class="nav-link" href="/board/marketRegister">판매하기</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">완료내역</a>

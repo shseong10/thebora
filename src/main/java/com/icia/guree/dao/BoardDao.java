@@ -99,4 +99,8 @@ public interface BoardDao {
     List<ChattingDto> getChatRoom(ChattingDto cDto);
 
     boolean chatInsert(ChattingDto cDto);
+
+    boolean auctionApply(BoardDto bDto);
+
+    List<BoardDto> auctionApplyList();
 }
