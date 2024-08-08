@@ -59,8 +59,8 @@
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
-                    <button class="btn btn-primary btn-color-thebora" type="submit" id="button_search"><i
+                    <input id="header-keyWord" class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
+                    <button class="btn btn-primary btn-color-thebora" type="button" id="button_search"><i
                             class="bi bi-search"></i>
                     </button>
                 </form>
@@ -180,8 +180,8 @@
         })
     }
 
-
-    $("#header-search").click(function () {
+    // 전체검색
+    $("#button_search").click(function () {
         let keyWord = $("#header-keyWord").val();
         if (keyWord === "") {
             alert("검색어를 입력하세요.");

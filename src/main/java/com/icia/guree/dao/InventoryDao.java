@@ -1,5 +1,6 @@
 package com.icia.guree.dao;
 
+import com.icia.guree.entity.BoardDto;
 import com.icia.guree.entity.CategoryDto;
 import com.icia.guree.entity.InventoryDto;
 import com.icia.guree.entity.SearchDto;
@@ -51,4 +52,6 @@ public interface InventoryDao {
 
     @Delete("delete from boardfile where bf_sb_num=#{sb_num} and bf_orifilename=#{bf_orifilename}")
     boolean deleteSelFmap(Map fMap);
+
+    int countHotdealItems(BoardDto sDto);
 }

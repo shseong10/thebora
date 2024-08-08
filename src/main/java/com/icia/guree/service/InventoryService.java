@@ -3,6 +3,7 @@ package com.icia.guree.service;
 import com.icia.guree.common.FileManager;
 import com.icia.guree.common.Paging;
 import com.icia.guree.dao.InventoryDao;
+import com.icia.guree.entity.BoardDto;
 import com.icia.guree.entity.CategoryDto;
 import com.icia.guree.entity.InventoryDto;
 import com.icia.guree.entity.SearchDto;
@@ -162,5 +163,10 @@ public class InventoryService {
         sDto.setStartIdx((pageNum-1)*sDto.getListCnt());
         List<InventoryDto> iList = iDao.getInventoryListSearch(sDto);
         return iList;
+    }
+
+    public int countMarketItems(BoardDto sDto) {
+        return iDao.countHotdealItems(sDto);
+
     }
 }

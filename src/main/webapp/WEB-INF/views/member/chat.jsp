@@ -74,7 +74,6 @@
         console.log('${userId}');
 
 
-        if ('${userId}')
     })
 
     function chatRoom(buyer, seller, title) {

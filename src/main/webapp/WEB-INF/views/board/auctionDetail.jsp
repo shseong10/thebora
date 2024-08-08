@@ -25,6 +25,11 @@
 </head>
 <style>
 
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+
     .carousel-item {
 
         margin: auto;
@@ -148,7 +153,7 @@
                 <%--                <form action="/board/attend" method="post" class="bid_form">--%>
                 <div class="d-grid gap-2 d-md-block mb-3">
                     <%--                        <input type="hidden" name="sb_num" value="${bDto.sb_num}">--%>
-                    <input type="text" name="a_bidPrice" id="bidPrice" placeholder="입찰가격">
+                    <input type="number" name="a_bidPrice" id="bidPrice" placeholder="입찰가격">
                     <input type="button" class="btn btn-primary btn-color-thebora" onclick="userbtnclic()" value="입찰하기">
                 </div>
                 <%--                </form>--%>
