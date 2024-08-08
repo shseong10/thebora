@@ -71,6 +71,11 @@
         values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, #{sb_startPrice}, 0, #{sb_price}, #{sb_bid}, #{sb_timer}, #{sb_local}, #{sb_count}, default, #{sb_scope}, default,default)
     </insert>
 
+    <insert id="auctionApply">
+        insert into saleboard
+        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, #{sb_startPrice}, 0, #{sb_price}, #{sb_bid}, null , #{sb_local}, #{sb_count}, default, #{sb_scope}, default,#{sb_timer})
+    </insert>
+
     <insert id="auctionUser">
         insert into auctionprogress
         values (null, #{sb_num}, #{a_joinId}, #{a_bidPrice})
@@ -269,6 +274,10 @@
         select * from auction where sb_scope = 3
     </select>
 
+    <select id="auctionApplyList">
+        select * from saleboard where sb_salekind = 4
+    </select>
+
     <select id="getAlertInfo">
         select * from alertinfo where seller = #{sb_id} order by sb_num desc
     </select>
@@ -300,7 +309,7 @@
     </delete>
 
     <update id="reUpload">
-        update saleboard set sb_scope = 1, sb_timer = #{sb_timer} where sb_num = #{sb_num}
+        update saleboard set sb_scope = 1,sb_saleKind = 1, sb_timer = #{sb_timer}, sb_date = now() where sb_num = #{sb_num}
     </update>
 
 
