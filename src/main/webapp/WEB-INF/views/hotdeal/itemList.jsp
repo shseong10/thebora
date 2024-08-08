@@ -34,25 +34,17 @@
             </div>
         </div>
     </div>
-    <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="row row-cols-1 row-cols-md-4 g-4">
         <c:forEach var="item" items="${iList}">
             <div class="col">
-                <div class="card"> <%-- 테두리 css 적용되는 부분 --%>
-                    <div class="row g-0 h-100 hotdeal-item-wrapper"> <%-- 카드 내부 좌우구분 --%>
-<%--                        <div class="col-md-4 h-100" style="background-image: url('/upload/${item.ifList[0].bf_sysfilename}'); background-size: cover; background-position: 50% 50%;">--%>
-                        <div class="col-md-4 h-100 hotdeal-item-thumbnail bordder">
-                                <%-- 카드 좌측 --%>
-                            <img src="/upload/${item.ifList[0].bf_sysfilename}" class="img-fluid rounded-start">
-                        </div>
-                        <div class="col-md-8 h-100 hotdeal-item-text bordder">
-                                <%-- 카드 우측 --%>
-                            <div class="card-body h-100">
-                                <h5 class="card-title"><a href="/hotdeal/list/detail?sb_num=${item.sb_num}" class="stretched-link">${item.sb_title}</a></h5>
-                                <p class="card-text">${item.sb_category}</p>
-                                <p class="card-text">${item.sb_startprice}원</p>
-                                <p class="card-text"><small class="text-body-secondary">${item.sb_contents}</small></p>
-                            </div>
-                        </div>
+                <div class="hotdeal-item-wrapper position-relative">
+                    <div class="hotdeal-item-thumbnail rounded-1" style="background-image: url('/upload/${item.ifList[0].bf_sysfilename}'); background-size: cover; background-position: 50% 50%;">
+                            <%-- 카드 상 --%>
+                    </div>
+                    <div class="hotdeal-item-text">
+                        <a href="/hotdeal/list/detail?sb_num=${item.sb_num}" class="stretched-link"><h5>${item.sb_title}</h5></a>
+                        <small class="text-body-secondary">${item.sb_category}</small>
+                        <p class="hotdeal-item-price">${item.sb_startprice}원</p>
                     </div>
                 </div>
             </div>

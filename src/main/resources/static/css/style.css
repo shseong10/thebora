@@ -373,21 +373,30 @@ footer {
   width: 47%;
 }
 
-#hotdeal-wrapper .hotdeal-item-wrapper,
-.hotdeal-item-thumbnail, .hotdeal-item-text{
+.hotdeal-item-wrapper {
+  margin-bottom: 5rem;
+}
+
+
+.hotdeal-item-thumbnail {
   min-height: 20rem;
   max-height: 20rem;
   overflow: hidden;
+  border: 1px #dee2e6 solid;
 }
 
-.hotdeal-item-thumbnail {
+.hotdeal-item-text {
   overflow: hidden;
+  max-height: 10rem;
+  padding-top: 0.5rem;
 }
 
-.hotdeal-item-thumbnail img{
-
+.hotdeal-item-text h5 {
+  margin-bottom: 0;
 }
 
-.bordder {
-  border: 1px blue solid;
+
+.hotdeal-item-price {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
