@@ -24,9 +24,9 @@ public class InventoryRestController {
     }
 
     @GetMapping("/hotdeal/admin/quickview")
-    public List<InventoryDto> getQuickView(@RequestParam("h_p_num") Integer h_p_num, Model model) {
-        log.info("<<<<<<<h_p_num=" + h_p_num);
-        List<InventoryDto> quickView = iSer.getQuickView(h_p_num);
+    public List<InventoryDto> getQuickView(@RequestParam("sb_num") Integer sb_num, Model model) {
+        log.info("<<<<<<<sb_num=" + sb_num);
+        List<InventoryDto> quickView = iSer.getQuickView(sb_num);
         log.info("<<<<<<<<InventoryDto: {}", quickView);
         model.addAttribute("quickView", quickView);
         return quickView;

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <title>더보라</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -13,7 +13,10 @@
     <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
     <link rel="stylesheet" href="/api/ckeditor5/style.css">
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.css">
+    <link rel="stylesheet" href="/css/style.css">
     <script>
+        const dataTransfer = new DataTransfer();
+
         function modalView(e){
             let objNum = parseInt(e.name); //클릭한 대상의 id값(=상품번호)을 가져와서 저장
 
@@ -30,7 +33,7 @@
                         const modalViewNum = document.getElementById('sb_num');
                         const modalViewsb_title = document.getElementById('sb_title');
                         const modalViewPrice = document.getElementById('sb_startprice');
-                        const modalViewEnddate = document.getElementById('sb_date');
+                        const modalViewEnddate = document.getElementById('sb_timer');
                         const modalViewBuylevel = document.getElementById('sb_buylevel');
                         const modalViewQty = document.getElementById('sb_count');
                         const modalViewDesc = document.getElementById('sb_contents_hidden');
@@ -40,7 +43,7 @@
                         modalViewNum.setAttribute('value', result[0].sb_num);
                         modalViewsb_title.setAttribute('value', result[0].sb_title);
                         modalViewPrice.setAttribute('value', result[0].sb_startprice);
-                        modalViewEnddate.setAttribute('value', result[0].sb_date);
+                        modalViewEnddate.setAttribute('value', result[0].sb_timer);
                         modalViewBuylevel.setAttribute('value', result[0].sb_buylevel);
                         modalViewQty.setAttribute('value', result[0].sb_count);
                         modalViewDesc.innerHTML = result[0].sb_contents;
@@ -49,18 +52,19 @@
                         modalViewDesc.click();
 
                         //저장된 이미지 가져오기
-                        // const modalViewImgFilename = result[0].ifList[0].bf_sysfilename;
-                        // const modalViewImg = document.getElementById('h_p_img');
-                        // modalViewImg.setAttribute('src', '/upload/' + modalViewImgFilename);
-                        //DTO로 가져온 데이터로 배열 생성(원본파일명, 시스템파일명 조합)
-                        // const savedImgList = new Array();
-                        // for (file : result[0].ifList) {
-                        //
-                        // }
+                        const modalViewImgFilename = result[0].ifList[0].bf_sysfilename;
+                        const modalViewImg = document.getElementById('preview_main_img');
+                        modalViewImg.setAttribute('src', '/upload/' + modalViewImgFilename);
 
-                        savedImgList.push({oriFileName: '${item.bf_orifilename}', sysFileName: '${item.bf_sysfilename}'});
+                        //DTO로 가져온 데이터로 배열 생성(원본파일명, 시스템파일명 조합)
+                        const savedImgList = new Array();
+                        for (let i = 0; i < result[0].ifList.length; i++){
+                            savedImgList.push({oriFileName: result[0].ifList[i].bf_orifilename, sysFileName: result[0].ifList[i].bf_sysfilename});
+                        }
 
                         //이미지 객체를 만들어서 문서 내에 추가
+                        const previewSub = document.getElementById('preview_sub');
+
                         if (savedImgList.length > 0) {
                             for (let i = 0; i < savedImgList.length; i++) {
                                 const savedImg = document.createElement('img');
@@ -90,17 +94,17 @@
                             enableTime: true,
                             dateFormat: "Y-m-d H:i",
                             "locale": "ko",
-                            defaultDate: result[0].sb_date
+                            defaultDate: result[0].sb_timer
                         });
                         fp.config.onChange.push(function (selectedDates, dateStr, fp) {
                             const date = new Date(dateStr);
                             const isoDateTime = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
 
-                            document.getElementById('sb_date').value = isoDateTime;
+                            document.getElementById('sb_timer').value = isoDateTime;
                         })
 
                         //판매기간 체크
-                        if (result[0].sb_date != '') {
+                        if (result[0].sb_timer != '') {
                             document.getElementById('radioDate1').checked = false;
                             document.getElementById('radioDate2').checked = true;
                         } else {
@@ -130,7 +134,7 @@
             const UpdateCategory = document.getElementById('sb_category');
             const Updatesb_title = document.getElementById('sb_title');
             const UpdatePrice = document.getElementById('sb_startprice');
-            const UpdateEnddate = document.getElementById('sb_date');
+            const UpdateEnddate = document.getElementById('sb_timer');
             const UpdateBuylevel = document.getElementById('sb_buylevel');
             const UpdateQty = document.getElementById('sb_count');
             const UpdateDesc = document.getElementById('sb_contents');
@@ -150,7 +154,7 @@
             reqJson.sb_category = inputCategory;
             reqJson.sb_title = inputName;
             reqJson.sb_startprice = inputPrice;
-            if (inputEnddate != "null") reqJson.sb_date = inputEnddate;
+            if (inputEnddate != "null") reqJson.sb_timer = inputEnddate;
             reqJson.sb_buylevel = inputBuylevel;
             reqJson.sb_count = inputQty;
             reqJson.sb_contents = inputDesc;
@@ -165,8 +169,8 @@
                         console.log('모달창 내용 업데이트')
                         console.log(update_result);
 
-                        if (update_result.sb_date != null) {
-                            const enddate = new Date(update_result.sb_date)
+                        if (update_result.sb_timer != null) {
+                            const enddate = new Date(update_result.sb_timer)
 
                             const yyyy = enddate.getFullYear()
                             const mm = enddate.getMonth() + 1 // getMonth() is zero-based
@@ -174,9 +178,9 @@
                             const hh = enddate.getHours()
                             const ii = enddate.getMinutes()
 
-                            const sb_date = yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + ii
+                            const sb_timer = yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + ii
                             const listEnddate = document.getElementById(inputNum+'_enddate');
-                            listEnddate.textContent = sb_date;
+                            listEnddate.textContent = sb_timer;
                         }
 
                         const sb_category = update_result.sb_category;
@@ -204,6 +208,51 @@
             httpRequest.send(JSON.stringify(reqJson));
         }
 
+
+        function removePreSub() {
+            console.log('dataTransfer 추가 완료')
+
+            console.log(dataTransfer.files)
+
+            const fileName = this.alt; //선택한 이미지의 파일명을 변수에 저장
+            const preSubAll = document.querySelectorAll('.pre-sub'); //문서 내 썸네일 요소를 배열에 저장
+
+            //선택한 이미지가 업로드 목록 중 몇 번째 파일인지 검사
+            let preSubIdx;
+            for (let i = 0; i < preSubAll.length; i++) {
+                if (preSubAll[i].alt == fileName) preSubIdx = i; //만일 i번째 파일이 파일명과 일치한다면 선택한 이미지는 i번
+            }
+
+            console.log(preSubIdx + '번째 파일 ' + fileName + '를 삭제')
+
+            //dataTransfer에서 선택한 이미지의 순서에 해당하는 파일을 삭제
+            dataTransfer.items.remove(preSubIdx);
+            console.log('dataTransfer 삭제 완료')
+            console.log(dataTransfer.files)
+
+            fileElem.files = dataTransfer.files;
+
+            //선택한 이미지를 화면에서 삭제
+            this.remove();
+        }
+
+        function removePreSubOri() {
+            const fileName = this.alt; //선택한 이미지의 파일명을 변수에 저장
+
+            console.log('기존 파일 ' + fileName + '를 삭제')
+
+            const deleteFile = document.createElement('input');
+            deleteFile.setAttribute('type', 'hidden');
+            deleteFile.setAttribute('name', 'deleteFile');
+            deleteFile.setAttribute('id', fileName);
+            deleteFile.setAttribute('value', fileName);
+            document.getElementById('preview_sub').appendChild(deleteFile);
+
+            //선택한 이미지를 화면에서 삭제
+            this.remove();
+        }
+
+
         //검색
         function search() {
             let keyWord = document.getElementById('keyWord').value;
@@ -211,7 +260,7 @@
                 alert('검색어를 입력하세요.')
                 return;
             }
-            location.href = '/admin/main?keyWord='+keyWord+'&pageNum=1'
+            location.href = '/hotdeal/admin/main?keyWord='+keyWord+'&pageNum=1'
         }
 
     </script>
@@ -220,7 +269,7 @@
 <header>
     <jsp:include page="../header.jsp"></jsp:include>
 </header>
-<div class="w-75 mt-5 mx-auto">
+<main id="hotdeal-admin-page" class="w-75 mt-5 mx-auto">
     <div class="d-flex mb-2">
         <div class="p-2">
 <%--            <a href="/hotdeal/admin/main"><img src="/upload/logo.png" width="25%"></a>--%>
@@ -231,7 +280,7 @@
             <button type="button" id="search" onclick="search()" class="btn btn-primary btn-color-thebora"><i class="bi bi-search"></i></button>
         </div>
     </div>
-    <div class="card mb-3">
+    <div class="border rounded-1 mb-3">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -251,7 +300,7 @@
                     <tr>
                         <th scope="row">${item.sb_num}</th>
                         <td>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal_container" onclick="modalView(this)" name="${item.sb_num}" id="${item.sb_num}_name">${item.sb_title}</a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal_container" onclick="modalView(this)" name="${item.sb_num}" id="${item.sb_num}_name" class="item-title">${item.sb_title}</a>
                         </td>
                         <td>
                             <a href="/hotdeal/list/detail?sb_num=${item.sb_num}" target="_blank"><i class="bi bi-plus-square-fill"></i></a>
@@ -266,7 +315,7 @@
                             ${item.sb_count}
                         </td>
                         <td id="${item.sb_num}_enddate">
-                            ${item.sb_date}
+                            ${item.sb_timer_str}
                         </td>
                         <td id="${item.sb_num}_buylevel">
                             ${item.sb_buylevel}
@@ -307,7 +356,7 @@
         <a href="/hotdeal/add_item" class="btn btn-primary btn-color-thebora" role="button">상품 등록 페이지를 열기</a>
         <a href="/hotdeal/list" class="btn btn-primary btn-color-thebora" role="button">판매 페이지로 돌아가기</a>
     </div>
-</div>
+</main>
 
 <!-- Modal -->
 <div class="modal fade modal-xl" id="modal_container" tabindex="-1" aria-labelledby="modal_containerLabel" aria-hidden="true">
@@ -323,7 +372,7 @@
                         <div class="col-md-4">
                             <div class="text-center align-middle h-100">
                                 <div onclick="upload()" id="preview_main">
-                                    &nbsp;
+                                    <img src="/img/logo.png" id="preview_main_img">
                                 </div>
                                 <div id="preview_sub" class="row row-cols-4">
                                 </div>
@@ -372,7 +421,7 @@
                                                     지정일까지
                                                 </label>
                                                 <input type="datetime-local" class="form-control myInput mt-1" placeholder="날짜를 선택하세요." readonly="readonly">
-                                                <input type="text" name="sb_date" id="sb_date" hidden="hidden">
+                                                <input type="text" name="sb_timer" id="sb_timer" hidden="hidden">
                                             </div>
                                         </div>
                                     </div>
@@ -427,7 +476,7 @@
             <div class="modal-footer d-flex">
                 <button type="button" class="btn btn-danger me-auto" data-bs-dismiss="modal">상품 삭제</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary btn-color-thebora" onclick="quickUpdate()" data-bs-dismiss="modal">변경사항 저장</button>
+                <button type="button" class="btn btn-primary btn-color-thebora" onclick="quickUpdate()" data-bs-dismiss="modal" id="quicksave">변경사항 저장</button>
             </div>
         </div>
     </div>

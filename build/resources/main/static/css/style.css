@@ -395,8 +395,34 @@ footer {
   margin-bottom: 0;
 }
 
+.text-body-secondary img {
+  display: none !important;
+}
 
 .hotdeal-item-price {
   font-size: 1.5rem;
   font-weight: bold;
+}
+
+/* 핫딜 관리자 페이지 */
+#hotdeal-admin-page .item-title {
+  color: #212529 !important;
+}
+
+
+#preview_main {
+  background-image: url("https://icons.getbootstrap.com/assets/icons/images.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
+
+  cursor:pointer;
+  border:1px black solid;
+  min-height: 80%;
+
+  text-align: center;
+}
+
+#preview_main img {
+  width: 100%;
 }
