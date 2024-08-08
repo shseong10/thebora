@@ -143,30 +143,7 @@ public class InventoryService {
         }
     }
 
-    public String getPaing(SearchDto sDto) {
-        int totalNum=iDao.getInventoryCount(sDto); //전체 글의 갯수, 키워드 있거나 없거나
-        log.info(">>>>>>totalNum:{}",totalNum);
-        String listUrl=null;
-        if(sDto.getKeyWord()!=null) {
-            listUrl="/admin/main?keyWord="+sDto.getKeyWord()
-                    + "&";
-        }else {
-            listUrl = "/admin/main?";
-        }
-        Paging paging=new Paging(totalNum,sDto.getPageNum(),sDto.getListCnt(),PAGECOUNT,listUrl);
-        return paging.makeHtmlPaging();
-    }
-
-    public List<InventoryDto> getInventoryListSearch(SearchDto sDto) {
-        int pageNum= sDto.getPageNum();
-        //limit  1page: idx(0)~,  2page: idx(10)~
-        sDto.setStartIdx((pageNum-1)*sDto.getListCnt());
-        List<InventoryDto> iList = iDao.getInventoryListSearch(sDto);
-        return iList;
-    }
-
-    public int countMarketItems(BoardDto sDto) {
+    public int countMarketItems(SearchDto sDto) {
         return iDao.countHotdealItems(sDto);
-
     }
 }

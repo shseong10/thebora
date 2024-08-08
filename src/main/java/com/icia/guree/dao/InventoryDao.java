@@ -46,12 +46,10 @@ public interface InventoryDao {
 
     List<InventoryDto> getQuickView(Integer sb_num);
 
-    int getInventoryCount(SearchDto sDto);
-
     List<InventoryDto> getInventoryListSearch(SearchDto sDto);
 
     @Delete("delete from boardfile where bf_sb_num=#{sb_num} and bf_orifilename=#{bf_orifilename}")
     boolean deleteSelFmap(Map fMap);
 
-    int countHotdealItems(BoardDto sDto);
+    int countHotdealItems(SearchDto sDto);
 }
