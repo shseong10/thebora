@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <title>더보라</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -99,22 +99,6 @@
 
     </script>
     <style>
-        #preview_main {
-            background-image: url("https://icons.getbootstrap.com/assets/icons/images.svg");
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: 50%;
-
-            cursor:pointer;
-            border:1px black solid;
-            min-height: 80%;
-
-            text-align: center;
-        }
-
-        #preview_main img {
-            width: 100%;
-        }
     </style>
 </head>
 <body>
