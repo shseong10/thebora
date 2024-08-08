@@ -22,8 +22,8 @@
 <header>
     <jsp:include page="../header.jsp"></jsp:include>
 </header>
-<main id="hotdeal-wrapper">
-    <div class="d-grid gap-2 w-75 mb-3 mx-auto">
+<main id="hotdeal-wrapper" class="mx-auto">
+    <div class="d-grid gap-2 mb-3">
         <div class="row">
             <div class="col-9">
                 <h1 class="">핫딜</h1>
@@ -34,15 +34,19 @@
             </div>
         </div>
     </div>
-    <div class="row row-cols-1 row-cols-md-2 g-4 w-75 mx-auto">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
         <c:forEach var="item" items="${iList}">
             <div class="col">
-                <div class="card mb-3 h-100 hotdeal-item-wrapper">
-                    <div class="row g-0 h-100">
-                        <div class="col-md-5" style="background-image: url('/upload/${item.ifList[0].bf_sysfilename}'); background-size: cover; background-position: 50% 50%">
+                <div class="card"> <%-- 테두리 css 적용되는 부분 --%>
+                    <div class="row g-0 h-100 hotdeal-item-wrapper"> <%-- 카드 내부 좌우구분 --%>
+<%--                        <div class="col-md-4 h-100" style="background-image: url('/upload/${item.ifList[0].bf_sysfilename}'); background-size: cover; background-position: 50% 50%;">--%>
+                        <div class="col-md-4 h-100 hotdeal-item-thumbnail bordder">
+                                <%-- 카드 좌측 --%>
+                            <img src="/upload/${item.ifList[0].bf_sysfilename}" class="img-fluid rounded-start">
                         </div>
-                        <div class="col-md-7">
-                            <div class="card-body">
+                        <div class="col-md-8 h-100 hotdeal-item-text bordder">
+                                <%-- 카드 우측 --%>
+                            <div class="card-body h-100">
                                 <h5 class="card-title"><a href="/hotdeal/list/detail?sb_num=${item.sb_num}" class="stretched-link">${item.sb_title}</a></h5>
                                 <p class="card-text">${item.sb_category}</p>
                                 <p class="card-text">${item.sb_startprice}원</p>

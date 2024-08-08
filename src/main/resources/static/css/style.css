@@ -364,11 +364,30 @@ footer {
 
 
 /* 핫딜 */
+#hotdeal-wrapper {
+  width: 75%;
+}
+
+
 #hotdeal-wrapper .btn {
   width: 47%;
 }
 
-#hotdeal-wrapper .hotdeal-item-wrapper {
+#hotdeal-wrapper .hotdeal-item-wrapper,
+.hotdeal-item-thumbnail, .hotdeal-item-text{
   min-height: 20rem;
   max-height: 20rem;
+  overflow: hidden;
+}
+
+.hotdeal-item-thumbnail {
+  overflow: hidden;
+}
+
+.hotdeal-item-thumbnail img{
+
+}
+
+.bordder {
+  border: 1px blue solid;
 }

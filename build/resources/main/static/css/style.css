@@ -12,8 +12,8 @@ a {
   font-style: normal;
 }
 
-/* 부트스트랩 요소 색상 강제변경 */
-.btn-color-thebora, .active>.page-link {
+/* 부트스트랩 요소 색상 강제변경 (페이징 포함) */
+.btn-color-thebora, .active>.page-link, .active>.page-link a {
   background: #712cf9 !important;
   border-color: #712cf9 !important;
   color: #ffffff !important;
@@ -25,7 +25,7 @@ a {
   color: #ffffff !important;
 }
 
-a:link, a:visited {
+a, a:link {
   color: #712cf9;
 }
 
@@ -33,8 +33,8 @@ a:hover, a:active {
   color: #5c25ca;
 }
 
-.pagination a:link, a:visited {
-  color: #212529;
+.card-title a:link, .card-title a:active, .card-title a:visited, .page-link {
+  color: #212529 !important;
 }
 
 /* 알람 */
@@ -360,4 +360,34 @@ footer {
 
 .toast-container {
   visibility: visible;
+}
+
+
+/* 핫딜 */
+#hotdeal-wrapper {
+  width: 75%;
+}
+
+
+#hotdeal-wrapper .btn {
+  width: 47%;
+}
+
+#hotdeal-wrapper .hotdeal-item-wrapper,
+.hotdeal-item-thumbnail, .hotdeal-item-text{
+  min-height: 20rem;
+  max-height: 20rem;
+  overflow: hidden;
+}
+
+.hotdeal-item-thumbnail {
+  overflow: hidden;
+}
+
+.hotdeal-item-thumbnail img{
+
+}
+
+.bordder {
+  border: 1px blue solid;
 }
