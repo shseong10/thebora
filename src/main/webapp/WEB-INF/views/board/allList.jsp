@@ -113,19 +113,19 @@
         <ul class="pagination">
             <!-- Previous button -->
             <li class="page-item <c:if test='${startPage == 1}'> disabled </c:if>'">
-                <a class="page-link" href="?pageNum=${startPage - pageCount}" aria-label="Previous">
+                <a class="page-link" href="?pageNum=${startPage - pageCount}&keyWord=${keyWord}" aria-label="Previous">
                     이전
                 </a>
             </li>
             <!-- Page numbers -->
             <c:forEach var="i" begin="${startPage}" end="${endPage}">
                 <li class="page-item<c:if test='${currentPage == i}'> active </c:if>'" aria-current="page">
-                    <a class="page-link" href="?pageNum=${i}">${i}</a>
+                    <a class="page-link" href="?pageNum=${i}&keyWord=${keyWord}">${i}</a>
                 </li>
             </c:forEach>
             <!-- Next button -->
             <li class="page-item <c:if test='${endPage == totalPages}'> disabled </c:if>'">
-                <a class="page-link" href="?pageNum=${endPage + 1}" aria-label="Next">
+                <a class="page-link" href="?pageNum=${endPage + 1}&keyWord=${keyWord}" aria-label="Next">
                     다음
                 </a>
             </li>

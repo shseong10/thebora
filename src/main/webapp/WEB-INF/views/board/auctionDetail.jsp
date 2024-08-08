@@ -25,6 +25,11 @@
 </head>
 <style>
 
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+
     .carousel-item {
 
         margin: auto;
@@ -148,7 +153,7 @@
                 <%--                <form action="/board/attend" method="post" class="bid_form">--%>
                 <div class="d-grid gap-2 d-md-block mb-3">
                     <%--                        <input type="hidden" name="sb_num" value="${bDto.sb_num}">--%>
-                    <input type="text" name="a_bidPrice" id="bidPrice" placeholder="입찰가격">
+                    <input type="number" name="a_bidPrice" id="bidPrice" placeholder="입찰가격">
                     <input type="button" class="btn btn-primary btn-color-thebora" onclick="userbtnclic()" value="입찰하기">
                 </div>
                 <%--                </form>--%>
@@ -295,42 +300,6 @@
 
     }
 
-    let websocket = null;
-    $(document).ready(function () {
-        //소켓 연결
-        webConnectWs();
-    });
-
-    function webConnectWs() {
-        //WebSocketConfig에서 설정한 endPoint("/push")로 연결
-        const ws = new SockJS("/push");
-        websocket = ws;
-
-        ws.onopen = function () {
-            console.log('open');
-        };
-
-        ws.onmessage = function (event) {
-            try {
-                const result = JSON.parse(event.data);
-                console.log(result);
-                if (result.type === "price") {
-                    $('#np').html(result.value);
-                }
-                if (result.type === "buyer") {
-                    $('#buyer').html("현재 입찰 예정자 : "+result.name);
-                }
-            } catch (e) {
-                console.error("에러원인", e);
-            }
-
-        };
-
-        ws.onclose = function () {
-            console.log('close');
-        };
-
-    }
 
 
 </script>

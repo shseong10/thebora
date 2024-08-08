@@ -68,23 +68,18 @@ public class EchoHandler extends TextWebSocketHandler {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String dateFm = now.format(formatter);
         String result = dateFm.substring(0, 19);
+        log.info("================alertMsg.getType()================ " + alertMsg.getType());
+        log.info("================alertMsg.getType()=========같냐======={}",alertMsg.getType().equals("chat"));
 
         if (alertMsg.getType().equals("chat")) {
-            String chat = "{\"type\":\"chat\",\"value\":\""+sendPushUsername(session)+" : "+alertMsg.getMsg()+"\"}";
-            for (WebSocketSession webSocketSession : sessions) {
-                if (webSocketSession.isOpen()) {
-                    if(sendPushUsername(session).equals(alertMsg.getSeller())){
-                        sendedPushSession2.sendMessage(new TextMessage(chat));
-                    }
-                    if(sendPushUsername(session).equals(alertMsg.getBuyer())){
-                        sendedPushSession.sendMessage(new TextMessage(chat));
-                    }
-//                    webSocketSession.sendMessage(new TextMessage(chat));
-                }
+            String chat = "{\"type\":\"chat\",\"value\":\"<div>"+sendPushUsername(session)+" : "+alertMsg.getMsg()+"</div>\"}";
+            if(alertMsg.getSeller().equals(sendPushUsername(session))){
+                sendedPushSession2.sendMessage(new TextMessage(chat));
+            }else if(alertMsg.getBuyer().equals(sendPushUsername(session))){
+                sendedPushSession.sendMessage(new TextMessage(chat));
             }
+
         }
-
-
 
         if (alertMsg.getType().equals("apply")) {
             alertMsg.setAlertDate(result);
@@ -98,10 +93,12 @@ public class EchoHandler extends TextWebSocketHandler {
                     alertMsg.getBuyer() + " 님이 " + "<a href='/board/marketDetail?sb_num=" + alertMsg.getSb_num() + "' style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong> 에 구매신청을 하였습니다..</a>" +
                     "</div>" +
                     "</div>");
+            String alertContents = alertMsg.getMsg().replace("\"", "\\\"");
+            String alert = "{\"type\":\"alert\",\"contents\":\""+alertContents+"\"}";
             if (sendedPushSession != null) {
-                sendedPushSession.sendMessage(new TextMessage(alertMsg.getMsg()));
+                sendedPushSession.sendMessage(new TextMessage(alert));
             } else {
-                notificationBuffer.computeIfAbsent(alertMsg.getSeller(), k -> new ArrayList<>()).add(alertMsg.getMsg());
+                notificationBuffer.computeIfAbsent(alertMsg.getSeller(), k -> new ArrayList<>()).add(alert);
             }
             bSer.alertMsg(alertMsg);
             bSer.chatting(alertMsg);

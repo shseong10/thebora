@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
 </head>
 <body>
 <header>
@@ -72,6 +73,7 @@
     $(() => {
         console.log('${userId}');
 
+
     })
 
     function chatRoom(buyer, seller, title) {
@@ -80,7 +82,7 @@
             url: "/board/chatRoom",
             data: {"c_sendid": buyer, "sellerId": seller, "c_title":title}
         }).done((resp) => {
-            console.log(resp);
+            // console.log(resp);
             let chatList = ``;
             $.each(resp, function (i, chat) {
                 chatList +=`<div>`+ chat.c_contents +`</div>`;
@@ -110,10 +112,11 @@
                 "c_contents": $('#c_contents').val()
             }
         }).done((resp) => {
-            console.log(resp);
+            $('#chat_contents').append(`<div>`+'${userId}'+` : `+$('#c_contents').val()+`</div>`);
+            // console.log(resp);
             //웹 소켓 관련 로직 추가
             if (socket) {
-                let socketMsg = {"type": "chat", "buyer": $('#c_sendid').val(), "seller": $('#seller').val(), "msg":$('#c_contents').val()};
+                let socketMsg = {"type": "chat", "buyer": $('#c_sendid').val(), "seller": $('#sellerId').val(), "msg":$('#c_contents').val()};
                 socket.send(JSON.stringify(socketMsg));
             }
 
@@ -125,40 +128,8 @@
         })
     }
 
-    let websocket = null;
-    $(document).ready(function () {
-        //소켓 연결
-        webConnectWs();
-    });
 
-    function webConnectWs() {
-        //WebSocketConfig에서 설정한 endPoint("/push")로 연결
-        const ws = new SockJS("/push");
-        websocket = ws;
 
-        ws.onopen = function () {
-            console.log('open');
-        };
-
-        ws.onmessage = function (event) {
-            try {
-                const result = JSON.parse(event.data);
-                console.log(result);
-                if (result.type === "chat") {
-                    $('#chat_contents').append(result.value);
-                }
-
-            } catch (e) {
-                console.error("에러원인", e);
-            }
-
-        };
-
-        ws.onclose = function () {
-            console.log('close');
-        };
-
-    }
 </script>
 </body>
 </html>

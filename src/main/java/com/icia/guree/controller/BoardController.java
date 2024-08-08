@@ -83,6 +83,8 @@ public class BoardController {
         log.info("========-=-=-=-=-=-=-=-=-=-=============" + bList.toString());
         if (!bList.isEmpty()) {
             model.addAttribute("bList", bList);
+            model.addAttribute("keyWord",  bDto.getKeyWord());
+            model.addAttribute("category",  bDto.getSb_category());
             model.addAttribute("currentPage", bDto.getPageNum());
             model.addAttribute("totalPages", totalPages);
             model.addAttribute("startPage", startPage);
@@ -383,6 +385,7 @@ public class BoardController {
         int endPage = Math.min(startPage + BoardService.PAGECOUNT - 1, totalPages);
         List<BoardDto> bList = bSer.allList(sDto);
         model.addAttribute("bList", bList);
+        model.addAttribute("keyWord",  sDto.getKeyWord());
         model.addAttribute("currentPage", sDto.getPageNum());
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("startPage", startPage);
