@@ -20,7 +20,7 @@
 </head>
 <style>
     input{
-        width: 120px;
+       max-width: 120px;
     }
 
 </style>
@@ -491,5 +491,8 @@
 
 
 </script>
+<footer>
+    <jsp:include page="../footer.jsp"></jsp:include>
+</footer>
 </body>
 </html>

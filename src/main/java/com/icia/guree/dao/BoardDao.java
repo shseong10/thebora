@@ -103,4 +103,8 @@ public interface BoardDao {
     boolean auctionApply(BoardDto bDto);
 
     List<BoardDto> auctionApplyList();
+
+    List<BoardDto> getMyboardList(String userId);
+
+    boolean adApply(BoardDto bDto);
 }

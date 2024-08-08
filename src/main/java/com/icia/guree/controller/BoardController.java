@@ -241,6 +241,7 @@ public class BoardController {
     //중고거래 리스트
     @GetMapping("/board/marketList")
     public String marketList(BoardDto bDto, Model model) {
+        // 전체 게시글의 숫자
         int totalItems = bSer.countMarketItems(bDto);
         int totalPages = (int) Math.ceil((double) totalItems / BoardService.LISTCNT);
 
@@ -453,4 +454,31 @@ public class BoardController {
         }
         return "member/myCart";
     }
+
+    //광고 신청 페이지
+    @GetMapping("/board/adApply")
+    public String adApply(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String userId = userDetails.getUsername();
+            List<BoardDto> myList = bSer.myboardList(userId);
+            model.addAttribute("myList", myList);
+            return "board/adApply";
+        }
+        return "redirect:/member/login";
+    }
+
+    @PostMapping("/board/adApply")
+    public String adApply(BoardDto bDto, Model model) {
+       boolean result = bSer.adApply(bDto);
+       if (result){
+           model.addAttribute("msg", "광고신청 완료");
+           return "board/adApply";
+       }
+        model.addAttribute("msg", "광고신청 실패");
+        return "board/adApply";
+
+    }
+
 }

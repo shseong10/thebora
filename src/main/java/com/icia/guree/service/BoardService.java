@@ -267,4 +267,12 @@ public class BoardService {
     }
 
 
+    public List<BoardDto> myboardList(String userId) {
+        return bDao.getMyboardList(userId);
+    }
+
+    public boolean adApply(BoardDto bDto) {
+
+        return bDao.adApply(bDto);
+    }
 }
