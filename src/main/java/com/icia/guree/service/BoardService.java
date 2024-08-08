@@ -25,6 +25,22 @@ public class BoardService {
     public static final int LISTCNT = 10;
     public static final int PAGECOUNT = 5;
 
+    public boolean auctionApply(BoardDto bDto, HttpSession session) {
+        boolean result = bDao.auctionApply(bDto);
+        String sbNum = bDao.getNumber();
+        bDto.setSb_num(sbNum);
+        log.info("++++++++++++++++++++++++++++++++++++Dto 내놔" + bDto.getSb_num());
+        if (result) {
+            if (!bDto.getAttachment().get(0).isEmpty()) {
+                if (fm.fileUpload(bDto.getAttachment(), session, bDto.getSb_num())) {
+                    return true;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
     public boolean productRegister(BoardDto bDto, HttpSession session) {
         boolean result = bDao.productRegister(bDto);
         String sbNum = bDao.getNumber();
@@ -249,4 +265,6 @@ public class BoardService {
 
         return bDao.chatInsert(cDto);
     }
+
+
 }

@@ -24,11 +24,11 @@
 
 </head>
 <style>
-
     input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
 
     .carousel-item {
 
@@ -67,7 +67,6 @@
     .carousel-control-next-icon {
         background-color: #cccccc;
     }
-
 
 </style>
 <script>
@@ -142,7 +141,7 @@
                 <hr>
                 <p class="card-text">즉시구매가 : ${bDto.sb_price}</p>
                 <p class="card-text">시작가 : ${bDto.sb_startPrice}</p>
-                <p id="nowPrice" class="card-text">현재가 : <span id="np">${bDto.sb_nowPrice}</span> </p>
+                <p id="nowPrice" class="card-text">현재가 : <span id="np">${bDto.sb_nowPrice}</span></p>
                 <p class="card-text">최소입찰가 : ${bDto.sb_bid}</p>
                 <p class="card-text">경매시작일 : ${bDto.sb_date}</p>
                 <p class="card-text">경매종료일 : ${bDto.sb_timer}</p>
@@ -160,12 +159,15 @@
 
                 <form action="#">
                     <input type="hidden" name="h_o_p_num" value="${bDto.sb_num}">
-                    <button type="button" class="btn btn-primary btn-color-thebora" data-bs-toggle="modal" data-bs-target="#now-buy">
+                    <button type="button" class="btn btn-primary btn-color-thebora" data-bs-toggle="modal"
+                            data-bs-target="#now-buy">
                         즉시구매
                     </button>
                     <input class="btn btn-primary btn-color-thebora" type="button" onclick="saleCart()" value="찜하기">
-                    <input type="button" id="reset-button" class="btn btn-primary btn-color-thebora" value="삭제하기" onclick="deleteBtn()">
-
+                    <sec:authorize access="hasRole('admin')">
+                        <input type="button" id="reset-button" class="btn btn-primary btn-color-thebora" value="삭제하기"
+                               onclick="deleteBtn()">
+                    </sec:authorize>
                 </form>
 
             </div>
@@ -214,6 +216,7 @@
     const replyWriter = "${bDto.sb_id}";
     const np = $('#np').html();
     console.log(np);
+
     function saleCart() {
         if (user === joinId) {
             alert("본인의 상품은 장바구니에 넣을 수 없습니다.")
@@ -221,13 +224,6 @@
 
         }
         location.href = "/board/myAuctionCart?sb_num=${bDto.sb_num}"
-    }
-
-
-    if (user === joinId) {
-        $('#reset-button').show();
-    } else {
-        $('#reset-button').hide();
     }
 
     function userbtnclic() {
@@ -240,7 +236,12 @@
             $.ajax({
                 url: "/board/attend",
                 method: "POST",
-                data: {"sb_num": "${bDto.sb_num}", "a_joinId": user, "a_bidPrice": $('#bidPrice').val(), "sb_bid":${bDto.sb_bid}},
+                data: {
+                    "sb_num": "${bDto.sb_num}",
+                    "a_joinId": user,
+                    "a_bidPrice": $('#bidPrice').val(),
+                    "sb_bid":${bDto.sb_bid}
+                },
             }).done((resp) => {
                 console.log(resp)
                 if (resp === "입찰 성공") {
@@ -301,13 +302,8 @@
     }
 
 
-
 </script>
-<sec:authorize access="hasRole('admin')">
-    <script>
-        $('#reset-button').show();
-    </script>
-</sec:authorize>
+
 <footer>
     <jsp:include page="../footer.jsp"></jsp:include>
 </footer>
