@@ -76,11 +76,11 @@ public class MemberService {
 
     public boolean profileupdate(ProfileFile pDto, HttpSession session) {
 
-            String[] sysFiles = fDao.getSysFiles(pDto.getM_id());
-            if (sysFiles.length != 0) {
-                fm.fileDelete(sysFiles, session);
-                fDao.profileDelete(pDto.getM_id());
-            }
+        String[] sysFiles = fDao.getSysFiles(pDto.getM_id());
+        if (sysFiles.length != 0) {
+            fm.fileDelete(sysFiles, session);
+            fDao.profileDelete(pDto.getM_id());
+        }
         return fm.fileUpload(pDto, session);
     }
 
@@ -107,5 +107,14 @@ public class MemberService {
 
     public void infoUpdate(MemberDto mDto) {
         mDao.infoUpdate(mDto);
+    }
+
+    public boolean pointPay(MemberDto mDto) {
+        int userPoint = mDao.getUserPoint(mDto.getM_id());
+        if (userPoint-mDto.getM_point() < 0) {
+            return false;
+        } else {
+            return mDao.pointPay(mDto);
+        }
     }
 }

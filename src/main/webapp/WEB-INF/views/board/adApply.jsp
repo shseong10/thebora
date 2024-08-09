@@ -57,6 +57,7 @@
 
                     <p class="card-text">희망 기간
                         <select id="howLong"  name="sb_date">
+                            <option value="">기간</option>
                             <option value="1">1일</option>
                             <option value="2">2일</option>
                             <option value="3">3일</option>
@@ -82,7 +83,14 @@
     })
     $('#product-register').click(() => {
         if(confirm("정말로 신청 하시겠습니까?")){
-            $('.register-form').submit();
+            if( $('#m_point').val()!=='' && $("#category").val()!==''){
+                $('.register-form').submit();
+            }else{
+                alert("게시글 또는 기간을 입력해주세요")
+            }
+
+
+
         }
     })
 

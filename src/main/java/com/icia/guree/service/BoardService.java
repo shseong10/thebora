@@ -272,7 +272,12 @@ public class BoardService {
     }
 
     public boolean adApply(BoardDto bDto) {
+        boolean result = bDao.getMyAdApply(bDto);
+        if (result){
+            return false;
+        }else{
+            return bDao.adApply(bDto);
+        }
 
-        return bDao.adApply(bDto);
     }
 }

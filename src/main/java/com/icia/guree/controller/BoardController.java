@@ -3,8 +3,11 @@ package com.icia.guree.controller;
 import com.icia.guree.dao.FileDao;
 import com.icia.guree.entity.BoardDto;
 import com.icia.guree.entity.BoardFileDto;
+import com.icia.guree.entity.MemberDto;
 import com.icia.guree.entity.SearchDto;
+import com.icia.guree.exception.DBException;
 import com.icia.guree.service.BoardService;
+import com.icia.guree.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +32,8 @@ import java.util.List;
 public class BoardController {
     @Autowired
     private BoardService bSer;
+    @Autowired
+    private MemberService mSer;
 
     @Autowired
     private FileDao pDao;
@@ -83,8 +89,8 @@ public class BoardController {
         log.info("========-=-=-=-=-=-=-=-=-=-=============" + bList.toString());
         if (!bList.isEmpty()) {
             model.addAttribute("bList", bList);
-            model.addAttribute("keyWord",  bDto.getKeyWord());
-            model.addAttribute("category",  bDto.getSb_category());
+            model.addAttribute("keyWord", bDto.getKeyWord());
+            model.addAttribute("category", bDto.getSb_category());
             model.addAttribute("currentPage", bDto.getPageNum());
             model.addAttribute("totalPages", totalPages);
             model.addAttribute("startPage", startPage);
@@ -154,7 +160,7 @@ public class BoardController {
 //        return "redirect:/member/login";
 //    }
 
- // 경매 신청 페이지
+    // 경매 신청 페이지
     @GetMapping("/board/auctionApply")
     public String auctionApply(Model model) {
         List<String> cateList = bSer.cateList();
@@ -162,6 +168,7 @@ public class BoardController {
 
         return "board/auctionApply";
     }
+
     // 경매 신청
     @PostMapping("/board/auctionApply")
     public String auctionApply(BoardDto bDto, HttpSession session) {
@@ -179,7 +186,6 @@ public class BoardController {
 
         return "redirect:/member/login";
     }
-
 
 
     // 경매 게시글 삭제
@@ -219,13 +225,13 @@ public class BoardController {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String name = userDetails.getUsername();
             log.info("--=-=-=-=-=아이디-=-=-=-=-={}", name);
-            List<BoardDto> myTrading =bSer.myTrading(name);
+            List<BoardDto> myTrading = bSer.myTrading(name);
             List<BoardDto> myAuction = bSer.myTrade(name);
             List<BoardDto> mySales = bSer.mySales(name);
 
             log.info("--=-=-=-=-=-=-=-=-=-={}", myAuction);
-            if(myTrading != null){
-                model.addAttribute("myTrading",myTrading);
+            if (myTrading != null) {
+                model.addAttribute("myTrading", myTrading);
             }
             if (myAuction != null) {
                 model.addAttribute("myTrade", myAuction);
@@ -262,8 +268,8 @@ public class BoardController {
         log.info("========-=-=-=-=-=-=-=-=-=-=============" + bList.toString());
         if (!bList.isEmpty()) {
             model.addAttribute("bList", bList);
-            model.addAttribute("keyWord",  bDto.getKeyWord());
-            model.addAttribute("category",  bDto.getSb_category());
+            model.addAttribute("keyWord", bDto.getKeyWord());
+            model.addAttribute("category", bDto.getSb_category());
             model.addAttribute("currentPage", bDto.getPageNum());
             model.addAttribute("totalPages", totalPages);
             model.addAttribute("startPage", startPage);
@@ -413,7 +419,7 @@ public class BoardController {
         int endPage = Math.min(startPage + BoardService.PAGECOUNT - 1, totalPages);
         List<BoardDto> bList = bSer.allList(sDto);
         model.addAttribute("bList", bList);
-        model.addAttribute("keyWord",  sDto.getKeyWord());
+        model.addAttribute("keyWord", sDto.getKeyWord());
         model.addAttribute("currentPage", sDto.getPageNum());
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("startPage", startPage);
@@ -442,7 +448,7 @@ public class BoardController {
 
     //관심목록 삭제
     @GetMapping("/board/myCartDel")
-    public String myAuctionCartDel(BoardDto bDto,Model model) {
+    public String myAuctionCartDel(BoardDto bDto, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -470,15 +476,30 @@ public class BoardController {
     }
 
     @PostMapping("/board/adApply")
-    public String adApply(BoardDto bDto, Model model) {
-       boolean result = bSer.adApply(bDto);
-       if (result){
-           model.addAttribute("msg", "광고신청 완료");
-           return "board/adApply";
-       }
-        model.addAttribute("msg", "광고신청 실패");
-        return "board/adApply";
+    public String adApply(BoardDto bDto, MemberDto mDto, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            mDto.setM_id(userDetails.getUsername());
+            List<BoardDto> myList = bSer.myboardList(userDetails.getUsername());
+            if (!bSer.adApply(bDto)) {
+                model.addAttribute("msg", "광고신청 실패! 이미 신청한 게시글입니다.");
+                model.addAttribute("myList", myList);
+                return "board/adApply";
+            } else {
+                if (!mSer.pointPay(mDto)) {
+                    model.addAttribute("msg", "광고신청 실패! 보유 포인트를 확인해 주세요.");
+                    model.addAttribute("myList", myList);
+                } else {
+                    model.addAttribute("msg", "광고신청 완료");
+                    model.addAttribute("myList", myList);
+                }
+                return "board/adApply";
+            }
 
+        }
+        return "redirect:/member/login";
     }
+
 
 }

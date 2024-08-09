@@ -54,14 +54,19 @@ public class AdminRestController {
     }
 
     @PostMapping("/admin/AuctionEndManager")
-    public List<BoardDto> AuctionEndManager() {
+    public List<BoardDto> auctionEndManager() {
         List<BoardDto> endList = bDao.boardEndList();
         return endList;
     }
     @PostMapping("/admin/auctionApplyList")
-    public List<BoardDto>AuctionApplyList(){
+    public List<BoardDto>auctionApplyList(){
         List<BoardDto> applyList = bDao.auctionApplyList();
         return applyList;
+    }
+    @PostMapping("/admin/adApplyList")
+    public List<BoardDto>adApplyList(){
+        List<BoardDto> adList = bDao.adApplyList();
+        return adList;
     }
 
 
