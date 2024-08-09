@@ -14,85 +14,48 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <section class="w-75 mx-auto mb-5 main-section">
-        <h4 class="article-t">추천상품</h4>
+    <section class="w-75 mx-auto main-section">
+        <h3 class="article-t">추천상품</h3>
         <div class="row row-cols-1 row-cols-md-4 g-4">
             <c:forEach var="item" items="${items}">
                 <div class="col">
-                    <div class="card h-100">
-
+                    <div class="position-relative">
                         <c:set var="firstFile" value="${null}"/>
-                        <c:forEach var="file" items="${files}">
-                            <c:if test="${item.sb_num == file.bf_sb_num && empty firstFile}">
-                                <c:set var="firstFile" value="${file}"/>
-                            </c:if>
-                        </c:forEach>
-                        <c:if test="${not empty firstFile}">
-                            <img src="/upload/${firstFile.bf_sysFileName}" class="card-img-top" alt="...">
-                        </c:if>
+                            <c:forEach var="file" items="${files}">
+                                <c:if test="${item.sb_num == file.bf_sb_num && empty firstFile}">
+                                    <c:set var="firstFile" value="${file}"/>
+                                </c:if>
+                            </c:forEach>
+                        <c:if test="${empty firstFile}">
+                            <div class="main-item-thumbnail rounded-2" style="background-image: url('/img/product_sample_01.png'); background-size: cover; background-position: 50% 50%;">
 
-                        <c:if test="${item.sb_saleKind == 1}">
-                            <div class="card-body">
-                                <div>경매</div>
-                                <a href="/board/auctionDetail?sb_num=${item.sb_num}" class="stretched-link"><h5
-                                        class="card-title">상품명 : ${item.sb_title}</h5>
-                                    <p class="card-text">가격 :${item.sb_price} </p></a>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-body-secondary">${item.sb_local}</small>
                             </div>
                         </c:if>
-                        <c:if test="${item.sb_saleKind == 2}">
-                            <div class="card-body">
-                                <div>중고상품</div>
-                                <a href="/board/marketDetail?sb_num=${item.sb_num}" class="stretched-link"><h5
-                                        class="card-title">상품명 : ${item.sb_title}</h5>
-                                    <p class="card-text">가격 :${item.sb_price} </p></a>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-body-secondary">${item.sb_local}</small>
+                        <c:if test="${not empty firstFile}">
+                            <div class="main-item-thumbnail rounded-1" style="background-image: url('/upload/${firstFile.bf_sysFileName}'); background-size: cover; background-position: 50% 50%;">
+
                             </div>
                         </c:if>
+                        <div class="card-body">
+                            <c:if test="${item.sb_saleKind == 1}">
+                                    <a href="/board/auctionDetail?sb_num=${item.sb_num}" class="stretched-link">
+                                        <h5 class="card-title">${item.sb_title}</h5>
+                                        <h5 class="main-item-price">${item.sb_price}원</h5>
+                                    </a>
+                                    <small class="main-item-category rounded-3 color-3">경매</small>
+                            </c:if>
+                            <c:if test="${item.sb_saleKind == 2}">
+                                    <a href="/board/marketDetail?sb_num=${item.sb_num}" class="stretched-link">
+                                        <h5 class="card-title">${item.sb_title}</h5>
+                                        <h5 class="main-item-price">${item.sb_price}원</h5>
+                                    </a>
+                                    <small class="main-item-category rounded-3 color-3">중고</small>
+                                    <small class="main-item-category rounded-3 color-5">${item.sb_local}</small>
+                            </c:if>
+                        </div>
                     </div>
                 </div>
             </c:forEach>
-            <%--            <div class="col">--%>
-            <%--                <div class="card h-100">--%>
-            <%--                    <img src="/img/product_sample_02.png" class="card-img-top" alt="...">--%>
-            <%--                    <div class="card-body">--%>
-            <%--                        <a href="#" class="stretched-link"><h5 class="card-title">상품명</h5>--%>
-            <%--                            <p class="card-text">가격</p></a>--%>
-            <%--                    </div>--%>
-            <%--                    <div class="card-footer">--%>
-            <%--                        <small class="text-body-secondary">인천광역시 미추홀구</small>--%>
-            <%--                    </div>--%>
-            <%--                </div>--%>
-            <%--            </div>--%>
-            <%--            <div class="col">--%>
-            <%--                <div class="card h-100">--%>
-            <%--                    <img src="/img/product_sample_03.png" class="card-img-top" alt="...">--%>
-            <%--                    <div class="card-body">--%>
-            <%--                        <a href="#" class="stretched-link"><h5 class="card-title">상품명</h5>--%>
-            <%--                            <p class="card-text">가격</p></a>--%>
-            <%--                    </div>--%>
-            <%--                    <div class="card-footer">--%>
-            <%--                        <small class="text-body-secondary">인천광역시 미추홀구</small>--%>
-            <%--                    </div>--%>
-            <%--                </div>--%>
-            <%--            </div>--%>
-            <%--            <div class="col">--%>
-            <%--                <div class="card h-100">--%>
-            <%--                    <img src="/img/product_sample_04.png" class="card-img-top" alt="...">--%>
-            <%--                    <div class="card-body">--%>
-            <%--                        <a href="#" class="stretched-link"><h5 class="card-title">상품명</h5>--%>
-            <%--                            <p class="card-text">가격</p></a>--%>
-            <%--                    </div>--%>
-            <%--                    <div class="card-footer">--%>
-            <%--                        <small class="text-body-secondary">인천광역시 미추홀구</small>--%>
-            <%--                    </div>--%>
-            <%--                </div>--%>
-            <%--            </div>--%>
-
         </div>
     </section>
 </body>

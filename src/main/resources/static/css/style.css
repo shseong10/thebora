@@ -12,6 +12,28 @@ a {
   font-style: normal;
 }
 
+/* 색상 */
+.color-1 {
+  background-color: #712cf9 !important;
+}
+
+.color-2 {
+  background-color: #DB4D89 !important;
+}
+
+.color-3 {
+  background-color: #AB4DDB !important;
+}
+
+.color-4 {
+  background-color: #4E4DDB !important;
+}
+
+.color-5 {
+  background-color: #DB4D89 !important;
+}
+
+
 /* 부트스트랩 요소 색상 강제변경 (페이징 포함) */
 .btn-color-thebora, .active>.page-link, .active>.page-link a {
   background: #712cf9 !important;
@@ -128,8 +150,20 @@ h1, h2, h3, h4, h5 {
 }
 
 /* 메인 섹션(광고상품, 추천상품) */
+.main-section {
+  margin-top: 1rem;
+  margin-bottom: 5rem;
+  padding-bottom: 3rem;
+}
+
 .main-section h5 {
   font-weight: 300 !important;
+  margin-top: 0.2rem !important;
+
+}
+
+.main-section .article-t {
+  margin-top: 2rem;
 }
 
 .main-section div a, .main-section p {
@@ -137,6 +171,34 @@ h1, h2, h3, h4, h5 {
   color: #212529 !important;
 }
 
+/* 광고상품 */
+.main-item-thumbnail {
+  min-height: 20rem;
+  max-height: 20rem;
+  overflow: hidden;
+  border: 1px #dee2e6 solid;
+}
+
+.main-item-text {
+  overflow: hidden;
+  max-height: 10rem;
+  padding-top: 0.5rem;
+}
+
+.main-item-text h5 {
+  margin-bottom: 0;
+}
+
+.main-item-price {
+  font-size: 1.5rem;
+}
+
+.main-item-category {
+  padding: 0.2rem 0.4rem;
+  color: #eaeaea;
+  text-shadow: 1px 1px 1px rgba(117, 13, 207, 0.7);
+  font-weight: bold;
+}
 
 /* 푸터 */
 footer {
