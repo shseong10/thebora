@@ -142,6 +142,10 @@
         insert into chatting values (null,#{c_sendid},#{sellerId},#{c_title},concat(#{username},' : ',#{c_contents}),default)
     </insert>
 
+    <insert id="adApply">
+        insert into advertisement values (#{sb_num}, #{sb_date})
+    </insert>
+
     <select id="auctionList" resultMap="boardList">
         select * from saleboard left join boardfile
         on sb_num = bf_sb_num
@@ -248,7 +252,9 @@
     <select id="getCateList" resultType="java.lang.String">
         select c_kind from category
     </select>
-
+   <select id="getMyboardList">
+       select * from saleboard where sb_id = #{userId} and sb_scope = 1 and sb_salekind != 4 order by sb_num desc
+   </select>
 
     <select id="countMarketItems" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM saleboard WHERE sb_scope = 1 and sb_salekind = 2

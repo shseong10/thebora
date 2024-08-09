@@ -52,6 +52,7 @@
                             <li><a class="dropdown-item" href="#">자주묻는질문</a></li>
                             <li><a class="dropdown-item" href="/report/list">문의하기</a></li>
                             <li><a class="dropdown-item" href="/board/auctionApply">경매 신청하기</a></li>
+                            <li><a class="dropdown-item" href="/board/adApply">광고 신청하기</a></li>
                         </ul>
                     </li>
                 </ul>

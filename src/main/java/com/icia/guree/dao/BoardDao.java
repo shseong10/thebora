@@ -2,6 +2,7 @@ package com.icia.guree.dao;
 
 import com.icia.guree.entity.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -103,4 +104,13 @@ public interface BoardDao {
     boolean auctionApply(BoardDto bDto);
 
     List<BoardDto> auctionApplyList();
+
+    List<BoardDto> getMyboardList(String userId);
+
+    boolean adApply(BoardDto bDto);
+
+    @Select("select count(*) from advertisement where a_sb_num = #{sb_num}")
+    boolean getMyAdApply(BoardDto bDto);
+
+    List<BoardDto> adApplyList();
 }

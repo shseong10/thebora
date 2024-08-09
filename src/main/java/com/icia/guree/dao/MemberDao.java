@@ -49,4 +49,10 @@ public interface MemberDao {
     void memberUpdate(MemberDto mDto);
 
     void infoUpdate(MemberDto mDto);
+
+    @Update("update member set m_point = m_point - #{m_point} where m_id = #{m_id}")
+    boolean pointPay(MemberDto mDto);
+
+    @Select("select m_point from member where m_id=#{m_id}")
+    int getUserPoint(String m_id);
 }
