@@ -113,7 +113,7 @@ public class EchoHandler extends TextWebSocketHandler {
                 }else {
                     notificationBuffer.computeIfAbsent(alertMsg.getBuyer(), k -> new ArrayList<>()).add(alert);
                 }
-            }else if(alertMsg.getBuyer().equals(sendPushUsername(session))){
+            }else{
                 sendedPushSession.sendMessage(new TextMessage(chat));
                 alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +
                         "<div class='toast-header'>" +
