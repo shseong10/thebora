@@ -1,6 +1,7 @@
 package com.icia.guree.dao;
 
 import com.icia.guree.entity.*;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -120,5 +121,8 @@ public interface BoardDao {
     
     @Select("select * from saleboard join advertisement on sb_num = a_sb_num where a_app = 2 order by a_num desc")
     List<BoardDto> getAdItem();
+
+    @Delete("delete from saleboard where sb_num = #{sb_num} ")
+    boolean auctionReject(String sb_num);
 }
 

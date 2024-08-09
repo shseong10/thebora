@@ -228,15 +228,29 @@ public class BoardService {
     }
 
     public void alertMsg(AlertDto alertMsg) {
-        alertMsg.setMsg("<li>" +
-                "<div>" +
-                "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
-                alertMsg.getAlertDate() +
-                "</div>" +
-                "<div>" +
-                alertMsg.getBuyer() + " 님이 " + "<a href='/board/marketDetail?sb_num=" + alertMsg.getSb_num() + "' style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong> 에 구매신청을 하였습니다..</a>" +
-                "</div>" +
-                "</li>");
+        if (alertMsg.getType().equals("apply")){
+            alertMsg.setMsg("<li>" +
+                    "<div>" +
+                    "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
+                    alertMsg.getAlertDate() +
+                    "</div>" +
+                    "<div>" +
+                    alertMsg.getBuyer() + " 님이 " + "<a href='/board/marketDetail?sb_num=" + alertMsg.getSb_num() + "' style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong> 에 구매신청을 하였습니다..</a>" +
+                    "</div>" +
+                    "</li>");
+        }
+        if (alertMsg.getType().equals("reject")){
+            alertMsg.setMsg("<li>" +
+                    "<div>" +
+                    "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
+                    alertMsg.getAlertDate() +
+                    "</div>" +
+                    "<div>" +
+                    alertMsg.getSb_title() + "의 경매신청이 거절되었습니다." +
+                    "</div>" +
+                    "</li>");
+        }
+
         bDao.alertMsg(alertMsg);
     }
 

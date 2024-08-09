@@ -27,6 +27,30 @@
         }
 
     })
+    function auctionReject(num,id,title){
+        $.ajax({
+            method: 'post',
+            url: '/admin/auctionReject',
+            data:{"sb_num": num}
+
+        }).done((resp) => {
+            if (resp){
+                goAuctionApply()
+                console.log(resp)
+                if (socket) {
+                    let socketMsg = {"type":"reject","seller":id,"sb_title":title,"sb_num":num};
+                    socket.send(JSON.stringify(socketMsg));
+                    alert('거절했습니다.');
+                }
+            }
+
+        }).fail((err)=>{
+            console.log(err);
+        })
+
+    }
+
+
 
     function adApproval(num) {
         console.log(num)
@@ -50,6 +74,7 @@
     }
 
     function goAdApply() {
+
         $.ajax({
             method: 'post',
             url: '/admin/adApplyList',
@@ -116,7 +141,7 @@
                     + delList.a_app +
                     `</td>
                     <td>
-			        	<button onclick="reject(`+ delList.sb_num +`)" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
+			        	<button onclick="adReject(`+ delList.sb_num +`)" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
 			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="adApproval(`+delList.a_num +`)"> 승인 </button>
 		        	</td>
 	        	</tr>
@@ -188,7 +213,7 @@
                     + delList.sb_id +
                     `</td>
                     <td>
-			        	<button onclick="reject(`+ delList.sb_num +`)" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
+			        	<button onclick="auctionReject(`+ delList.sb_num +`,'`+delList.sb_id +`','`+ delList.sb_title+`')" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
 			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="reUpload(`+delList.sb_num +`)"> 경매 올리기 </button>
 		        	</td>
 	        	</tr>

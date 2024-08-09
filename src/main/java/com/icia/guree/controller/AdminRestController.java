@@ -81,6 +81,10 @@ public class AdminRestController {
     public boolean abApproval(@RequestParam("a_num") String a_num){
         return bDao.abApproval(a_num);
     }
+    @PostMapping("/admin/auctionReject")
+    public boolean auctionReject(@RequestParam("sb_num") String sb_num){
+        return bDao.auctionReject(sb_num);
+    }
 
 
 
