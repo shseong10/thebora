@@ -133,7 +133,7 @@
                         </div>
                         <div class="col-6">
                             가격
-                            <input type="text" class="form-control" id="p-price" name="sb_startprice" value="30000">
+                            <input type="text" class="form-control" id="p-price" name="sb_price" value="30000">
                         </div>
                         <div class="col-6">
                             수량

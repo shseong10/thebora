@@ -32,7 +32,7 @@
                         const modalViewTitle = document.getElementById('modal_containerLabel');
                         const modalViewNum = document.getElementById('sb_num');
                         const modalViewsb_title = document.getElementById('sb_title');
-                        const modalViewPrice = document.getElementById('sb_startprice');
+                        const modalViewPrice = document.getElementById('sb_price');
                         const modalViewEnddate = document.getElementById('sb_timer');
                         const modalViewBuylevel = document.getElementById('sb_buylevel');
                         const modalViewQty = document.getElementById('sb_count');
@@ -42,7 +42,7 @@
                         modalViewTitle.textContent = result[0].sb_title;
                         modalViewNum.setAttribute('value', result[0].sb_num);
                         modalViewsb_title.setAttribute('value', result[0].sb_title);
-                        modalViewPrice.setAttribute('value', result[0].sb_startprice);
+                        modalViewPrice.setAttribute('value', result[0].sb_price);
                         modalViewEnddate.setAttribute('value', result[0].sb_timer);
                         modalViewBuylevel.setAttribute('value', result[0].sb_buylevel);
                         modalViewQty.setAttribute('value', result[0].sb_count);
@@ -133,7 +133,7 @@
             const UpdateNum = document.getElementById('sb_num');
             const UpdateCategory = document.getElementById('sb_category');
             const Updatesb_title = document.getElementById('sb_title');
-            const UpdatePrice = document.getElementById('sb_startprice');
+            const UpdatePrice = document.getElementById('sb_price');
             const UpdateEnddate = document.getElementById('sb_timer');
             const UpdateBuylevel = document.getElementById('sb_buylevel');
             const UpdateQty = document.getElementById('sb_count');
@@ -153,7 +153,7 @@
             reqJson.sb_num = inputNum;
             reqJson.sb_category = inputCategory;
             reqJson.sb_title = inputName;
-            reqJson.sb_startprice = inputPrice;
+            reqJson.sb_price = inputPrice;
             if (inputEnddate != "null") reqJson.sb_timer = inputEnddate;
             reqJson.sb_buylevel = inputBuylevel;
             reqJson.sb_count = inputQty;
@@ -185,7 +185,7 @@
 
                         const sb_category = update_result.sb_category;
                         const sb_title = update_result.sb_title;
-                        const sb_startprice = update_result.sb_startprice;
+                        const sb_price = update_result.sb_price;
                         const sb_count = update_result.sb_count;
                         const sb_buylevel = update_result.sb_buylevel;
 
@@ -196,7 +196,7 @@
                         const listBuylevel = document.getElementById(inputNum+'_buylevel');
                         listName.textContent = sb_title;
                         listCategory.textContent = sb_category;
-                        listPrice.textContent = sb_startprice;
+                        listPrice.textContent = sb_price;
                         listQuantity.textContent = sb_count;
                         listBuylevel.textContent = sb_buylevel;
                     }
@@ -309,7 +309,7 @@
                             ${item.sb_category}
                         </td>
                         <td id="${item.sb_num}_price">
-                            ${item.sb_startprice}
+                            ${item.sb_price}
                         </td>
                         <td id="${item.sb_num}_quantity">
                             ${item.sb_count}
@@ -397,7 +397,7 @@
                                 </div>
                                 <div class="col-6">
                                     가격
-                                    <input type="text" class="form-control" id="sb_startprice" name="sb_startprice">
+                                    <input type="text" class="form-control" id="sb_price" name="sb_price">
                                 </div>
                                 <div class="col-6">
                                     수량

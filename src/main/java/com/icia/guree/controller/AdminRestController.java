@@ -8,6 +8,7 @@ import com.icia.guree.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -66,7 +67,19 @@ public class AdminRestController {
     @PostMapping("/admin/adApplyList")
     public List<BoardDto>adApplyList(){
         List<BoardDto> adList = bDao.adApplyList();
+        for (BoardDto List :  adList ){
+            if (List.getA_app().equals("1")){
+                List.setA_app("미승인");
+            }
+            if (List.getA_app().equals("2")){
+                List.setA_app("승인");
+            }
+        }
         return adList;
+    }
+    @PostMapping("/admin/adApproval")
+    public boolean abApproval(@RequestParam("a_num") String a_num){
+        return bDao.abApproval(a_num);
     }
 
 

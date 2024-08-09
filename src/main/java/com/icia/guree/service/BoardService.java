@@ -280,4 +280,8 @@ public class BoardService {
         }
 
     }
+
+    public List<BoardDto> getAdItem() {
+        return bDao.getAdItem();
+    }
 }

@@ -40,6 +40,10 @@ public class HomeController {
             session.removeAttribute("msg");
 
         }
+
+        List<BoardDto> adItem = bSer.getAdItem();
+            model.addAttribute("adItem", adItem);
+
         List<BoardDto> item = bSer.recItem();
         if (!item.isEmpty()) {
             model.addAttribute("items", item);

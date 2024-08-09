@@ -24,7 +24,7 @@ public class InventoryDto {
     private String m_id;
     private String sb_category;
     private String sb_title;
-    private int sb_startprice;
+    private int sb_price;
     private int sb_count;
     private String sb_contents;
     private int sb_buylevel;

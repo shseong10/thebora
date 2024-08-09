@@ -34,6 +34,7 @@ public class BoardDto {
     private String sb_buyLevel;
     private String sb_view;
     private String a_period;
+    private String a_app;
     private String a_num;
     private String a_joinId;
     private int a_bidPrice;

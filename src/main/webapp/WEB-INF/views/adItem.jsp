@@ -17,54 +17,56 @@
 <section class="w-75 mx-auto mb-5 main-section">
     <h4 class="article-t">광고상품</h4>
     <div class="row row-cols-1 row-cols-md-4 g-4">
+<c:forEach var="item" items="${adItem}">
         <div class="col">
             <div class="card h-100">
                 <img src="/img/product_sample_01.png" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <a href="#" class="stretched-link"><h5 class="card-title">상품명</h5>
-                        <p class="card-text">가격</p></a>
+                    <a href="#" class="stretched-link"><h5 class="card-title">${item.sb_title}</h5>
+                        <p class="card-text">${item.sb_price}</p></a>
                 </div>
                 <div class="card-footer">
-                    <small class="text-body-secondary">인천광역시 미추홀구</small>
+                    <small class="text-body-secondary">${item.sb_local}</small>
                 </div>
             </div>
         </div>
-        <div class="col">
-            <div class="card h-100">
-                <img src="/img/product_sample_02.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <a href="#" class="stretched-link"><h5 class="card-title">상품명</h5>
-                        <p class="card-text">가격</p></a>
-                </div>
-                <div class="card-footer">
-                    <small class="text-body-secondary">인천광역시 미추홀구</small>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card h-100">
-                <img src="/img/product_sample_03.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <a href="#" class="stretched-link"><h5 class="card-title">상품명</h5>
-                        <p class="card-text">가격</p></a>
-                </div>
-                <div class="card-footer">
-                    <small class="text-body-secondary">인천광역시 미추홀구</small>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card h-100">
-                <img src="/img/product_sample_03.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <a href="#" class="stretched-link"><h5 class="card-title">상품명</h5>
-                        <p class="card-text">가격</p></a>
-                </div>
-                <div class="card-footer">
-                    <small class="text-body-secondary">인천광역시 미추홀구</small>
-                </div>
-            </div>
-        </div>
+</c:forEach>
+<%--        <div class="col">--%>
+<%--            <div class="card h-100">--%>
+<%--                <img src="/img/product_sample_02.png" class="card-img-top" alt="...">--%>
+<%--                <div class="card-body">--%>
+<%--                    <a href="#" class="stretched-link"><h5 class="card-title">상품명</h5>--%>
+<%--                        <p class="card-text">가격</p></a>--%>
+<%--                </div>--%>
+<%--                <div class="card-footer">--%>
+<%--                    <small class="text-body-secondary">인천광역시 미추홀구</small>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="col">--%>
+<%--            <div class="card h-100">--%>
+<%--                <img src="/img/product_sample_03.png" class="card-img-top" alt="...">--%>
+<%--                <div class="card-body">--%>
+<%--                    <a href="#" class="stretched-link"><h5 class="card-title">상품명</h5>--%>
+<%--                        <p class="card-text">가격</p></a>--%>
+<%--                </div>--%>
+<%--                <div class="card-footer">--%>
+<%--                    <small class="text-body-secondary">인천광역시 미추홀구</small>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="col">--%>
+<%--            <div class="card h-100">--%>
+<%--                <img src="/img/product_sample_03.png" class="card-img-top" alt="...">--%>
+<%--                <div class="card-body">--%>
+<%--                    <a href="#" class="stretched-link"><h5 class="card-title">상품명</h5>--%>
+<%--                        <p class="card-text">가격</p></a>--%>
+<%--                </div>--%>
+<%--                <div class="card-footer">--%>
+<%--                    <small class="text-body-secondary">인천광역시 미추홀구</small>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
     </div>
 </section>
 </body>
