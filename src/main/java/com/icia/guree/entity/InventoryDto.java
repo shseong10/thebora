@@ -21,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 public class InventoryDto {
     private int sb_num;
+    private String m_id;
     private String sb_category;
     private String sb_title;
     private int sb_startprice;
