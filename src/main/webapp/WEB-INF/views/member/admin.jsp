@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>더보라</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
             integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
             crossorigin="anonymous"></script>
@@ -18,13 +18,6 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 </head>
-<style>
-    input{
-       max-width: 120px;
-    }
-
-</style>
-
 <script>
     $(()=>{
         const msg = '${msg}';
@@ -62,20 +55,22 @@
             url: '/admin/adApplyList',
 
         }).done((resp) => {
-            let dList = `<table class="table table-striped">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">거래유형</th>
-        <th scope="col">상품명</th>
-        <th scope="col">카테고리</th>
-        <th scope="col">희망 기간</th>
-        <th scope="col">신청 시간</th>
-        <th scope="col">신청자</th>
-        <th scope="col">승인여부</th>
-    </tr>
-    </thead>
-    <tbody id="delList">`;
+            let dList = `<h5 style="text-align: left">광고 신청 관리</h5>
+                <table class="table table-hover" id="ad-apply">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>거래유형</th>
+                    <th>상품명</th>
+                    <th>카테고리</th>
+                    <th>희망 기간</th>
+                    <th>신청 시간</th>
+                    <th>신청자</th>
+                    <th>승인여부</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody id="delList">`;
             $.each(resp, function (i, delList) {
                 let saleKindUrl;
                 let saleKind;
@@ -99,31 +94,29 @@
                 dList += `
                 <tr>
 			        <th scope="row">` + delList.a_num + `</th>
-                    <td id="_category">`
+                    <td>`
                     + saleKind +
                     `</td>
 			        <td>
 			        	<a href="`+saleKindUrl+`">` + delList.sb_title + `</a>
 		        	</td>
-			        <td id="_category">`
+			        <td>`
                     + delList.sb_category +
                     `</td>
-                     <td id="_enddate">`
+                     <td>`
                     + delList.a_period +
                     `일</td>
-                     <td id="_enddate">`
+                     <td>`
                     + delList.sb_date +
                     `</td>
-                     <td id="_enddate">`
+                     <td>`
                     + delList.sb_id +
                     `</td>
-                     <td id="_enddate">`
+                     <td>`
                     + delList.a_app +
                     `</td>
                     <td>
 			        	<button onclick="reject(`+ delList.sb_num +`)" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
-		        	</td>
-                     <td>
 			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="adApproval(`+delList.a_num +`)"> 승인 </button>
 		        	</td>
 	        	</tr>
@@ -131,7 +124,7 @@
 
             })
             dList += `</table>`
-            $('#management_btn').html(dList);
+            $('#admin-content').html(dList);
         }).fail((err) => {
 
         })
@@ -145,22 +138,24 @@
             url: '/admin/auctionApplyList',
 
         }).done((resp) => {
-            let dList = `<table class="table table-striped">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">상품명</th>
-        <th scope="col">카테고리</th>
-        <th scope="col">수량</th>
-        <th scope="col">희망 즉시구매가</th>
-        <th scope="col">희망 시작가</th>
-        <th scope="col">희망 최소입찰가</th>
-        <th scope="col">희망 판매기간</th>
-        <th scope="col">신청 시간</th>
-        <th scope="col">신청자</th>
-    </tr>
-    </thead>
-    <tbody id="delList">`;
+            let dList = `<h5 style="text-align: left">경매 신청 관리</h5>
+            <table class="table table-hover" id="auction-apply">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>상품명</th>
+                    <th>카테고리</th>
+                    <th>수량</th>
+                    <th>희망 즉시구매가</th>
+                    <th>희망 시작가</th>
+                    <th>희망 최소입찰가</th>
+                    <th>희망 판매기간</th>
+                    <th>신청 시간</th>
+                    <th>신청자</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody id="delList">`;
             $.each(resp, function (i, delList) {
                 dList += `
                 <tr>
@@ -168,34 +163,32 @@
 			        <td>
 			        	<a href="/board/auctionDetail?sb_num=` + delList.sb_num + `">` + delList.sb_title + `</a>
 		        	</td>
-			        <td id="_category">`
+			        <td>`
                     + delList.sb_category +
                     `</td>
-			        <td id="_price">`
+			        <td>`
                     + delList.sb_count +
                     `</td>
-			        <td id="_enddate">`
+			        <td>`
                     + delList.sb_price +
                     `</td>
-			        <td id="_enddate">`
+			        <td>`
                     + delList.sb_startPrice +
                     `</td>
-                     <td id="_enddate">`
+                     <td>`
                     + delList.sb_bid +
                     `</td>
-                     <td id="_enddate">`
+                     <td>`
                     + delList.sb_buyLevel +
                     `</td>
-                     <td id="_enddate">`
+                     <td>`
                     + delList.sb_date +
                     `</td>
-                     <td id="_enddate">`
+                     <td>`
                     + delList.sb_id +
                     `</td>
                     <td>
 			        	<button onclick="reject(`+ delList.sb_num +`)" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
-		        	</td>
-                     <td>
 			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="reUpload(`+delList.sb_num +`)"> 경매 올리기 </button>
 		        	</td>
 	        	</tr>
@@ -203,7 +196,7 @@
 
             })
             dList += `</table>`
-            $('#management_btn').html(dList);
+            $('#admin-content').html(dList);
             console.log(resp)
         }).fail((err) => {
 
@@ -217,18 +210,20 @@
             url: '/admin/boardManager',
 
         }).done((resp) => {
-            let dList = `<table class="table table-striped">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">상품명</th>
-        <th scope="col">카테고리</th>
-        <th scope="col">판매가격</th>
-        <th scope="col">재고수량</th>
-        <th scope="col">판매기간</th>
-    </tr>
-    </thead>
-    <tbody id="delList">`;
+            let dList = `<h5 style="text-align: left">경매 삭제 게시글 관리</h5>
+            <table class="table table-hover" id="deleted-auction-list">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>상품명</th>
+                    <th>카테고리</th>
+                    <th>판매가격</th>
+                    <th>재고수량</th>
+                    <th>판매기간</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody id="delList">`;
             $.each(resp, function (i, delList) {
                 dList += `
                 <tr>
@@ -236,30 +231,28 @@
 			        <td>
 			        	<a href="/board/auctionDetail?sb_num=` + delList.sb_num + `">` + delList.sb_title + `</a>
 		        	</td>
-			        <td id="_category">`
+			        <td>`
                     + delList.sb_category +
                     `</td>
-			        <td id="_price">`
+			        <td>`
                     + delList.sb_price +
                     `</td>
-			        <td id="_quantity">`
+			        <td>`
                     + delList.sb_count +
                     `</td>
-			        <td id="_enddate">`
+			        <td>`
                     + delList.sb_date +
                     `</td>
                     <td>
 			        	<a href="/admin/realDelete?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 삭제 </a>
-		        	</td>
-                     <td>
 			        	<a href="/admin/restore?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 복원 </a>
 		        	</td>
 	        	</tr>
- </tbody>`
+        </tbody>`
 
             })
             dList += `</table>`
-            $('#management_btn').html(dList);
+            $('#admin-content').html(dList);
             console.log(resp)
         }).fail(function (err) {
             console.log(err)
@@ -272,18 +265,20 @@
             url: '/admin/marketBoardManager',
 
         }).done((resp) => {
-            let dList = `<table class="table table-striped">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">상품명</th>
-        <th scope="col">카테고리</th>
-        <th scope="col">판매가격</th>
-        <th scope="col">재고수량</th>
-        <th scope="col">판매기간</th>
-    </tr>
-    </thead>
-    <tbody id="delList">`;
+            let dList = `<h5 style="text-align: left">중고거래 삭제 게시글 관리</h5>
+            <table class="table table-hover" id="deleted-item-list">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>상품명</th>
+                    <th>카테고리</th>
+                    <th>판매가격</th>
+                    <th>재고수량</th>
+                    <th>판매기간</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody id="delList">`;
             $.each(resp, function (i, delList) {
                 dList += `
                 <tr>
@@ -291,22 +286,20 @@
 			        <td>
 			        	<a href="/board/marketDetail?sb_num=` + delList.sb_num + `">` + delList.sb_title + `</a>
 		        	</td>
-			        <td id="_category">`
+			        <td>`
                     + delList.sb_category +
                     `</td>
-			        <td id="_price">`
+			        <td>`
                     + delList.sb_price +
                     `</td>
-			        <td id="_quantity">`
+			        <td>`
                     + delList.sb_count +
                     `</td>
-			        <td id="_enddate">`
+			        <td>`
                     + delList.sb_date +
                     `</td>
                      <td>
 			        	<a href="/admin/realDelete?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 삭제 </a>
-		        	</td>
-                    <td>
 			        	<a href="/admin/restore?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 복원 </a>
 		        	</td>
 	        	</tr>
@@ -314,7 +307,7 @@
 
             })
             dList += `</table>`
-            $('#management_btn').html(dList);
+            $('#admin-content').html(dList);
             console.log(resp)
         }).fail(function (err) {
             console.log(err)
@@ -329,39 +322,27 @@
 
         }).done((resp) => {
             let cateList = `
-<form action="/admin/cateAttend" method="post">
-<table class="table table-striped">
-    <thead>
-    <tr>
-
-        <th scope="col">카테고리 명</th>
-
-    </tr>
-
-    <tr>
- <td><input type="text" name="c_kind" placeholder="카테고리 추가"></td>
-<td><button type="submit" class="btn btn-primary btn-color-thebora">추가</button></td>
-</tr>
-</form>
-    </thead>
-    <tbody id="cateList">`;
+        <h5 style="text-align: left">카테고리 관리</h5>
+        <form action="/admin/cateAttend" method="post">
+        <table class="table table-hover" id="add-category">
+            <tr>
+                <td style="width: 90%"><input type="text" name="c_kind" placeholder="카테고리 추가" class="form-control"></td>
+                <td><button type="submit" class="btn btn-primary btn-color-thebora" style="width: 100%">추가</button></td>
+            </tr>
+        </form>`;
             $.each(resp, function (i, cList) {
                 cateList += `
-         <tr>
-			        <td id="_category">`
+            <tr>
+			        <td style="font-weight: bold">`
                     + cList +
                     `</td>
-         <td>
-			        	<a href="/admin/cateDelete?c_kind=` + cList + `" class="btn btn-primary btn-color-thebora"> 삭제 </a>
-		        	</td>
-
-</tr>
-   </tbody>
-                `
-
+                    <td>
+			        	<button href="/admin/cateDelete?c_kind=` + cList + `" class="btn btn-primary btn-color-thebora" style="width: 100%"> 삭제 </button>
+		    	    </td>
+            </tr>`
             })
             cateList += `</table>`
-            $('#management_btn').html(cateList);
+            $('#admin-content').html(cateList);
             console.log(resp)
         }).fail(function (err) {
             console.log(err)
@@ -375,75 +356,73 @@
             url: '/admin/memberList',
 
         }).done((resp) => {
-            let memberList = ``;
+            let memberList = `<h5 style="text-align: left">회원 관리</h5>`;
             $.each(resp, function (i, mList) {
                 memberList += `
- <form action="/admin/memberUpdate" method="post" id="update_form">
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th scope="col">아이디</th>
-        <th scope="col">이름</th>
-        <th scope="col">전화번호</th>
-        <th scope="col">주소</th>
-        <th scope="col">사업자번호</th>
-        <th scope="col">보유포인트</th>
-        <th scope="col">누적포인트</th>
-        <th scope="col">포인트부여</th>
-        <th scope="col">권한</th>
-    </tr>
-    </thead>
-    <tbody id="memberList">
+            <form action="/admin/memberUpdate" method="post" id="update_form">
+            <table class="table table-hover" id="memberList">
                 <tr>
-			        <td id="">
-                 <input type="text" name="m_id" value="` + mList.m_id + `">
-                 <input type="text" name="transId" hidden="hidden" value="` + mList.m_id + `">
+                    <th class="topborder">아이디</th>
+                    <th class="topborder">이름</th>
+                    <th class="topborder">전화번호</th>
+                    <th class="topborder">주소</th>
+                    <th class="topborder">권한</th>
+                </tr>
+                <tr>
+			        <td>
+                        <input type="text" name="m_id" value="` + mList.m_id + `" class="form-control">
+                        <input type="text" name="transId" hidden="hidden" value="` + mList.m_id + `" class="form-control">
                     </td>
-			        <td id="">  <input type="text" name="m_name"  value="`
-                    + mList.m_name +
-                    `"> </td>
-                    <td id="">  <input type="text" name="m_phone" value="`
-                    + mList.m_phone +
-                    `"> </td>
-			        <td id=""> <input type="text" name="m_addr" value="`
-                    + mList.m_addr +
-                    `"> </td>
-			        <td id="">  <input type="text" name="m_companyNum" value="`
-                    + mList.m_companyNum +
-                    `"> </td>
-			        <td id=""> `
-                    + mList.m_point +
-                    ` </td>
-			        <td id="">`
-                    + mList.m_sumPoint +
-                    `</td>
+			        <td>
+                        <input type="text" name="m_name"  value="`+ mList.m_name +`" class="form-control">
+                    </td>
                     <td>
-                    <input type="text" name="m_point" value="0">
+                        <input type="text" name="m_phone" value="`+ mList.m_phone +`" class="form-control">
                     </td>
-			        <td id="">
-                         <select name="m_role" id="">
+                    <td>
+			            <input type="text" name="m_addr" value="` + mList.m_addr +`" class="form-control">
+                    </td>
+			        <td>
+                         <select name="m_role" class="form-select">
                              <option value="` + mList.m_role + `">` + mList.m_role + `</option>
                              <option value="admin">admin</option>
                              <option value="user">user</option>
                              <option value="company">company</option>
                          </select>
                     </td>
-
-                    <td>
-			        	<button class="btn btn-primary btn-color-thebora"> 수정 </button>
-		        	</td>
-                    <td>
-			        	<a href="/admin/memberDelete?m_id=` + mList.m_id + `" class="btn btn-primary btn-color-thebora"> 삭제 </a>
-		        	</td>
-
                 </tr>
-</tbody>
+                <tr>
+                    <th>사업자번호</th>
+                    <th>보유포인트</th>
+                    <th>누적포인트</th>
+                    <th>포인트부여</th>
+                    <th>
+			        	<button class="btn btn-primary btn-color-thebora" style="width:100%;"> 수정 </button>
+		        	</th>
+                </tr>
+                <tr>
+			        <td>  <input type="text" name="m_companyNum" value="`
+                    + mList.m_companyNum +
+                    `" class="form-control"> </td>
+			        <td style="text-align: center"> `
+                    + mList.m_point +
+                    ` </td>
+			        <td style="text-align: center">`
+                    + mList.m_sumPoint +
+                    `</td>
+                    <td>
+                        <input type="text" name="m_point" placeholder="0" class="form-control">
+                    </td>
+                    <td>
+                        <a href="/admin/memberDelete?m_id=` + mList.m_id + `" class="btn btn-primary btn-color-thebora" style="width:100%;"> 삭제 </a>
+                    </td>
+                </tr>
 </table>
 </form>`
 
             })
 
-            $('#management_btn').html(memberList);
+            $('#admin-content').html(memberList);
             console.log(resp)
         }).fail(function (err) {
             console.log(err)
@@ -458,19 +437,21 @@
             url: '/admin/AuctionEndManager',
 
         }).done((resp) => {
-            let dList = `<table class="table table-striped">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">상품명</th>
-        <th scope="col">카테고리</th>
-        <th scope="col">판매가격</th>
-        <th scope="col">판매기간</th>
-        <th scope="col">판매자</th>
-        <th scope="col">구매자</th>
-    </tr>
-    </thead>
-    <tbody id="delList">`;
+            let dList = `<h5 style="text-align: left">경매 완료 게시글 관리</h5>
+        <table class="table table-hover" id="closed-auction-list">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>상품명</th>
+                <th>카테고리</th>
+                <th>판매가격</th>
+                <th>판매기간</th>
+                <th>판매자</th>
+                <th>구매자</th>
+                <th style="width: 15%">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody id="delList">`;
             $.each(resp, function (i, delList) {
                 dList += `
                 <tr>
@@ -478,25 +459,23 @@
 			        <td>
 			        	<a href="/board/auctionDetail?sb_num=` + delList.sb_num + `">` + delList.sb_title + `</a>
 		        	</td>
-			        <td id="_category">`
+			        <td>`
                     + delList.sb_category +
                     `</td>
-			        <td id="_price">`
+			        <td>`
                     + delList.sb_nowPrice +
                     `</td>
-			        <td id="_enddate">`
+			        <td>`
                     + delList.sb_date +
                     `</td>
-                     <td id="_enddate">`
+                     <td>`
                     + delList.sb_id +
                     `</td>
-                     <td id="_enddate">`
+                     <td>`
                     + delList.a_joinId +
                     `</td>
                     <td>
 			        	<a href="/admin/realDelete?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 삭제 </a>
-		        	</td>
-                     <td>
 			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="reUpload(`+delList.sb_num +`)"> 다시올리기 </button>
 		        	</td>
 	        	</tr>
@@ -504,7 +483,7 @@
 
             })
             dList += `</table>`
-            $('#management_btn').html(dList);
+            $('#admin-content').html(dList);
             console.log(resp)
         }).fail(function (err) {
             console.log(err)
@@ -517,27 +496,23 @@
 <header>
     <jsp:include page="../header.jsp"></jsp:include>
 </header>
-<div class="d-grid gap-2 w-75 mb-3 mx-auto">
+<main id="admin-page" class="d-grid gap-2 w-75 mb-3 mx-auto">
     <h1>관리자 전용 페이지</h1>
-
-
-    <div>
-        <button type="button" class="btn btn-primary btn-color-thebora" onclick="goAdApply()">광고 신청 관리</button>
-        <button type="button" class="btn btn-primary btn-color-thebora" onclick="goAuctionApply()">경매 신청 관리</button>
-        <button type="button" class="btn btn-primary btn-color-thebora" onclick="goAuctionEndManager()">경매 완료 게시글 관리</button>
-        <button type="button" class="btn btn-primary btn-color-thebora" onclick="goBoardManager()">경매 삭제 게시글 관리</button>
-        <button type="button" class="btn btn-primary btn-color-thebora" onclick="goMarketBoardManager()">중고거래 삭제 게시글 관리</button>
-        <button type="button" class="btn btn-primary btn-color-thebora" onclick="categoryList()">카테고리 관리</button>
-        <button type="button" class="btn btn-primary btn-color-thebora" onclick="memberList()">회원 관리</button>
+    <div id="admin-page-nav">
+        <ul>
+            <li onclick="goAdApply()">광고 신청 관리</li>
+            <li onclick="goAuctionApply()">경매 신청 관리</li>
+            <li onclick="goAuctionEndManager()">경매 완료 게시글 관리</li>
+            <li onclick="goBoardManager()">경매 삭제 게시글 관리</li>
+            <li onclick="goMarketBoardManager()">중고거래 삭제 게시글 관리</li>
+            <li onclick="categoryList()">카테고리 관리</li>
+            <li onclick="memberList()" class="noborder">회원 관리</li>
+        </ul>
+    </div>
+    <div id="admin-content">
 
     </div>
-    <div id="management_btn">
-
-    </div>
-
-
-</div>
-
+</main>
 <div id="reUp" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
