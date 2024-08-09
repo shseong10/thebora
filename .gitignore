@@ -31,10 +31,7 @@ atlassian-ide-plugin.xml
 
 
 ### Intellij Patch ###
- *.iml
  modules.xml
- .idea/misc.xml
- *.ipr
 
 ### Java ###
 # Compiled class file
