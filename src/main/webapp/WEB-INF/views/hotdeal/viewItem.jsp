@@ -23,7 +23,7 @@
             h_o_qty.name = "h_o_qty";
 
             h_o_p_num.value = ${inventory.sb_num};
-            h_o_sales_price.value = ${inventory.sb_startprice};
+            h_o_sales_price.value = ${inventory.sb_price};
             h_o_qty.value = qty.value;
 
             formObj.appendChild(h_o_p_num);
@@ -52,7 +52,7 @@
 
             h_c_p_num.value = ${inventory.sb_num};
             h_c_user_id.value = "aaa"; //임시아이디
-            h_c_p_sales_price.value = ${inventory.sb_startprice};
+            h_c_p_sales_price.value = ${inventory.sb_price};
             h_c_p_qty.value = qty.value;
 
             formObj.appendChild(h_c_p_num);
@@ -133,7 +133,7 @@
             <div class="col-md-8">
                 <div class="card-body">
                     <h5 class="card-title">${inventory.sb_title}</h5>
-                    <p class="card-text">${inventory.sb_startprice}원</p>
+                    <p class="card-text">${inventory.sb_price}원</p>
                     <p class="card-text"><small class="text-body-secondary">${inventory.sb_contents}</small></p>
                     <p class="card-text"><small class="text-body-secondary">수량 선택: <input type="text" id="view_qty" name="view_qty" value="3">개</small></p>
                     <div class="d-grid gap-2 d-md-block mb-3">
