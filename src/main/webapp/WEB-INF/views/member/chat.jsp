@@ -61,7 +61,7 @@
             </div>
             <div id="chat_input_field">
                 <input type="text" class="form-control me-2" name="c_contents" id="c_contents" placeholder="메시지 입력"/>
-                <input type="button" class="btn btn-primary btn-color-thebora" value="보내기" onclick="chatInsert()"/>
+                <input type="button" class="btn btn-primary btn-color-thebora" id="sendButton" value="보내기" onclick="chatInsert()"/>
             </div>
         </div>
     </div>
@@ -121,14 +121,21 @@
             }
 
             $('#c_contents').val('').focus();
-
+            $("#chat_contents").scrollTop( $("#chat_contents").prop('scrollHeight'));
 
         }).fail(function (err) {
             console.log(err);
         })
     }
 
+    $("#c_contents").keydown(function (e) {
+        if (e.key === "Enter") { // Enter 키
+            e.preventDefault(); // 기본 Enter 동작 방지
+            $("#sendButton").click();
 
+
+        }
+    });
 
 </script>
 </body>
