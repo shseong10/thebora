@@ -169,7 +169,7 @@
                         </select>
                         <input type="text" value="4" name="sb_saleKind" hidden="hidden">
                         <input type="text" value="1" name="sb_scope" hidden="hidden">
-                        <input type="text" value="지역없음" name="sb_local" hidden="hidden">
+                        <input type="text" value="경매" name="sb_local" hidden="hidden">
 
                 </div>
             </div>
