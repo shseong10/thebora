@@ -191,7 +191,7 @@
     $("#header-keyWord").keydown(function (e) {
         if (e.key === "Enter") { // Enter 키
             e.preventDefault(); // 기본 Enter 동작 방지
-            $("#header-search").click();
+            $("#button_search").click();
         }
     });
 
@@ -223,7 +223,17 @@
 
             try {
                 const result = JSON.parse(event.data);
-                console.log("d이거슨 리절트 확인용",result);
+                if(result.type ==="reject"){
+                    $('#toastContainer').append(result.contents);
+                    localStorage.setItem("newItem", "<span id='newIcon' class='notification-badge'>NEW</span>");
+                    $('#alertLink').append(localStorage.getItem("newItem"))
+                    const toastElements = document.querySelectorAll('.choose');
+                    toastElements.forEach((toastElement) => {
+                        const toastBootstrap = new bootstrap.Toast(toastElement);
+                        toastBootstrap.show();
+                    });
+                }
+                else
                 if (result.type === "price") {
                     $('#np').html(result.value);
                 }else
@@ -233,8 +243,6 @@
                 if (result.type === "chat") {
                     $('#chat_contents').append(result.value);
                 }else{
-                    console.log("이거슨 화긴용 :", event.data)
-                    console.log("이거슨 화긴용2 :",result.contents)
                     $('#toastContainer').append(result.contents);
                     localStorage.setItem("newItem", "<span id='newIcon' class='notification-badge'>NEW</span>");
                     $('#alertLink').append(localStorage.getItem("newItem"))

@@ -426,3 +426,65 @@ footer {
 #preview_main img {
   width: 100%;
 }
+
+
+/* 일반 관리자 페이지 */
+#admin-page-nav {
+  border-bottom: 1px #ccc solid;
+}
+
+#admin-page-nav ul {
+  display: flex;
+  list-style-type: none;
+  width: 100%;
+  padding: 0;
+}
+
+#admin-page-nav ul li {
+  flex: auto;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  border-right: 1px #ccc solid;
+}
+
+#admin-content {
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+}
+
+
+
+#memberList th, #memberList td,
+#add-category th, #add-category td,
+#ad-apply th, #ad-apply td {
+  vertical-align:middle;
+}
+
+#memberList th {
+  font-weight: bold;
+  text-align: center;
+}
+
+/*#memberList select {*/
+/*  width: 100%;*/
+/*}*/
+
+#add-category th, #add-category td,
+#ad-apply th, #ad-apply td,
+#auction-apply th, #auction-apply td,
+#closed-auction-list th, #closed-auction-list td,
+#deleted-auction-list th, #deleted-auction-list td,
+#deleted-item-list td, #deleted-item-list td
+{
+  text-align: center;
+}
+
+
+.topborder {
+  border-top: 1px #aaa solid;
+}
+
+.noborder {
+  border: 0 !important;
+}
