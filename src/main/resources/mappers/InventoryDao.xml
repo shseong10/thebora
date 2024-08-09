@@ -3,8 +3,8 @@
 <mapper namespace="com.icia.guree.dao.InventoryDao">
     <!-- 상품 등록 -->
     <insert id="addItemSelectKey" parameterType="InventoryDto" useGeneratedKeys="true" keyProperty="sb_num">
-        insert into saleboard (sb_title, sb_category, sb_startprice, sb_count, sb_contents, sb_timer, sb_buylevel, sb_date, sb_salekind, sb_local, sb_scope)
-        values (#{sb_title}, #{sb_category}, #{sb_startprice}, #{sb_count}, #{sb_contents}, #{sb_timer}, #{sb_buylevel}, default, 3, '핫딜상품', 1)
+        insert into saleboard (sb_title,sb_id, sb_category, sb_price, sb_count, sb_contents, sb_timer, sb_buylevel, sb_date, sb_salekind, sb_local, sb_scope)
+        values (#{sb_title},#{m_id}, #{sb_category}, #{sb_price}, #{sb_count}, #{sb_contents}, #{sb_timer}, #{sb_buylevel}, default, 3, '핫딜상품', 1)
         <selectKey keyProperty="sb_num" resultType="Integer" order="AFTER">
             select last_insert_id()
         </selectKey>
@@ -20,7 +20,7 @@
     </select>
     <!-- 상품 수정 -->
     <update id="updateItem">
-        update saleboard set sb_title = #{sb_title}, sb_category = #{sb_category}, sb_startprice = #{sb_startprice},
+        update saleboard set sb_title = #{sb_title}, sb_category = #{sb_category}, sb_price = #{sb_price},
         sb_count = #{sb_count}, sb_contents = #{sb_contents}, sb_date = default, sb_timer = #{sb_timer}, sb_buylevel = #{sb_buylevel}
         where sb_num = #{sb_num}
     </update>
@@ -29,7 +29,7 @@
         <id property="sb_num" column="sb_num" />
         <result property="sb_title" column="sb_title" />
         <result property="sb_category" column="sb_category" />
-        <result property="sb_startprice" column="sb_startprice" />
+        <result property="sb_price" column="sb_price" />
         <result property="sb_count" column="sb_count" />
         <result property="sb_contents" column="sb_contents" />
         <result property="sb_timer" column="sb_timer" />
@@ -41,7 +41,7 @@
         </collection>
     </resultMap>
     <select id="getInventoryList" parameterType="HashMap" resultMap="ifList" resultType="InventoryDto">
-        select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_buylevel,
+        select sb_num, sb_title, sb_price, sb_contents, sb_category, sb_count, sb_buylevel,
         date_format(sb_timer,'%Y-%m-%d %H:%i') sb_timer_str,
         bf_orifilename, bf_sysfilename
         from saleboard left join boardfile
@@ -53,7 +53,7 @@
 
     <!-- 관리자 페이지 보기 -->
     <select id="getAdmin" parameterType="HashMap" resultMap="ifList" resultType="InventoryDto">
-        select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel,
+        select sb_num, sb_title, sb_price, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel,
         date_format(sb_timer,'%Y-%m-%d %H:%i') sb_timer_str,
         bf_orifilename, bf_sysfilename
         from saleboard left join boardfile
@@ -63,7 +63,7 @@
     </select>
     <!-- 상품 상세 보기 -->
     <select id="getInventoryDetail" parameterType="Integer" resultMap="ifList">
-        select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel,
+        select sb_num, sb_title, sb_price, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel,
         date_format(sb_timer,'%Y-%m-%d %H:%i') sb_timer_str,
         bf_orifilename, bf_sysfilename
         from saleboard left join boardfile
@@ -72,7 +72,7 @@
     </select>
     <!-- 상품 상세 보기 -->
     <select id="getQuickView" parameterType="Integer" resultMap="ifList">
-        select sb_num, sb_title, sb_startprice, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel,
+        select sb_num, sb_title, sb_price, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel,
         date_format(sb_timer,'%Y-%m-%d %H:%i') sb_timer_str,
         bf_orifilename, bf_sysfilename
         from saleboard left join boardfile
@@ -81,7 +81,7 @@
     </select>
     <!-- 관리자 상품 빠른 수정-->
     <update id="quickUpdate" parameterType="InventoryDto">
-        update saleboard set sb_title = #{sb_title}, sb_category = #{sb_category}, sb_startprice = #{sb_startprice},
+        update saleboard set sb_title = #{sb_title}, sb_category = #{sb_category}, sb_price = #{sb_price},
         sb_count = #{sb_count}, sb_contents = #{sb_contents}, sb_date = default, sb_timer = #{sb_timer}, sb_buylevel = #{sb_buylevel}
         where sb_num = #{sb_num}
     </update>

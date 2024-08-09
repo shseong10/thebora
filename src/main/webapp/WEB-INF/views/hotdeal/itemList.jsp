@@ -35,7 +35,7 @@
                     <div class="hotdeal-item-text">
                         <a href="/hotdeal/list/detail?sb_num=${item.sb_num}" class="stretched-link"><h5>${item.sb_title}</h5></a>
                         <small class="text-body-secondary">${item.sb_category}</small>
-                        <p class="hotdeal-item-price">${item.sb_startprice}원</p>
+                        <p class="hotdeal-item-price">${item.sb_price}원</p>
                     </div>
                 </div>
             </div>

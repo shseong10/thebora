@@ -216,7 +216,7 @@
                         </div>
                         <div class="col-6">
                             가격
-                            <input type="text" class="form-control" id="sb_startprice" name="sb_startprice" value="${inventory.sb_startprice}">
+                            <input type="text" class="form-control" id="sb_price" name="sb_price" value="${inventory.sb_price}">
                         </div>
                         <div class="col-6">
                             수량

@@ -3,6 +3,7 @@ package com.icia.guree.dao;
 import com.icia.guree.entity.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -113,4 +114,11 @@ public interface BoardDao {
     boolean getMyAdApply(BoardDto bDto);
 
     List<BoardDto> adApplyList();
+
+    @Update("update advertisement set a_app = 2 where a_num = #{a_num}")
+    boolean abApproval(String a_num);
+    
+    @Select("select * from saleboard join advertisement on sb_num = a_sb_num where a_app = 2 order by a_num desc")
+    List<BoardDto> getAdItem();
 }
+

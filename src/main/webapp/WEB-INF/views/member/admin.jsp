@@ -34,6 +34,28 @@
         }
 
     })
+
+    function adApproval(num) {
+        console.log(num)
+        $.ajax({
+            method: 'post',
+            url: '/admin/adApproval',
+            data:{"a_num": num}
+
+        }).done((resp) => {
+            if (resp){
+                alert("승인완료.")
+                goAdApply()
+            }else {
+                alert("승인실패.")
+            }
+
+            console.log(resp)
+        }).fail((err) => {
+            console.log(err)
+        })
+    }
+
     function goAdApply() {
         $.ajax({
             method: 'post',
@@ -47,9 +69,10 @@
         <th scope="col">거래유형</th>
         <th scope="col">상품명</th>
         <th scope="col">카테고리</th>
-        <th scope="col">희망 판매기간</th>
+        <th scope="col">희망 기간</th>
         <th scope="col">신청 시간</th>
         <th scope="col">신청자</th>
+        <th scope="col">승인여부</th>
     </tr>
     </thead>
     <tbody id="delList">`;
@@ -75,7 +98,7 @@
 
                 dList += `
                 <tr>
-			        <th scope="row">` + delList.sb_num + `</th>
+			        <th scope="row">` + delList.a_num + `</th>
                     <td id="_category">`
                     + saleKind +
                     `</td>
@@ -94,11 +117,14 @@
                      <td id="_enddate">`
                     + delList.sb_id +
                     `</td>
+                     <td id="_enddate">`
+                    + delList.a_app +
+                    `</td>
                     <td>
 			        	<button onclick="reject(`+ delList.sb_num +`)" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
 		        	</td>
                      <td>
-			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="reUpload(`+delList.sb_num +`)"> 경매 올리기 </button>
+			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="adApproval(`+delList.a_num +`)"> 승인 </button>
 		        	</td>
 	        	</tr>
  </tbody>`

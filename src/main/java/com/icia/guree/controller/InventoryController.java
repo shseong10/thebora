@@ -13,6 +13,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +56,11 @@ public class InventoryController {
 
     @PostMapping("/hotdeal/add_item")
     public String addItem(InventoryDto inventory, HttpSession session, RedirectAttributes rttr) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            inventory.setM_id(userDetails.getUsername());
+        }
         log.info("상품 업로드");
         log.info(">>>>상품: {}", inventory);
         for (MultipartFile mf : inventory.getAttachments()) {
