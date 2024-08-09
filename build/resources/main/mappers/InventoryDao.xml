@@ -3,8 +3,8 @@
 <mapper namespace="com.icia.guree.dao.InventoryDao">
     <!-- 상품 등록 -->
     <insert id="addItemSelectKey" parameterType="InventoryDto" useGeneratedKeys="true" keyProperty="sb_num">
-        insert into saleboard (sb_title, sb_category, sb_startprice, sb_count, sb_contents, sb_timer, sb_buylevel, sb_date, sb_salekind, sb_local, sb_scope)
-        values (#{sb_title}, #{sb_category}, #{sb_startprice}, #{sb_count}, #{sb_contents}, #{sb_timer}, #{sb_buylevel}, default, 3, '핫딜상품', 1)
+        insert into saleboard (sb_title,sb_id, sb_category, sb_startprice, sb_count, sb_contents, sb_timer, sb_buylevel, sb_date, sb_salekind, sb_local, sb_scope)
+        values (#{sb_title},#{m_id}, #{sb_category}, #{sb_startprice}, #{sb_count}, #{sb_contents}, #{sb_timer}, #{sb_buylevel}, default, 3, '핫딜상품', 1)
         <selectKey keyProperty="sb_num" resultType="Integer" order="AFTER">
             select last_insert_id()
         </selectKey>
