@@ -61,7 +61,7 @@ public interface BoardDao {
 
     List<BoardDto> marketBoardDelList();
 
-    void realDelete(Integer sb_num);
+    boolean realDelete(Integer sb_num);
 
     void restore(Integer sb_num);
 
@@ -119,10 +119,27 @@ public interface BoardDao {
     @Update("update advertisement set a_app = 2 where a_num = #{a_num}")
     boolean abApproval(String a_num);
     
-    @Select("select * from saleboard join advertisement on sb_num = a_sb_num where a_app = 2 order by a_num desc")
+    @Select("select * from saleboard join advertisement on sb_num = a_sb_num where a_app = 2 and sb_scope = 1 order by a_num desc")
     List<BoardDto> getAdItem();
 
     @Delete("delete from saleboard where sb_num = #{sb_num} ")
     boolean auctionReject(String sb_num);
+
+    @Select("select sb_timer,sb_num,sb_price,sb_id from saleboard where sb_salekind = 1 and sb_scope = 1")
+    List<BoardDto> auctionEndList();
+
+    @Update("update saleboard set sb_scope = 3 where  sb_num = #{sbNum}")
+    boolean marketEnd(String sbNum);
+
+    List<BoardDto> marketEndList(String name);
+
+    @Update("update saleboard set sb_scope = 3, sb_nowprice = #{sb_price}  where  sb_num = #{sb_num}")
+    void buyNow(BoardDto bDto);
+
+    @Delete("delete from advertisement where a_num = #{a_num}")
+    boolean adReject(String a_num);
+
+    @Update("update member set m_point = m_point + 100*#{a_period} where m_id = #{sb_id}")
+    boolean returnPoint(BoardDto bDto);
 }
 

@@ -115,7 +115,7 @@ public class BoardController {
         boolean ifafter = now.isAfter(later);
         log.info("======zzzzzzz===============" + ifafter);
         if (ifafter) {
-            bSer.auctionEnd(bDto);
+            bSer.auctionEnd(detail);
             redirectAttributes.addFlashAttribute("msg", "이미 완료된 경매입니다.");
             return "redirect:/board/auctionList";
         }
@@ -243,6 +243,17 @@ public class BoardController {
         }
         return "redirect:/";
     }
+    //중고거래 판매 완료
+    @GetMapping("/board/marketEnd")
+    public String marketEnd(@RequestParam("sb_num") String sb_num, RedirectAttributes redirectAttributes ){
+       boolean end = bSer.marketEnd(sb_num);
+        if (end){
+            redirectAttributes.addFlashAttribute("msg", "판매완료되었습니다.");
+            return "redirect:/board/marketList";
+        }
+        return "redirect:/board/marketList";
+    }
+
 
     //중고거래 리스트
     @GetMapping("/board/marketList")
@@ -340,6 +351,26 @@ public class BoardController {
         }
         return "redirect:/member/login";
     }
+    // 경매 즉시구매
+    @PostMapping("/board/buyNow")
+    public String buyNow(BoardDto bDto, RedirectAttributes redirectAttributes ){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            bDto.setA_joinId(userDetails.getUsername());
+          boolean result = bSer.buyNow(bDto);
+          if (result){
+              redirectAttributes.addFlashAttribute("msg","즉시구매 완료");
+              return "redirect:/board/auctionList";
+          }else {
+              redirectAttributes.addFlashAttribute("msg","포인트가 부족합니다.");
+              return "redirect:/board/auctionDetail?sb_num="+bDto.getSb_num();
+          }
+
+        }
+        return "redirect:/member/login";
+    }
+
 
     // 경매 관심상품 등록
     @GetMapping("/board/myAuctionCart")

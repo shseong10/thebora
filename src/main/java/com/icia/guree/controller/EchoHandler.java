@@ -71,6 +71,28 @@ public class EchoHandler extends TextWebSocketHandler {
         log.info("================alertMsg.getType()================ " + alertMsg.getType());
         log.info("================alertMsg.getType()=========같냐======={}",alertMsg.getType().equals("chat"));
 
+        if (alertMsg.getType().equals("adReject")) {
+            alertMsg.setAlertDate(result);
+            alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +
+                    "<div class='toast-header'>" +
+                    "<button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
+                    result +
+                    "</div>" +
+                    "<div class='toast-body'>" +
+                    alertMsg.getSb_title() + "의 광고신청이 거절되었습니다." +
+                    "</div>" +
+                    "</div>");
+            String alertContents = alertMsg.getMsg().replace("\"", "\\\"");
+            String reject = "{\"type\":\"reject\",\"contents\":\""+alertContents+"\"}";
+
+            if (sendedPushSession != null) {
+                sendedPushSession.sendMessage(new TextMessage(reject));
+            } else {
+                notificationBuffer.computeIfAbsent(alertMsg.getSeller(), k -> new ArrayList<>()).add(reject);
+            }
+            bSer.alertMsg(alertMsg);
+        }
+
         if (alertMsg.getType().equals("reject")) {
             alertMsg.setAlertDate(result);
             alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +
@@ -84,6 +106,7 @@ public class EchoHandler extends TextWebSocketHandler {
                     "</div>");
             String alertContents = alertMsg.getMsg().replace("\"", "\\\"");
             String reject = "{\"type\":\"reject\",\"contents\":\""+alertContents+"\"}";
+
             if (sendedPushSession != null) {
                 sendedPushSession.sendMessage(new TextMessage(reject));
             } else {
@@ -96,8 +119,40 @@ public class EchoHandler extends TextWebSocketHandler {
             String chat = "{\"type\":\"chat\",\"value\":\"<div>"+sendPushUsername(session)+" : "+alertMsg.getMsg()+"</div>\"}";
             if(alertMsg.getSeller().equals(sendPushUsername(session))){
                 sendedPushSession2.sendMessage(new TextMessage(chat));
-            }else if(alertMsg.getBuyer().equals(sendPushUsername(session))){
+                alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +
+                        "<div class='toast-header'>" +
+                        "<button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
+                        result +
+                        "</div>" +
+                        "<div class='toast-body'>" +
+                        alertMsg.getBuyer() + " 님이 메세지를 보냈습니다." +
+                        "</div>" +
+                        "</div>");
+                String alertContents = alertMsg.getMsg().replace("\"", "\\\"");
+                String alert = "{\"type\":\"chatAlert\",\"contents\":\""+alertContents+"\"}";
+                if ( sendedPushSession2 != null){
+                    sendedPushSession2.sendMessage(new TextMessage(alert));
+                }else {
+                    notificationBuffer.computeIfAbsent(alertMsg.getBuyer(), k -> new ArrayList<>()).add(alert);
+                }
+            }else{
                 sendedPushSession.sendMessage(new TextMessage(chat));
+                alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +
+                        "<div class='toast-header'>" +
+                        "<button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
+                        result +
+                        "</div>" +
+                        "<div class='toast-body'>" +
+                        alertMsg.getSeller() + " 님이 메세지를 보냈습니다." +
+                        "</div>" +
+                        "</div>");
+                String alertContents = alertMsg.getMsg().replace("\"", "\\\"");
+                String alert = "{\"type\":\"chatAlert\",\"contents\":\""+alertContents+"\"}";
+                if ( sendedPushSession != null){
+                    sendedPushSession.sendMessage(new TextMessage(alert));
+                }else {
+                    notificationBuffer.computeIfAbsent(alertMsg.getSeller(), k -> new ArrayList<>()).add(alert);
+                }
             }
 
         }

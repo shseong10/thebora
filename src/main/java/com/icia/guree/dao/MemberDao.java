@@ -1,6 +1,7 @@
 package com.icia.guree.dao;
 
 import com.icia.guree.entity.AttendanceDto;
+import com.icia.guree.entity.BoardDto;
 import com.icia.guree.entity.MemberDto;
 import com.icia.guree.entity.ProfileFile;
 import org.apache.ibatis.annotations.Insert;
@@ -55,4 +56,10 @@ public interface MemberDao {
 
     @Select("select m_point from member where m_id=#{m_id}")
     int getUserPoint(String m_id);
+
+    @Update("update member set m_point = m_point + #{a_bidPrice} where m_id =#{a_joinId}")
+    void returnPoint(BoardDto attender);
+
+    @Update("update member set m_point = m_point + #{sb_price}, m_sumpoint = m_sumpoint + #{sb_price} where m_id = #{sb_id}")
+    void pointGet(BoardDto bDto);
 }

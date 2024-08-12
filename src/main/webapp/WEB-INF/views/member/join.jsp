@@ -17,12 +17,15 @@
         <a href="/"></a>
     </div>
     <div id="join_input">
-        <form action="/member/login" method="post" id="join-form">
+        <form action="/member/join" method="post" id="join-form">
             <input type="text" class="form-control me-2" id="id" name="m_id" placeholder="아이디"><br>
+            <span></span>
             <input type="password" class="form-control me-2" id="pw" name="m_pw" placeholder="패스워드"><br>
-            <input type="text" class="form-control me-2" id="re-pw" name="re_m_pw" placeholder="패스워드 확인"><br>
-            <input type="text" class="form-control me-2" id="m_name" name="re_m_pw" placeholder="이름"><br>
-            <input type="text" class="form-control me-2" id="m-phone" name="re_m_pw" placeholder="핸드폰 번호"><br>
+            <span></span>
+            <input type="password" class="form-control me-2" id="re-pw" placeholder="패스워드 확인"><br>
+            <span></span>
+            <input type="text" class="form-control me-2" id="name" name="m_name" placeholder="이름"><br>
+            <input type="text" class="form-control me-2" id="phone" name="m_phone" placeholder="핸드폰 번호"><br>
             <div class="row">
                 <div class="col-8">
                     <input type="text" class="form-control me-2" name="m_addr" id="address" placeholder="주소">
@@ -93,8 +96,8 @@
             })
         }
     });
-    $('#re_pw').on('input', function () {
-        if ($('#re_pw').val() == pw.val()) {
+    $('#re-pw').on('input', function () {
+        if ($('#re-pw').val() == pw.val()) {
             $('span').eq(2).html('비밀번호가 일치합니다.').css({
                 'color': 'green', 'font-size': '12px'
             })
@@ -106,8 +109,8 @@
     });
 
     function join() {
-        if (pwj.test(pw.val()) && idj.test(id.val()) && $('#re_pw').val() === pw.val() && idCheck
-            && $('#name').val()!=="" && $('#addr').val()!=="" && $('#phone').val()!=="") {
+        if (pwj.test(pw.val()) && idj.test(id.val()) && $('#re-pw').val() === pw.val() && idCheck
+            && $('#name').val()!=="" && $('#address').val()!=="" && $('#phone').val()!=="") {
              $('#join-form').submit();
         } else {
             $('span').eq(3).html('올바르지 않은 양식입니다.').css({

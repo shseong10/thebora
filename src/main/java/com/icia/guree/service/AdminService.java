@@ -24,12 +24,12 @@ public class AdminService {
 
 
 
-    public void realDelete(Integer sb_num, HttpSession session) {
+    public boolean realDelete(Integer sb_num, HttpSession session) {
         String[] sysFiles = fDao.getBoardSysFiles(sb_num);
         if (sysFiles.length != 0) {
             bfm.fileDelete(sysFiles, session);
         }
-        bDao.realDelete(sb_num);
+       return bDao.realDelete(sb_num);
     }
 
     public void restore(Integer sb_num) {

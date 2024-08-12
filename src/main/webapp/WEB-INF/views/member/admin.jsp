@@ -141,7 +141,7 @@
                     + delList.a_app +
                     `</td>
                     <td>
-			        	<button onclick="adReject(`+ delList.sb_num +`)" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
+			        	<button onclick="adReject(`+ delList.a_num +`,`+delList.a_period+`,'` +delList.sb_id +`','`+ delList.sb_title+`')" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
 			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="adApproval(`+delList.a_num +`)"> 승인 </button>
 		        	</td>
 	        	</tr>
@@ -155,6 +155,31 @@
         })
     }
 
+    function adReject(num,point,id,title){
+        $.ajax({
+            method: 'post',
+            url: '/admin/adReject',
+            data: {'a_num':num,'a_period':point,'sb_id':id},
+
+        }).done((resp)=>{
+            if (resp){
+                alert("거절완료")
+                if (socket) {
+                    let socketMsg = {"type":"adReject","seller":id,"sb_title":title,"sb_num":num};
+                    socket.send(JSON.stringify(socketMsg));
+                    alert('거절했습니다.');
+                }
+                goAdApply()
+
+            }else{
+                alert("거절실패")
+                goAdApply()
+            }
+
+        }).fail((err)=>{
+            console.log(err)
+        })
+        }
 
 
     function goAuctionApply() {
@@ -269,7 +294,7 @@
                     + delList.sb_date +
                     `</td>
                     <td>
-			        	<a href="/admin/realDelete?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 삭제 </a>
+			        	<a class="btn btn-primary btn-color-thebora" onclick="auctionRealDelete(`+delList.sb_num+`)"> 삭제 </a>
 			        	<a href="/admin/restore?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 복원 </a>
 		        	</td>
 	        	</tr>
@@ -324,7 +349,7 @@
                     + delList.sb_date +
                     `</td>
                      <td>
-			        	<a href="/admin/realDelete?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 삭제 </a>
+			        	<a class="btn btn-primary btn-color-thebora" onclick="marketRealDelete(`+delList.sb_num+`)"> 삭제 </a>
 			        	<a href="/admin/restore?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 복원 </a>
 		        	</td>
 	        	</tr>
@@ -338,6 +363,67 @@
             console.log(err)
         })
 
+    }
+    function auctionRealDelete(num){
+        $.ajax({
+            method: 'post',
+            url: '/admin/realDelete',
+            data: {'sb_num':num},
+        }).done((resp)=>{
+            if (resp){
+                alert("삭제완료")
+                goBoardManager()
+
+            }else {
+                alert("삭제실패")
+                console.log(resp)
+            }
+
+        }).fail((err)=>{
+            console.log(err)
+        })
+    }
+
+
+    function marketRealDelete(num){
+        $.ajax({
+            method: 'post',
+            url: '/admin/realDelete',
+            data: {'sb_num':num},
+    }).done((resp)=>{
+        if (resp){
+            alert("삭제완료")
+            goMarketBoardManager()
+
+        }else {
+            alert("삭제실패")
+            console.log(resp)
+        }
+
+        }).fail((err)=>{
+            console.log(err)
+        })
+    }
+
+
+    function endAuctionRealDelete(num){
+        $.ajax({
+            method: 'post',
+            url: '/admin/realDelete',
+            data: {'sb_num':num},
+        }).done((resp)=>{
+            if (resp){
+                alert("삭제완료")
+                goAuctionEndManager()
+
+            }else {
+                alert("삭제실패")
+                console.log(resp)
+            }
+
+        }).fail((err)=>{
+            console.log(err)
+        })
     }
 
     function categoryList() {
@@ -362,7 +448,7 @@
                     + cList +
                     `</td>
                     <td>
-			        	<button href="/admin/cateDelete?c_kind=` + cList + `" class="btn btn-primary btn-color-thebora" style="width: 100%"> 삭제 </button>
+			        	<a href="/admin/cateDelete?c_kind=` + cList + `" class="btn btn-primary btn-color-thebora" style="width: 100%"> 삭제 </a>
 		    	    </td>
             </tr>`
             })
@@ -500,7 +586,7 @@
                     + delList.a_joinId +
                     `</td>
                     <td>
-			        	<a href="/admin/realDelete?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 삭제 </a>
+			        	<a class="btn btn-primary btn-color-thebora" onclick="endAuctionRealDelete(`+delList.sb_num+`)"> 삭제 </a>
 			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="reUpload(`+delList.sb_num +`)"> 다시올리기 </button>
 		        	</td>
 	        	</tr>
@@ -580,17 +666,19 @@
     const myInput = document.querySelector(".myInput");
     const fp = flatpickr(myInput, {
         enableTime: true,
+        minuteIncrement: 1,
         dateFormat: "Y-m-d H:i",
         "locale": "ko",
         minDate: new Date().fp_incr(1) ,
-        minTime: "12:00",
+        minTime: "9:00",
         maxDate: new Date().fp_incr(7) // 7 days from now
 
     });
 
     //달력에서 선택한 날짜를 전송용 필드에 입력하게 함
     fp.config.onChange.push(function (selectedDates, dateStr, fp) {
-        const isoDatetime = new Date(dateStr).toISOString().slice(0, 16);
+        const date = new Date(dateStr);
+        const isoDatetime = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
         document.getElementById('sb_timer').value = isoDatetime;
     })
 

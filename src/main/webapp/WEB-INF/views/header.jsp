@@ -110,7 +110,7 @@
                     <div class="notification-target">
                         <sec:authorize access="isAuthenticated()">
                             <div class="nav-link">
-                                <a href="/member/chat" aria-expanded="false">채팅</a>
+                                <a href="/member/chat" id="chatAlert" aria-expanded="false">채팅</a>
                             </div>
                         </sec:authorize>
                         <%--                        <span class="notification-badge">NEW</span>--%>
@@ -242,7 +242,19 @@
                 }else
                 if (result.type === "chat") {
                     $('#chat_contents').append(result.value);
-                }else{
+                    $("#chat_contents").scrollTop( $("#chat_contents").prop('scrollHeight'));
+                }else
+                if(result.type ==="chatAlert"){
+                    $('#toastContainer').append(result.contents);
+                    localStorage.setItem("newItem", "<span id='newIcon' class='notification-badge'>NEW</span>");
+                    $('#chatAlert').append(localStorage.getItem("newItem"))
+                    const toastElements = document.querySelectorAll('.choose');
+                    toastElements.forEach((toastElement) => {
+                        const toastBootstrap = new bootstrap.Toast(toastElement);
+                        toastBootstrap.show();
+                    });
+                }
+                else{
                     $('#toastContainer').append(result.contents);
                     localStorage.setItem("newItem", "<span id='newIcon' class='notification-badge'>NEW</span>");
                     $('#alertLink').append(localStorage.getItem("newItem"))

@@ -105,6 +105,8 @@
             <div>${profile.m_name}</div>
             <div class="profile-info">LEVEL</div>
             <div>${profile.p_level}</div>
+            <div class="profile-info">POINT</div>
+            <div>${profile.m_point}P</div>
             <div class="profile-info">TOTAL POINT</div>
             <div>${profile.m_sumPoint}P</div>
 
@@ -122,8 +124,6 @@
                 </div>
             </div>
             <div class="profile-info-all">
-                <div class="profile-info">계좌</div>
-                <div>5484686484646</div>
                 <div class="profile-info">주소지</div>
                 <div>${profile.m_addr}</div>
             </div>
@@ -133,10 +133,7 @@
                         <a class="nav-link" href="/board/marketRegister">판매하기</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">완료내역</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">리뷰관리</a>
+                        <a class="nav-link" href="/member/marketEnd">완료내역</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/member/myTrade">나의거래</a>

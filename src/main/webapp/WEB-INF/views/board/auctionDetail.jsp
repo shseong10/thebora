@@ -21,6 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/style.css">
 
 </head>
 <style>
@@ -99,32 +100,11 @@
     <div class="row g-5">
         <div class="col-md-4">
             <div class="fileWide">
-                <div id="carouselExample" class="carousel slide">
-                    <div class="carousel-inner">
-                        <c:forEach var="img" items="${file}" varStatus="loop">
-                            <c:if test="${empty img.bf_sysFileName}">
-                                <div class="carousel-item ${loop.index == 0 ? 'active' : ''}">
-                                    <img src="/upload/프사없음.jfif" class="img-fluid rounded-start" alt="...">
-                                </div>
-                            </c:if>
-                            <c:if test="${!empty img.bf_sysFileName}">
-                                <div class="carousel-item ${loop.index == 0 ? 'active' : ''}">
-                                    <img src="/upload/${img.bf_sysFileName}" class="img-fluid rounded-start" alt="...">
-                                </div>
-                            </c:if>
-                        </c:forEach>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
-                            data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
-                            data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
+                    <c:forEach var="img" items="${file}" varStatus="loop">
+                        <c:if test="${!empty img.bf_sysFileName}">
+                            <img src="/upload/${img.bf_sysFileName}" class="img-fluid rounded-start" alt="...">
+                        </c:if>
+                    </c:forEach>
             </div>
         </div>
 
@@ -157,10 +137,12 @@
                 </div>
                 <%--                </form>--%>
 
-                <form action="#">
-                    <input type="hidden" name="h_o_p_num" value="${bDto.sb_num}">
-                    <button type="button" class="btn btn-primary btn-color-thebora" data-bs-toggle="modal"
-                            data-bs-target="#now-buy">
+                <form action="/board/buyNow" method="post" id="buyNow">
+                    <input type="hidden" name="sb_num" value="${bDto.sb_num}">
+                    <input type="hidden" name="sb_id" value="${bDto.sb_id}">
+                    <input type="hidden" name="sb_price" value="${bDto.sb_price}">
+                    <input type="hidden" name="sb_timer" value="${bDto.sb_timer}">
+                    <button type="button" class="btn btn-primary btn-color-thebora" onclick="buyNow()">
                         즉시구매
                     </button>
                     <input class="btn btn-primary btn-color-thebora" type="button" onclick="saleCart()" value="찜하기">
@@ -179,31 +161,6 @@
     <a href="/board/auctionList" class="btn btn-primary btn-color-thebora" role="button">목록으로</a>
 </div>
 
-<%--즉시구매--%>
-<!-- Modal -->
-<div class="modal fade" id="now-buy" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="/board/buyNowGo">
-                    <button class="btn btn-primary btn-color-thebora">
-                        QR코드로 구매하기
-                    </button>
-
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <script>
     const joinId = '${bDto.sb_id}';
@@ -217,6 +174,16 @@
     const np = $('#np').html();
     console.log(np);
 
+    function buyNow() {
+        if (user === joinId) {
+            alert("본인의 상품은 장바구니에 넣을 수 없습니다.")
+            return
+        }
+        if (confirm("즉시구매 하시겠습니까?")) {
+            $('#buyNow').submit();
+        }
+    }
+
     function saleCart() {
         if (user === joinId) {
             alert("본인의 상품은 장바구니에 넣을 수 없습니다.")
@@ -227,7 +194,6 @@
     }
 
     function userbtnclic() {
-        console.log($('#bidPrice').val() - np);
         if (joinId === user) {
 
             alert("판매자는 경매에 참여할 수 없습니다.")
@@ -240,7 +206,8 @@
                     "sb_num": "${bDto.sb_num}",
                     "a_joinId": user,
                     "a_bidPrice": $('#bidPrice').val(),
-                    "sb_bid":${bDto.sb_bid}
+                    "sb_bid":${bDto.sb_bid},
+                    "sb_startPrice":${bDto.sb_startPrice}
                 },
             }).done((resp) => {
                 console.log(resp)
@@ -251,8 +218,12 @@
                         alert('입찰완료.');
                         location.reload();
                     }
-                } else {
+                } else if (resp === "입찰 실패") {
                     alert('이미 입찰 했거나 최소입찰가보다 낮습니다.');
+                } else if(resp === "포인트부족"){
+                    alert('포인트가 부족합니다');
+                } else if(resp ==="시작가미달"){
+                    alert('시작가보다 낮습니다.')
                 }
             }).fail((err) => {
                 console.log(err)

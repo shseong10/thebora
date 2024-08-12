@@ -3,8 +3,10 @@ package com.icia.guree.controller;
 import com.icia.guree.dao.FileDao;
 import com.icia.guree.dao.MemberDao;
 import com.icia.guree.entity.AttendanceDto;
+import com.icia.guree.entity.BoardDto;
 import com.icia.guree.entity.MemberDto;
 import com.icia.guree.entity.ProfileFile;
+import com.icia.guree.service.BoardService;
 import com.icia.guree.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -32,6 +35,8 @@ public class MemberController {
     private MemberDao mDao;
     @Autowired
     private FileDao pDao;
+    @Autowired
+    private BoardService bSer;
 
     //로그인 안된경우만 로그인창으로
     @PreAuthorize("isAnonymous()")
@@ -171,6 +176,7 @@ public class MemberController {
         }
     }
 
+    // 회원정보 수정 페이지
     @GetMapping("/member/infoUpdate")
     public String infoUpdate(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -182,6 +188,7 @@ public class MemberController {
         }
         return "member/infoUpdate";
     }
+    // 회원정보 수정하기
     @PostMapping("/member/infoUpdate")
     public String infoUpdate(MemberDto mDto,Model model) {
 
@@ -197,6 +204,20 @@ public class MemberController {
         return "member/myPage";
     }
 
+    @GetMapping("/member/marketEnd")
+    public String marketendList(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String name = userDetails.getUsername();
+            List<BoardDto> mEList = bSer.marketEndList(name);
+            if (mEList != null) {
+                model.addAttribute("mEList", mEList);
+            }
+
+        }
+        return "member/marketEnd";
+    }
 
 
 

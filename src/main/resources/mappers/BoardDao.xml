@@ -68,12 +68,12 @@
 
     <insert id="productRegister" >
         insert into saleboard
-        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, #{sb_startPrice}, 0, #{sb_price}, #{sb_bid}, #{sb_timer}, #{sb_local}, #{sb_count}, default, #{sb_scope}, default,default)
+        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, #{sb_startPrice}, #{sb_startPrice}, #{sb_price}, #{sb_bid}, #{sb_timer}, #{sb_local}, #{sb_count}, default, #{sb_scope}, default,default)
     </insert>
 
     <insert id="auctionApply">
         insert into saleboard
-        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, #{sb_startPrice}, 0, #{sb_price}, #{sb_bid}, null , #{sb_local}, #{sb_count}, default, #{sb_scope}, default,#{sb_timer})
+        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, #{sb_startPrice}, #{sb_startPrice}, #{sb_price}, #{sb_bid}, null , #{sb_local}, #{sb_count}, default, #{sb_scope}, default,#{sb_timer})
     </insert>
 
     <insert id="auctionUser">
@@ -214,13 +214,17 @@
         select * from mytrade left join boardfile on sb_num = bf_sb_num where sb_salekind = 2 and  sb_id = #{name} and sb_scope = 1 order by sb_num desc
     </select>
 
+    <select id="marketEndList" resultMap="boardResult">
+        select * from saleboard left join boardfile on sb_num = bf_sb_num where sb_salekind = 2 and  sb_id = #{name} and sb_scope = 3 order by sb_num desc
+    </select>
+
     <select id="getMyCart" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
  select * from  saleboard join watchlist on w_sb_num = sb_num left join boardfile on sb_num = bf_sb_num where w_id = #{username} and sb_scope = 1 and sb_salekind = 1 order by w_num desc
 
     </select>
 
     <select id="getMySalesCart" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
-        select * from  saleboard join watchlist on w_sb_num = sb_num join boardfile on sb_num = bf_sb_num where w_id = #{username} and sb_scope = 1 and sb_salekind = 2 order by w_num desc
+        select * from  saleboard join watchlist on w_sb_num = sb_num left join boardfile on sb_num = bf_sb_num where w_id = #{username} and sb_scope = 1 and sb_salekind = 2 order by w_num desc
     </select>
 
     <select id="allList" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
@@ -293,7 +297,7 @@
     </insert>
 
     <select id="myTrading" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
-        select * from saleboard join saleapply on sb_num = s_sb_num left join boardfile on sb_num = bf_sb_num where s_sellerid = #{name} or s_buyerid =#{name} order by s_num desc
+        select * from saleboard join saleapply on sb_num = s_sb_num left join boardfile on sb_num = bf_sb_num where sb_scope = 1 and  s_buyerid =#{name} order by s_num desc
     </select>
 
     <select id="getBuyApply">
@@ -311,7 +315,7 @@
     </select>
 
     <select id="adApplyList">
-        select s.sb_id,s.sb_salekind,s.sb_category,s.sb_title,s.sb_num,s.sb_id,a.a_num,a.sb_date,a.a_app,a.a_period from saleboard s join advertisement a on sb_num = a_sb_num order by a.a_num desc
+        select s.sb_id,s.sb_salekind,s.sb_category,s.sb_title,s.sb_num,s.sb_id,a.a_num,a.sb_date,a.a_app,a.a_period from saleboard s join advertisement a on sb_num = a_sb_num where sb_scope = 1 order by a.a_num desc
     </select>
 
 
