@@ -382,4 +382,12 @@ public class BoardService {
         }
         return false;
     }
+
+    public List<BoardDto> adList() {
+        return bDao.adList();
+    }
+
+    public boolean advertisementEnd(String a_num) {
+      return bDao.adReject(a_num);
+    }
 }

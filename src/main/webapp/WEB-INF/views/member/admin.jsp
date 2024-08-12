@@ -52,16 +52,18 @@
 
 
 
-    function adApproval(num) {
-        console.log(num)
+    function adApproval(num,date) {
+        console.log(num);
+        console.log(date);
         $.ajax({
             method: 'post',
             url: '/admin/adApproval',
-            data:{"a_num": num}
+            data:{'a_num':num, 'a_date':date}
 
         }).done((resp) => {
             if (resp){
                 alert("승인완료.")
+                $('#ad-submit').modal('hide');
                 goAdApply()
             }else {
                 alert("승인실패.")
@@ -142,7 +144,7 @@
                     `</td>
                     <td>
 			        	<button onclick="adReject(`+ delList.a_num +`,`+delList.a_period+`,'` +delList.sb_id +`','`+ delList.sb_title+`')" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
-			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="adApproval(`+delList.a_num +`)"> 승인 </button>
+			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="adSubmit(`+delList.a_num +`)"> 승인 </button>
 		        	</td>
 	        	</tr>
  </tbody>`
@@ -624,6 +626,26 @@
 
     </div>
 </main>
+<div id="ad-submit" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">경매시간</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                    종료시간 : <input type="datetime-local" id="adDatetime"  class="form-control myInput mt-1" placeholder="날짜를 선택하세요." readonly="readonly"     ></p>
+                    <input type="text" name="sb_timer" id="ad_timer" hidden="hidden">
+                    <input type="text" name="a_num" id="ad_num" hidden="hidden">
+                    <button class="btn btn-primary btn-color-thebora" type="button" onclick="adApproval($('#ad_num').val(),$('#ad_timer').val())">올리기</button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="reUp" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -651,6 +673,12 @@
         $('#reUp').modal('show');
     }
 
+    function adSubmit(num){
+        $('#ad_num').val(num)
+        $('#ad-submit').modal('show');
+    }
+
+
     const datetimeInput = document.getElementById('myDatetime');
 
     datetimeInput.addEventListener('change', function () {
@@ -663,7 +691,7 @@
         console.log(datetimeInput.value);
     });
 
-    const myInput = document.querySelector(".myInput");
+    const myInput = document.getElementById('myDatetime');
     const fp = flatpickr(myInput, {
         enableTime: true,
         minuteIncrement: 1,
@@ -681,6 +709,38 @@
         const isoDatetime = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
         document.getElementById('sb_timer').value = isoDatetime;
     })
+
+    const adDatetimeInput = document.getElementById('adDatetime');
+
+    adDatetimeInput.addEventListener('change', function () {
+
+        // const datetimeValue = this.value; // 현재 입력된 값
+        // 이 값에 대해 필요한 처리 (예: 특정 형식으로 변경)
+        // 예시: ISO 8601 형식 (24시간 형식)으로 변환
+        // const isoDatetime = new Date(datetimeValue).toISOString().slice(0, 16); // 초 단위는 생략
+        // this.value = isoDatetime;
+        console.log(adDatetimeInput.value);
+    });
+
+    const adInput = document.getElementById('adDatetime');
+    const adFp = flatpickr(adInput, {
+        enableTime: true,
+        minuteIncrement: 1,
+        dateFormat: "Y-m-d H:i",
+        "locale": "ko",
+        // minDate: new Date().fp_incr(1) ,
+        minTime: "9:00",
+        maxDate: new Date().fp_incr(7) // 7 days from now
+
+    });
+
+    //달력에서 선택한 날짜를 전송용 필드에 입력하게 함
+    adFp.config.onChange.push(function (selectedDates, dateStr, fp) {
+        const adDate = new Date(dateStr);
+        const adIsoDatetime = new Date(adDate.getTime() - (adDate.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
+        document.getElementById('ad_timer').value = adIsoDatetime;
+    })
+
 
 
 </script>

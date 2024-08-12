@@ -116,8 +116,8 @@ public interface BoardDao {
 
     List<BoardDto> adApplyList();
 
-    @Update("update advertisement set a_app = 2 where a_num = #{a_num}")
-    boolean abApproval(String a_num);
+    @Update("update advertisement set a_app = 2, a_date = #{a_date} where a_num = #{a_num}")
+    boolean abApproval(BoardDto bDto);
     
     @Select("select * from saleboard join advertisement on sb_num = a_sb_num where a_app = 2 and sb_scope = 1 order by a_num desc")
     List<BoardDto> getAdItem();
@@ -141,5 +141,8 @@ public interface BoardDao {
 
     @Update("update member set m_point = m_point + 100*#{a_period} where m_id = #{sb_id}")
     boolean returnPoint(BoardDto bDto);
+
+    @Select("select a_num,a_date from advertisement where a_app = 2")
+    List<BoardDto> adList();
 }
 

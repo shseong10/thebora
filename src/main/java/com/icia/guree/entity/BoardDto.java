@@ -36,6 +36,7 @@ public class BoardDto {
     private String a_period;
     private String a_app;
     private String a_num;
+    private String a_date;
     private String a_joinId;
     private int a_bidPrice;
     private List<MultipartFile>attachment;
