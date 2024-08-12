@@ -22,9 +22,9 @@ public class BoardDto {
     private String sb_title;
     private String sb_contents;
     private String sb_brand;
-    private String sb_startPrice;
+    private int sb_startPrice;
     private String sb_nowPrice;
-    private String sb_price;
+    private int sb_price;
     private int sb_bid;
     private String sb_timer;
     private String sb_local;

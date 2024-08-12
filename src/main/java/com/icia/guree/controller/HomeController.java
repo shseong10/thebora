@@ -5,6 +5,7 @@ import com.icia.guree.entity.BoardFileDto;
 import com.icia.guree.entity.ChattingDto;
 import com.icia.guree.service.BoardService;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -15,8 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-
+@Slf4j
 @Controller
 public class HomeController {
 
@@ -33,13 +36,28 @@ public class HomeController {
 
 
     @GetMapping("/")
-    public String index(HttpSession session, Model model, Principal principal) {
+    public String index(HttpSession session, Model model,BoardDto bDto, Principal principal) {
         System.out.println("Principal:"+principal);
         if(session.getAttribute("msg")!=null) {
             model.addAttribute("msg", session.getAttribute("msg"));
             session.removeAttribute("msg");
 
         }
+        List<BoardDto> detail = bSer.auctionEndList();
+        LocalDateTime now = LocalDateTime.now();
+        log.info("=====================" + now);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        for (BoardDto bList : detail) {
+            LocalDateTime later = LocalDateTime.parse(bList.getSb_timer(), formatter);
+            boolean ifafter = now.isAfter(later);
+            if (ifafter) {
+                bDto.setSb_num(bList.getSb_num());
+                bDto.setSb_price(bList.getSb_price());
+                bDto.setSb_id(bList.getSb_id());
+                bSer.auctionEnd(bDto);
+            }
+        }
+
 
         List<BoardDto> adItem = bSer.getAdItem();
             model.addAttribute("adItem", adItem);

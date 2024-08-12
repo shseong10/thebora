@@ -27,14 +27,7 @@ public class AdminController {
         return "member/admin";
     }
 
-    // 게시글 완전 삭제
-    @Secured("ROLE_admin")
-    @GetMapping("/admin/realDelete")
-    public String realDelete(@RequestParam("sb_num") Integer sb_num, HttpSession session) {
-        aSer.realDelete(sb_num, session);
 
-        return "member/admin";
-    }
 
     // 게시글 복원
     @Secured("ROLE_admin")
@@ -45,23 +38,28 @@ public class AdminController {
         return "member/admin";
     }
 
+    //카테고리 삭제
     @GetMapping("/admin/cateDelete")
     public String cateDelete(@RequestParam("c_kind") String c_kind) {
         aSer.cateDelete(c_kind);
         return "member/admin";
     }
 
+    //카테고리 추가
     @PostMapping("/admin/cateAttend")
     public String cateAttend(@RequestParam("c_kind") String c_kind) {
         aSer.cateAttend(c_kind);
         return "member/admin";
     }
+
+    //회원정보 수정
     @PostMapping("/admin/memberUpdate")
     public String memberUpdate(MemberDto mDto) {
         aSer.memberUpdate(mDto);
         return "member/admin";
     }
 
+    // 경매 재등록
     @PostMapping("/admin/reUpload")
     public String reUpload(BoardDto bDto, Model model) {
         boolean reUp = aSer.reUpload(bDto);

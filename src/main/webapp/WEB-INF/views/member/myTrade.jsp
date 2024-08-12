@@ -72,7 +72,7 @@
 </header>
 <hr class="w-75 mx-auto" >
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-    <h2 class="article-t">거래중인 물건</h2>
+    <h2 class="article-t">구매중인 물건</h2>
 </div>
 <c:if test="${empty myTrading}">
     <div class="none-auction">거래중인 상품이 없습니다.</div>

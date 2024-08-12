@@ -71,6 +71,28 @@ public class EchoHandler extends TextWebSocketHandler {
         log.info("================alertMsg.getType()================ " + alertMsg.getType());
         log.info("================alertMsg.getType()=========같냐======={}",alertMsg.getType().equals("chat"));
 
+        if (alertMsg.getType().equals("adReject")) {
+            alertMsg.setAlertDate(result);
+            alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +
+                    "<div class='toast-header'>" +
+                    "<button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
+                    result +
+                    "</div>" +
+                    "<div class='toast-body'>" +
+                    alertMsg.getSb_title() + "의 광고신청이 거절되었습니다." +
+                    "</div>" +
+                    "</div>");
+            String alertContents = alertMsg.getMsg().replace("\"", "\\\"");
+            String reject = "{\"type\":\"reject\",\"contents\":\""+alertContents+"\"}";
+
+            if (sendedPushSession != null) {
+                sendedPushSession.sendMessage(new TextMessage(reject));
+            } else {
+                notificationBuffer.computeIfAbsent(alertMsg.getSeller(), k -> new ArrayList<>()).add(reject);
+            }
+            bSer.alertMsg(alertMsg);
+        }
+
         if (alertMsg.getType().equals("reject")) {
             alertMsg.setAlertDate(result);
             alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +

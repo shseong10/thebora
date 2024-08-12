@@ -2,6 +2,7 @@ package com.icia.guree.service;
 
 import com.icia.guree.common.BoardFileManager;
 import com.icia.guree.dao.BoardDao;
+import com.icia.guree.dao.MemberDao;
 import com.icia.guree.entity.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,6 +23,8 @@ public class BoardService {
     private BoardFileManager fm;
     @Autowired
     private BoardDao bDao;
+    @Autowired
+    private MemberDao mDao;
 
     public static final int LISTCNT = 10;
     public static final int PAGECOUNT = 5;
@@ -59,7 +63,7 @@ public class BoardService {
 
     public List<BoardDto> auctionList(BoardDto bDto) {
         int startIndex = (bDto.getPageNum() - 1) * LISTCNT;
-        if(startIndex <0) {
+        if (startIndex < 0) {
             startIndex = 0;
         }
         bDto.setStartIdx(startIndex);
@@ -90,18 +94,65 @@ public class BoardService {
         return bDao.auctionDetail(bDto);
     }
 
+    public boolean buyNow(BoardDto bDto) {
+        BoardDto attender = bDao.getAttender(bDto);
+        int point = mDao.getUserPoint(bDto.getA_joinId());
+        MemberDto mDto = new MemberDto();
+        mDto.setM_id(bDto.getA_joinId());
+        mDto.setM_point(bDto.getSb_price());
+
+        if (attender == null) {
+            if (point >= bDto.getSb_price()) {
+                mDao.pointPay(mDto);
+                mDao.pointGet(bDto);
+                bDao.buyNow(bDto);
+                bDao.auctionUser(bDto);
+                return true;
+            }
+        }else if (point >= bDto.getSb_price()) {
+            mDao.returnPoint(attender);
+            mDao.pointPay(mDto);
+            bDao.buyNow(bDto);
+            bDao.auctionUser(bDto);
+            return true;
+        }
+        return false;
+    }
 
     public String attend(BoardDto bDto) {
         BoardDto attender = bDao.getAttender(bDto);
+        int point = mDao.getUserPoint(bDto.getA_joinId());
+        MemberDto mDto = new MemberDto();
+        mDto.setM_id(bDto.getA_joinId());
+        mDto.setM_point(bDto.getA_bidPrice());
         log.info("나는 누구인가 제발 나와라요" + attender);
         log.info("나는 누구인가 제발 나와라요22" + bDto.getA_joinId());
 
-        String msg = "입찰 실패.";
+        String msg = "입찰 실패";
         String successmsg = "입찰 성공";
-        if (attender == null || !bDto.getA_joinId().equals(attender.getA_joinId())) {
-            if(bDto.getA_bidPrice() - Objects.requireNonNull(attender).getA_bidPrice() >= bDto.getSb_bid()){
+        String fail= "포인트부족";
+        String failMsg= "시작가미달";
+        if (attender == null) {
+            if(bDto.getSb_startPrice()>bDto.getA_bidPrice()){
+                return failMsg;
+            }
+            if (point >= bDto.getA_bidPrice()) {
+                mDao.pointPay(mDto);
                 bDao.attend(bDto);
                 return successmsg;
+            } else {
+                return fail;
+            }
+        } else if (!bDto.getA_joinId().equals(Objects.requireNonNull(attender).getA_joinId())) {
+            if (bDto.getA_bidPrice() - Objects.requireNonNull(attender).getA_bidPrice() >= bDto.getSb_bid()) {
+                if (point >= bDto.getA_bidPrice()) {
+                    mDao.returnPoint(attender);
+                    mDao.pointPay(mDto);
+                    bDao.attend(bDto);
+                    return successmsg;
+                }else {
+                    return fail;
+                }
             }
         }
         return msg;
@@ -128,7 +179,7 @@ public class BoardService {
 
     public List<BoardDto> getMarketList(BoardDto bDto) {
         int startIndex = (bDto.getPageNum() - 1) * LISTCNT;
-        if(startIndex <0) {
+        if (startIndex < 0) {
             startIndex = 0;
         }
         bDto.setStartIdx(startIndex);
@@ -207,20 +258,22 @@ public class BoardService {
 
     public void auctionEnd(BoardDto bDto) {
         bDao.auctionEnd(bDto);
+        mDao.pointGet(bDto);
+
     }
 
     public boolean buyApply(BoardDto bDto) {
-       boolean getApply = bDao.getBuyApply(bDto);
-       if (getApply) {
-          return false;
-       }else{
-           bDao.buyApply(bDto);
-           return true;
-       }
+        boolean getApply = bDao.getBuyApply(bDto);
+        if (getApply) {
+            return false;
+        } else {
+            bDao.buyApply(bDto);
+            return true;
+        }
     }
 
     public List<BoardDto> myTrading(String name) {
-       return bDao.myTrading(name);
+        return bDao.myTrading(name);
     }
 
     public void myAuctionCartDel(BoardDto bDto) {
@@ -228,10 +281,10 @@ public class BoardService {
     }
 
     public void alertMsg(AlertDto alertMsg) {
-        if (alertMsg.getType().equals("apply")){
+        if (alertMsg.getType().equals("apply")) {
             alertMsg.setMsg("<li>" +
                     "<div>" +
-                    "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
+                    "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel(" + alertMsg.getSb_num() + ")'></button>" +
                     alertMsg.getAlertDate() +
                     "</div>" +
                     "<div>" +
@@ -239,14 +292,24 @@ public class BoardService {
                     "</div>" +
                     "</li>");
         }
-        if (alertMsg.getType().equals("reject")){
+        if (alertMsg.getType().equals("reject")) {
             alertMsg.setMsg("<li>" +
                     "<div>" +
-                    "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
+                    "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel(" + alertMsg.getSb_num() + ")'></button>" +
                     alertMsg.getAlertDate() +
                     "</div>" +
                     "<div>" +
                     alertMsg.getSb_title() + "의 경매신청이 거절되었습니다." +
+                    "</div>" +
+                    "</li>");
+        }
+        if (alertMsg.getType().equals("adReject")) {
+            alertMsg.setMsg("<li>" +
+                    "<div>" +
+                    alertMsg.getAlertDate() +
+                    "</div>" +
+                    "<div>" +
+                    alertMsg.getSb_title() + "의 광고신청이 거절되었습니다." +
                     "</div>" +
                     "</li>");
         }
@@ -268,11 +331,11 @@ public class BoardService {
     }
 
     public List<ChattingDto> getChatting(String name) {
-      return  bDao.getChattingList(name);
+        return bDao.getChattingList(name);
     }
 
     public List<ChattingDto> chatRoom(ChattingDto cDto) {
-        return  bDao.getChatRoom(cDto);
+        return bDao.getChatRoom(cDto);
     }
 
     public boolean chatInsert(ChattingDto cDto) {
@@ -287,9 +350,9 @@ public class BoardService {
 
     public boolean adApply(BoardDto bDto) {
         boolean result = bDao.getMyAdApply(bDto);
-        if (result){
+        if (result) {
             return false;
-        }else{
+        } else {
             return bDao.adApply(bDto);
         }
 
@@ -297,5 +360,26 @@ public class BoardService {
 
     public List<BoardDto> getAdItem() {
         return bDao.getAdItem();
+    }
+
+    public List<BoardDto> auctionEndList() {
+        return bDao.auctionEndList();
+    }
+
+    public boolean marketEnd(String sbNum) {
+        return bDao.marketEnd(sbNum);
+    }
+
+    public List<BoardDto> marketEndList(String name) {
+        return bDao.marketEndList(name);
+    }
+
+
+    public boolean adReject(BoardDto bDto) {
+        if(bDao.adReject(bDto.getA_num())){
+
+            return bDao.returnPoint(bDto);
+        }
+        return false;
     }
 }

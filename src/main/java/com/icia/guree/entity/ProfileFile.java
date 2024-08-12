@@ -19,6 +19,7 @@ public class ProfileFile {
     private String pf_oriFileName;
     private String pf_sysFileName;
     private String m_sumPoint;
+    private String m_point;
     private String p_level;
     private MultipartFile attachment;
 

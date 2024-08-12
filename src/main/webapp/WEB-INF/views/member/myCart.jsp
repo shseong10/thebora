@@ -132,7 +132,7 @@
 
     <c:forEach var="Sales" items="${mySalesCart}">
         <div class="col">
-            <a href="/board/myCartDel?sb_num=${Sales.sb_num}">삭제</a>
+            <a type="button" class="btn-close" aria-label="Close" href="/board/myCartDel?sb_num=${Sales.sb_num}"></a>
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
