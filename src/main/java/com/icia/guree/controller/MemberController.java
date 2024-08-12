@@ -203,7 +203,7 @@ public class MemberController {
         }
         return "member/myPage";
     }
-
+    //중고거래 판매완료 리스트
     @GetMapping("/member/marketEnd")
     public String marketendList(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -219,7 +219,11 @@ public class MemberController {
         return "member/marketEnd";
     }
 
-
+    // 포인트 충전 페이지
+    @GetMapping("/member/pointCharge")
+    public String pointCharge(){
+        return "member/pointCharge";
+    }
 
 
 

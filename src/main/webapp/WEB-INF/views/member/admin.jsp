@@ -92,6 +92,7 @@
                     <th>카테고리</th>
                     <th>희망 기간</th>
                     <th>신청 시간</th>
+                    <th>만료 기간</th>
                     <th>신청자</th>
                     <th>승인여부</th>
                     <th>&nbsp;</th>
@@ -135,6 +136,9 @@
                     `일</td>
                      <td>`
                     + delList.sb_date +
+                    `</td>
+                     <td>`
+                    + delList.a_date +
                     `</td>
                      <td>`
                     + delList.sb_id +
