@@ -198,43 +198,6 @@ public String buyItem() {
     return "hotdeal/buyItem";
 }
 
-@PostMapping("/hotdeal/buy_item")
-public String buyItem(OrderDto order, HttpSession session, RedirectAttributes rttr) {
-    log.info("상품 주문");
-    log.info("주문 옵션: {}", order);
-//        boolean result = oSer.buyItem(order, session);
-//        if (result) {
-//            rttr.addFlashAttribute("msg", "상품 업로드 성공");
-//            return "redirect:/list";
-//        } else {
-//            rttr.addFlashAttribute("msg", "상품 업로드 실패");
-//            return "redirect:/list";
-//        }
-    return null;
-}
-
-//장바구니
-//    @GetMapping("/take_item")
-//    public String takeItem() {
-//        log.info("상품을 장바구니에 저장");
-//        return "takeItem";
-//    }
-
-//    @PostMapping("/take_item")
-//    public String takeItem(CartDto cart, HttpSession session, RedirectAttributes rttr) {
-//        log.info("상품을 장바구니에 저장");
-//        log.info("주문 옵션: {}", cart);
-//        boolean result = cSer.takeItem(cart, session);
-//        if (result) {
-//            rttr.addFlashAttribute("msg", "상품 업로드 성공");
-//            return "redirect:/list";
-//        } else {
-//            rttr.addFlashAttribute("msg", "상품 업로드 실패");
-//            return "redirect:/list";
-//        }
-//    }
-
-
 //관리자페이지
 @GetMapping("/hotdeal/admin/main")
 public String getAdmin(SearchDto sDto, Model model, HttpSession session) throws JsonProcessingException {

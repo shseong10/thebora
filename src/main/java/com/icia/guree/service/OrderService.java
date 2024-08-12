@@ -13,12 +13,12 @@ public class OrderService {
     @Autowired
     private OrderDao oDao;
 
-//    public boolean buyItem(OrderDto order, HttpSession session) {
-//        boolean result = oDao.buyItemSelectKey(order);
-//        if (result) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
+    public boolean buyItem(OrderDto order, HttpSession session) {
+        boolean result = oDao.buyNewItem(order);
+        if (result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

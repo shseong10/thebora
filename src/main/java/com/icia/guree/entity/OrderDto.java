@@ -14,12 +14,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDto {
-    private int h_order_num;
-    private int h_o_p_num;
-    private String h_o_user_id;
-    private int h_o_qty;
-    private int h_o_sales_price;
-    private int h_o_total_price;
-    private LocalDateTime h_o_date;
-    private String h_o_status;
+    private int order_num;
+    private int item_num;
+    private String order_id;
+    private int order_count;
+    private int item_price;
+    private LocalDateTime order_date;
+    private String order_status;
 }

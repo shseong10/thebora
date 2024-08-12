@@ -42,7 +42,7 @@
             let pattern = /^\d+$/;
             let category = $('.product-category').val()
             let title = $('.product-title').val()
-            let count = $('#h_o_qty').val()
+            let count = $('#order_count').val()
             let start = $('.product-startPrice').val()
             let price = $('.product-price').val()
             let endTime = $('#myDatetime').val()
@@ -178,7 +178,7 @@
                         <option value="제주">제주</option>
                     </select></p>
                     <p class="card-title">상품명 <input type="text" name="sb_title" class="product-title"></p>
-                    <p class="card-text"><small class="text-body-secondary">수량 선택:<input type="text" id="h_o_qty"
+                    <p class="card-text"><small class="text-body-secondary">수량 선택:<input type="text" id="order_count"
                                                                                          name="sb_count"
                                                                                          value="1">개</small></p>
                     <p class="card-text">시작가 <input type="text" name="sb_startPrice" class="product-startPrice">원</p>

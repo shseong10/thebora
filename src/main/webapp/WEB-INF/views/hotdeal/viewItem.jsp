@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,55 +15,29 @@
             const qty = document.getElementById('view_qty')
 
             const formObj = document.createElement("form")
-            const h_o_p_num = document.createElement("input");
-            const h_o_sales_price = document.createElement("input");
-            const h_o_qty = document.createElement("input");
+            const item_num = document.createElement("input");
+            const item_price = document.createElement("input");
+            const order_count = document.createElement("input");
+            const order_id = document.createElement("input");
 
-            h_o_p_num.name = "h_o_p_num";
-            h_o_sales_price.name = "h_o_sales_price";
-            h_o_qty.name = "h_o_qty";
+            item_num.name = "item_num";
+            item_price.name = "item_price";
+            order_count.name = "order_count";
+            order_id.name = "order_id";
 
-            h_o_p_num.value = ${inventory.sb_num};
-            h_o_sales_price.value = ${inventory.sb_price};
-            h_o_qty.value = qty.value;
+            item_num.value = ${inventory.sb_num};
+            item_price.value = ${inventory.sb_price};
+            order_count.value = qty.value;
+            order_id.value = "<sec:authentication property="name"/>";
 
-            formObj.appendChild(h_o_p_num);
-            formObj.appendChild(h_o_sales_price);
-            formObj.appendChild(h_o_qty);
-
-            document.body.appendChild(formObj);
-            formObj.method = "post";
-            formObj.action = "/buy_item"
-            formObj.submit();
-        }
-
-        function view_cart () {
-            const qty = document.getElementById('view_qty')
-
-            const formObj = document.createElement("form")
-            const h_c_user_id = document.createElement("input");
-            const h_c_p_num = document.createElement("input");
-            const h_c_p_sales_price = document.createElement("input");
-            const h_c_p_qty = document.createElement("input");
-
-            h_c_p_num.name = "h_c_p_num";
-            h_c_user_id.name = "h_c_user_id";
-            h_c_p_sales_price.name = "h_c_p_sales_price";
-            h_c_p_qty.name = "h_c_p_qty";
-
-            h_c_p_num.value = ${inventory.sb_num};
-            h_c_user_id.value = "aaa"; //임시아이디
-            h_c_p_sales_price.value = ${inventory.sb_price};
-            h_c_p_qty.value = qty.value;
-
-            formObj.appendChild(h_c_p_num);
-            formObj.appendChild(h_c_user_id);
-            formObj.appendChild(h_c_p_sales_price);
-            formObj.appendChild(h_c_p_qty);
+            formObj.appendChild(item_num);
+            formObj.appendChild(item_price);
+            formObj.appendChild(order_count);
+            formObj.appendChild(order_id);
 
             document.body.appendChild(formObj);
             formObj.method = "post";
-            formObj.action = "/take_item"
+            formObj.action = "/hotdeal/buy_item"
             formObj.submit();
         }
 

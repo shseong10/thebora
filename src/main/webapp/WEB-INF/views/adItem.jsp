@@ -15,58 +15,99 @@
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/style.css">
+    <script>
+        window.onload = function () {
+            const slides = document.getElementById("ad-slider-row");
+            const slide = document.querySelectorAll(".ad-slider-col");
+            let slideCount = slide.length;
+            let slideWidth = 300;
+            let slideMargin = 10;
+
+            let currentIdx = 0;
+            const prevBtn = document.getElementById("prev");
+            const nextBtn = document.getElementById("next");
+
+            slides.style.width = (slideWidth + slideMargin) * slideCount - slideMargin + 'px';
+
+            function moveSlide(num) {
+                slides.style.left = -num * 330 + 'px';
+                currentIdx = num;
+            }
+
+            nextBtn.addEventListener('click', function () {
+                if(currentIdx < slideCount - 1) {
+                    moveSlide(currentIdx + 1);
+                } else {
+                    moveSlide(0);
+                }
+
+            })
+
+            prevBtn.addEventListener('click', function () {
+                if(currentIdx > 0) {
+                    moveSlide(currentIdx - 1);
+                } else {
+                    moveSlide(slideCount - 1);
+                }
+            })
+        }
+    </script>
 </head>
 <body>
 <section class="w-75 mx-auto main-section border-bottom">
     <h3 class="article-t">광고상품</h3>
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-        <c:forEach var="item" items="${adItem}">
-            <div class="col">
-                <div class="position-relative">
-                    <c:set var="firstFile" value="${null}"/>
-                    <c:forEach var="file" items="${files}">
-                        <c:if test="${item.sb_num == file.bf_sb_num && empty firstFile}">
-                            <c:set var="firstFile" value="${file}"/>
+    <div id="ad-slider"><%-- 컨테이너 --%>
+        <span id="prev"><i class="bi bi-chevron-left"></i></span>
+        <span id="next"><i class="bi bi-chevron-right"></i></span>
+        <div class="row" id="ad-slider-row">
+            <c:forEach var="item" items="${adItem}">
+                <div class="col ad-slider-col">
+                    <div class="position-relative">
+                        <c:set var="firstFile" value="${null}"/>
+                        <c:forEach var="file" items="${files}">
+                            <c:if test="${item.sb_num == file.bf_sb_num && empty firstFile}">
+                                <c:set var="firstFile" value="${file}"/>
+                            </c:if>
+                        </c:forEach>
+                        <c:if test="${empty firstFile}">
+                            <div class="main-item-thumbnail rounded-2" style="background-image: url('/img/product_sample_02.png'); background-size: cover; background-position: 50% 50%;">
+
+                            </div>
                         </c:if>
-                    </c:forEach>
-                    <c:if test="${empty firstFile}">
-                        <div class="main-item-thumbnail rounded-2" style="background-image: url('/img/product_sample_02.png'); background-size: cover; background-position: 50% 50%;">
+                        <c:if test="${not empty firstFile}">
+                            <div class="main-item-thumbnail rounded-2" style="background-image: url('/upload/${firstFile.bf_sysFileName}'); background-size: cover; background-position: 50% 50%;">
 
-                        </div>
-                    </c:if>
-                    <c:if test="${not empty firstFile}">
-                        <div class="main-item-thumbnail rounded-2" style="background-image: url('/upload/${firstFile.bf_sysFileName}'); background-size: cover; background-position: 50% 50%;">
-
-                        </div>
-                    </c:if>
-                    <div class="card-body">
-                        <c:if test="${item.sb_saleKind == 1}">
+                            </div>
+                        </c:if>
+                        <div class="card-body">
+                            <c:if test="${item.sb_saleKind == 1}">
                                 <h5 class="card-title">
                                     <a href="/board/auctionDetail?sb_num=${item.sb_num}" class="stretched-link">${item.sb_title}</a>
                                 </h5>
                                 <h5 class="main-item-price">${item.sb_price}원</h5>
                                 <small class="main-item-category rounded-3 color-3">경매</small>
 
-                        </c:if>
-                        <c:if test="${item.sb_saleKind == 2}">
+                            </c:if>
+                            <c:if test="${item.sb_saleKind == 2}">
                                 <h5 class="card-title">
                                     <a href="/board/marketDetail?sb_num=${item.sb_num}" class="stretched-link">${item.sb_title}</a>
                                 </h5>
                                 <h5 class="main-item-price">${item.sb_price}원</h5>
                                 <small class="main-item-category rounded-3 color-3">중고</small>
                                 <small class="main-item-category rounded-3 color-5">${item.sb_local}</small>
-                        </c:if>
-                        <c:if test="${item.sb_saleKind == 3}">
+                            </c:if>
+                            <c:if test="${item.sb_saleKind == 3}">
                                 <h5 class="card-title">
                                     <a href="/hotdeal/list/detail?sb_num=${item.sb_num}" class="stretched-link">${item.sb_title}</a>
                                 </h5>
                                 <h5 class="main-item-price">${item.sb_price}원</h5>
                                 <small class="main-item-category rounded-3 color-3">핫딜</small>
-                        </c:if>
+                            </c:if>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </c:forEach>
+            </c:forEach>
+        </div>
     </div>
 </section>
 </body>
