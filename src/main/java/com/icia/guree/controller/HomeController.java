@@ -58,6 +58,17 @@ public class HomeController {
             }
         }
 
+        List<BoardDto> adDetail = bSer.adList();
+        for (BoardDto adList : adDetail) {
+            LocalDateTime later = LocalDateTime.parse(adList.getA_date(), formatter);
+            boolean ifAfter = now.isAfter(later);
+            if (ifAfter) {
+                bDto.setA_num(adList.getA_num());
+               boolean adEnd = bSer.advertisementEnd(bDto.getA_num());
+               log.info("광고상품 시간만료{}",adEnd);
+            }
+        }
+
 
         List<BoardDto> adItem = bSer.getAdItem();
             model.addAttribute("adItem", adItem);

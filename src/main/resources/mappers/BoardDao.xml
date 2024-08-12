@@ -143,7 +143,7 @@
     </insert>
 
     <insert id="adApply">
-        insert into advertisement values (null, #{sb_num}, #{sb_date},default, default)
+        insert into advertisement values (null, #{sb_num}, #{sb_date},default, default ,null)
     </insert>
 
     <select id="auctionList" resultMap="boardList">
@@ -315,7 +315,7 @@
     </select>
 
     <select id="adApplyList">
-        select s.sb_id,s.sb_salekind,s.sb_category,s.sb_title,s.sb_num,s.sb_id,a.a_num,a.sb_date,a.a_app,a.a_period from saleboard s join advertisement a on sb_num = a_sb_num where sb_scope = 1 order by a.a_num desc
+        select s.sb_id,s.sb_salekind,s.sb_category,s.sb_title,s.sb_num,s.sb_id,a.a_num,a.sb_date,a.a_app,a.a_period,a.a_date from saleboard s join advertisement a on sb_num = a_sb_num where sb_scope = 1 order by a.a_num desc
     </select>
 
 
