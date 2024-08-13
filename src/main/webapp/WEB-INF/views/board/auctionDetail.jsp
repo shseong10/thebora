@@ -119,10 +119,10 @@
             <div class="card-body">
                 <h5 class="card-title">상품명 : ${bDto.sb_title}</h5>
                 <hr>
-                <p class="card-text">즉시구매가 : ${bDto.sb_price}</p>
-                <p class="card-text">시작가 : ${bDto.sb_startPrice}</p>
-                <p id="nowPrice" class="card-text">현재가 : <span id="np">${bDto.sb_nowPrice}</span></p>
-                <p class="card-text">최소입찰가 : ${bDto.sb_bid}</p>
+                <p class="card-text">즉시구매가 : ${bDto.element}원</p>
+                <p class="card-text">시작가 : ${bDto.start}원</p>
+                <p id="nowPrice" class="card-text">현재가 : <span id="np">${bDto.now}원</span></p>
+                <p class="card-text">최소입찰가 : ${bDto.bid}원</p>
                 <p class="card-text">경매시작일 : ${bDto.sb_date}</p>
                 <p class="card-text">경매종료일 : ${bDto.sb_timer}</p>
                 <p>판매자 : ${bDto.sb_id}</p>

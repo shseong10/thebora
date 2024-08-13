@@ -95,7 +95,7 @@
                 <h5 class="card-title">상품명 : ${bDto.sb_title}</h5>
                 <hr>
                 <p class="card-text">분류 : ${bDto.sb_category}</p>
-                <p class="card-text">가격 : ${bDto.sb_price}</p>
+                <p class="card-text">가격 : ${bDto.element}원</p>
                 <p class="card-text">지역 : ${bDto.sb_local}</p>
                 <p class="card-text">날짜 : ${bDto.sb_date}</p>
                 <p>판매자 : ${bDto.sb_id}</p>

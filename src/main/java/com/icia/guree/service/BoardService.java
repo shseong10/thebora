@@ -26,7 +26,7 @@ public class BoardService {
     @Autowired
     private MemberDao mDao;
 
-    public static final int LISTCNT = 10;
+    public static final int LISTCNT = 12;
     public static final int PAGECOUNT = 5;
 
     public boolean auctionApply(BoardDto bDto, HttpSession session) {
@@ -70,7 +70,17 @@ public class BoardService {
         bDto.setListCnt(LISTCNT);
 
         List<BoardDto> bList = bDao.auctionList(bDto);
-        log.info("=====dkfdkq쉽게하자===================={}", bList);
+        bList.forEach(i->{
+            String price = i.getSb_price()+"";
+            String nPrice = i.getSb_nowPrice()+"";
+            String sPrice = i.getSb_startPrice()+"";
+            String bidPrice = i.getSb_bid()+"" ;
+            i.setElement(price.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ","));
+            i.setStart(sPrice.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ","));
+            i.setNow(nPrice.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ","));
+            i.setBid(bidPrice.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ","));
+        });
+
         return bList;
 
     }
@@ -91,7 +101,18 @@ public class BoardService {
             }
         }
         // 조회수 끝
-        return bDao.auctionDetail(bDto);
+        BoardDto bDetail = bDao.auctionDetail(bDto);
+            String price = bDetail.getSb_price()+"";
+            String nPrice = bDetail.getSb_nowPrice()+"";
+            String sPrice = bDetail.getSb_startPrice()+"";
+            String bidPrice = bDetail.getSb_bid()+"" ;
+        bDetail.setElement(price.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ","));
+        bDetail.setStart(sPrice.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ","));
+        bDetail.setNow(nPrice.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ","));
+        bDetail.setBid(bidPrice.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ","));
+
+
+        return bDetail;
     }
 
     public boolean buyNow(BoardDto bDto) {
@@ -186,6 +207,10 @@ public class BoardService {
         bDto.setListCnt(LISTCNT);
 
         List<BoardDto> bList = bDao.getMarketList(bDto);
+        bList.forEach(i->{
+            String price=i.getSb_price()+"" ;
+            i.setElement(price.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ","));
+        });
         return bList;
     }
 
@@ -234,8 +259,14 @@ public class BoardService {
         return allList;
     }
 
+
     public List<BoardDto> recItem() {
-        return bDao.getRecItem();
+        List<BoardDto> item = bDao.getRecItem();
+        item.forEach(i->{
+            String price=i.getSb_price()+"" ;
+            i.setElement(price.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ","));
+        });
+        return item;
     }
 
     public List<BoardFileDto> getIndexFile() {
@@ -359,7 +390,12 @@ public class BoardService {
     }
 
     public List<BoardDto> getAdItem() {
-        return bDao.getAdItem();
+        List<BoardDto> item = bDao.getAdItem();
+        item.forEach(i->{
+            String price=i.getSb_price()+"" ;
+            i.setElement(price.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ","));
+        });
+        return item;
     }
 
     public List<BoardDto> auctionEndList() {
@@ -370,10 +406,12 @@ public class BoardService {
         return bDao.marketEnd(sbNum);
     }
 
-    public List<BoardDto> marketEndList(String name) {
+    public List<BoardDto> myMarketEndList(String name) {
         return bDao.marketEndList(name);
     }
-
+    public List<BoardDto> myAuctionEndList(String name) {
+        return bDao.myAuctionEndList(name);
+    }
 
     public boolean adReject(BoardDto bDto) {
         if(bDao.adReject(bDto.getA_num())){
@@ -390,4 +428,18 @@ public class BoardService {
     public boolean advertisementEnd(String a_num) {
       return bDao.adReject(a_num);
     }
-}
+
+    public boolean myTradeDel(String sb_num) {
+      boolean del = bDao.myTradeDel(sb_num);
+      if(del){
+         return bDao.chatDel(sb_num);
+      }
+      return false;
+    }
+
+
+    public BoardDto auctionEndDetail(BoardDto bDto) {
+       return bDao.auctionEndDetail(bDto);
+    }
+
+   }

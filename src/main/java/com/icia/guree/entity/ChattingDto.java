@@ -17,4 +17,6 @@ public class ChattingDto {
     private String c_contents;
     private String c_sendtime;
     private String username;
+    private String sb_num;
+
 }

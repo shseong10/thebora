@@ -129,6 +129,13 @@
             keyWord +
             "&pageNum=1";
     });
+
+    $("#keyWord").keydown(function (e) {
+        if (e.key === "Enter") { // Enter 키
+            e.preventDefault(); // 기본 Enter 동작 방지
+            $("#search").click();
+        }
+    });
 </script>
 </body>
 </html>

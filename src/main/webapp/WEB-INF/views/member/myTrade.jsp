@@ -81,6 +81,7 @@
 
     <c:forEach var="trading" items="${myTrading}">
         <div class="col">
+            <a type="button" class="btn-close" aria-label="Close" href="/board/myTradeDel?sb_num=${trading.sb_num}"></a>
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">

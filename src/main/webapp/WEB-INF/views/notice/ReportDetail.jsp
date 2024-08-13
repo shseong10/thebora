@@ -45,8 +45,8 @@
         <h2>공지사항</h2>
         <table class="table table-dark table-striped" style="width: 900px; margin: auto; text-align: center;">
             <tr>
-                <td>작성자</td>
-                <td colspan="3">${nDto.n_id}</td>
+                <td style="width: 15%">작성자</td>
+                <td colspan="3" style="width: 85%">${nDto.n_id}</td>
             </tr>
             <tr>
                 <td>구분</td>

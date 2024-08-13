@@ -32,20 +32,20 @@ public class AdminService {
        return bDao.realDelete(sb_num);
     }
 
-    public void restore(Integer sb_num) {
-        bDao.restore(sb_num);
+    public boolean restore(Integer sb_num) {
+       return bDao.restore(sb_num);
     }
 
-    public void cateDelete(String c_kind) {
-        bDao.cateDelete(c_kind);
+    public boolean cateDelete(String c_kind) {
+       return bDao.cateDelete(c_kind);
     }
 
-    public void cateAttend(String c_kind) {
-        bDao.cateAttend(c_kind);
+    public boolean cateAttend(String c_kind) {
+       return bDao.cateAttend(c_kind);
     }
 
-    public void memberUpdate(MemberDto mDto) {
-         mDao.memberUpdate(mDto) ;
+    public boolean memberUpdate(MemberDto mDto) {
+       return mDao.memberUpdate(mDto) ;
     }
 
     public boolean reUpload(BoardDto bDto) {

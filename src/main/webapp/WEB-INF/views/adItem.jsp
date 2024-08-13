@@ -47,7 +47,7 @@
                                 <h5 class="card-title">
                                     <a href="/board/auctionDetail?sb_num=${item.sb_num}" class="stretched-link">${item.sb_title}</a>
                                 </h5>
-                                <h5 class="main-item-price">${item.sb_price}원</h5>
+                                <h5 class="main-item-price">${item.element}원</h5>
                                 <small class="main-item-category rounded-3 color-3">경매</small>
 
                             </c:if>
@@ -55,7 +55,7 @@
                                 <h5 class="card-title">
                                     <a href="/board/marketDetail?sb_num=${item.sb_num}" class="stretched-link">${item.sb_title}</a>
                                 </h5>
-                                <h5 class="main-item-price">${item.sb_price}원</h5>
+                                <h5 class="main-item-price">${item.element}원</h5>
                                 <small class="main-item-category rounded-3 color-3">중고</small>
                                 <small class="main-item-category rounded-3 color-5">${item.sb_local}</small>
                             </c:if>
@@ -63,7 +63,7 @@
                                 <h5 class="card-title">
                                     <a href="/hotdeal/list/detail?sb_num=${item.sb_num}" class="stretched-link">${item.sb_title}</a>
                                 </h5>
-                                <h5 class="main-item-price">${item.sb_price}원</h5>
+                                <h5 class="main-item-price">${item.element}원</h5>
                                 <small class="main-item-category rounded-3 color-3">핫딜</small>
                             </c:if>
                         </div>

@@ -63,13 +63,13 @@ public interface BoardDao {
 
     boolean realDelete(Integer sb_num);
 
-    void restore(Integer sb_num);
+    boolean restore(Integer sb_num);
 
     List<String> getCateList();
 
-    void cateDelete(String c_kind);
+    boolean cateDelete(String c_kind);
 
-    void cateAttend(String c_kind);
+    boolean cateAttend(String c_kind);
 
     int countMarketItems(BoardDto bDto);
 
@@ -133,6 +133,8 @@ public interface BoardDao {
 
     List<BoardDto> marketEndList(String name);
 
+    List<BoardDto> myAuctionEndList(String name);
+
     @Update("update saleboard set sb_scope = 3, sb_nowprice = #{sb_price}  where  sb_num = #{sb_num}")
     void buyNow(BoardDto bDto);
 
@@ -144,5 +146,15 @@ public interface BoardDao {
 
     @Select("select a_num,a_date from advertisement where a_app = 2")
     List<BoardDto> adList();
+
+    @Delete("delete from saleapply where s_sb_num = #{sbNum}")
+    boolean myTradeDel(String sbNum);
+
+    @Delete("delete from chatting where sb_num = #{sb_num}")
+    boolean chatDel(String sb_num);
+
+
+   BoardDto auctionEndDetail(BoardDto bDto);
+
 }
 

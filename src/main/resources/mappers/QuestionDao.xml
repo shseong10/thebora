@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icia.guree.dao.QuestionDao">
+
+    <resultMap id="QuestionResult" type="QuestionDto">
+        <id property="q_num" column="q_num" />
+        <result property="q_id" column="q_id" />
+        <result property="q_title" column="q_title" />
+        <result property="q_contents" column="q_contents" />
+        <result property="q_date" column="q_date" />
+        <result property="q_views" column="q_views" />
+        <collection property="qfList" javaType="ArrayList" ofType="QuestionFileDto">
+            <result property="qf_oriFileName" column="qf_oriFileName" />
+            <result property="qf_sysFileName" column="qf_sysFileName" />
+        </collection>
+    </resultMap>
+
+    <insert id="questionWrite" useGeneratedKeys="true" keyProperty="q_num">
+        insert into question values(null, #{q_id}, #{q_title}, #{q_contents}, default, default)
+        <selectKey keyProperty="q_num" resultType="Integer" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <insert id="fileUpload">
+        insert into questionFile(qf_num, qf_q_num, qf_oriFileName, qf_sysFileName)
+        values(null, #{n_num}, #{oriFileName}, #{sysFileName})
+    </insert>
+
+    <select id="getQuestionList">
+        select * from question q join member m on q.q_id = m.m_id
+        <if test="colName != null and colName != ''">
+            where ${colName} like concat('%', #{keyWord}, '%')
+        </if>
+        order by q.q_date desc limit #{startIdx}, #{listCnt}
+    </select>
+
+    <select id="getQuestionDetail" resultMap="QuestionResult">
+        select q_num, q_id, q_title, q_contents, q_date, q_views,
+        qf_oriFileName, qf_sysFileName from question left join questionfile
+        on q_num = qf_q_num where q_num = #{q_num}
+    </select>
+
+    <select id="getQuestionCount">
+        select count(*) from question
+        <if test="colName != null">
+            where ${colName} like concat('%', #{keyWord}, '%')
+        </if>
+    </select>
+
+    <select id="getQuestionViewId">
+        select q_id from questionview where q_num = #{q_num} and q_id = #{username}
+    </select>
+
+    <select id="getSysFiles">
+        select qf_sysFileName from questionFile where qf_q_num = #{q_num}
+    </select>
+
+    <insert id="setQuestionViewInfo">
+        insert into questionview values(null, #{username}, #{q_num})
+    </insert>
+
+    <update id="setQuestionView">
+        update question set q_views = q_views + 1 where q_num = #{q_num}
+    </update>
+
+    <update id="questionUpdate">
+        update question set q_title = #{q_title}, q_contents = #{q_contents} where q_num = #{q_num}
+    </update>
+
+    <delete id="fileDelete">
+        delete from questionFile where qf_q_num = #{q_num}
+    </delete>
+
+</mapper>

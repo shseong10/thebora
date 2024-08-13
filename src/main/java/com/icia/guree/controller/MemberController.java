@@ -2,10 +2,7 @@ package com.icia.guree.controller;
 
 import com.icia.guree.dao.FileDao;
 import com.icia.guree.dao.MemberDao;
-import com.icia.guree.entity.AttendanceDto;
-import com.icia.guree.entity.BoardDto;
-import com.icia.guree.entity.MemberDto;
-import com.icia.guree.entity.ProfileFile;
+import com.icia.guree.entity.*;
 import com.icia.guree.service.BoardService;
 import com.icia.guree.service.MemberService;
 import jakarta.servlet.http.HttpSession;
@@ -210,9 +207,13 @@ public class MemberController {
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String name = userDetails.getUsername();
-            List<BoardDto> mEList = bSer.marketEndList(name);
+            List<BoardDto> mEList = bSer.myMarketEndList(name);
+            List<BoardDto> aEList = bSer.myAuctionEndList(name);
             if (mEList != null) {
                 model.addAttribute("mEList", mEList);
+            }
+            if (aEList != null) {
+                model.addAttribute("aEList", aEList);
             }
 
         }
@@ -225,6 +226,22 @@ public class MemberController {
         return "member/pointCharge";
     }
 
+    //완료 경매 디테일
+    @GetMapping("/board/auctionEndDetail")
+    public String auctionEndDetail(BoardDto bDto, Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String name = userDetails.getUsername();
+            bDto.setSb_id(name);
+           BoardDto eDetail = bSer.auctionEndDetail(bDto);
+            List<BoardFileDto> file = bSer.getFile(bDto);
+            model.addAttribute("eDetail",eDetail);
+            model.addAttribute("file", file);
 
+            return "board/auctionEndDetail";
+    }
+        return  "member/login";
+}
 
 }

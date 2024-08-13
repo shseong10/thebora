@@ -4,10 +4,7 @@ import com.icia.guree.entity.AttendanceDto;
 import com.icia.guree.entity.BoardDto;
 import com.icia.guree.entity.MemberDto;
 import com.icia.guree.entity.ProfileFile;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -47,7 +44,7 @@ public interface MemberDao {
     @Select("select * from member")
     List<MemberDto> getMemberList();
 
-    void memberUpdate(MemberDto mDto);
+    boolean memberUpdate(MemberDto mDto);
 
     void infoUpdate(MemberDto mDto);
 
@@ -62,4 +59,7 @@ public interface MemberDao {
 
     @Update("update member set m_point = m_point + #{sb_price}, m_sumpoint = m_sumpoint + #{sb_price} where m_id = #{sb_id}")
     void pointGet(BoardDto bDto);
+
+    @Delete("delete from member where m_id = #{mId}")
+    boolean memberDelete(String mId);
 }
