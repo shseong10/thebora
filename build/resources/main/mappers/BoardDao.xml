@@ -337,9 +337,6 @@
                  from auction where sb_num = #{sb_num} and sb_scope = 3 and sb_id = #{sb_id} order by a_num desc limit 1
     </select>
 
-    <select id="buyAuctionList" resultMap="boardResult">
-#         select * from auction where
 
-    </select>
 
 </mapper>
