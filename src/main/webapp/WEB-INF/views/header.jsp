@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<header class="w-75 mt-3 mb-5 mx-auto">
+<header class="w-75 mt-3 mx-auto">
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">

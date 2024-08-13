@@ -19,29 +19,56 @@
             const item_price = document.createElement("input");
             const order_count = document.createElement("input");
             const order_id = document.createElement("input");
+            const sb_title = document.createElement("input");
+            const bf_sysfilename = document.createElement("input");
+            const m_name = document.createElement("input");
+            const m_phone = document.createElement("input");
+            const m_addr = document.createElement("input");
 
             item_num.name = "item_num";
             item_price.name = "item_price";
             order_count.name = "order_count";
             order_id.name = "order_id";
+            sb_title.name = "sb_title";
+            bf_sysfilename.name = "bf_sysfilename";
+            m_name.name = "m_name";
+            m_phone.name = "m_phone";
+            m_addr.name = "m_addr";
 
             item_num.value = ${inventory.sb_num};
             item_price.value = ${inventory.sb_price};
             order_count.value = qty.value;
             order_id.value = "<sec:authentication property="name"/>";
+            sb_title.value = "${inventory.sb_title}";
+            bf_sysfilename.value = "${inventory.ifList[0].bf_sysfilename}";
+            m_name.value = "${profile.m_name}";
+            m_phone.value = "${profile.m_phone}";
+            m_addr.value = "${profile.m_addr}";
 
             formObj.appendChild(item_num);
             formObj.appendChild(item_price);
             formObj.appendChild(order_count);
             formObj.appendChild(order_id);
+            formObj.appendChild(sb_title);
+            formObj.appendChild(bf_sysfilename);
+            formObj.appendChild(m_name);
+            formObj.appendChild(m_phone);
+            formObj.appendChild(m_addr);
+            formObj.style.visibility = "hidden";
 
             document.body.appendChild(formObj);
+
+            console.log("${profile.m_addr}")
+
             formObj.method = "post";
-            formObj.action = "/hotdeal/buy_item"
+            formObj.action = "/hotdeal/order"
             formObj.submit();
         }
 
         window.onload = function () {
+            console.log("${profile}")
+
+
             //이미지 슬라이더
             //컨트롤러로 가져온 데이터 중 파일리스트로 배열 생성
             const curFiles = new Array();
@@ -126,4 +153,7 @@
     </div>
 </main>
 </body>
+<footer>
+    <jsp:include page="../footer.jsp"></jsp:include>
+</footer>
 </html>

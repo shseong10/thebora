@@ -87,7 +87,7 @@
                     //업로드중인 파일을 dataTransfer에 추가
                     //dataTransfer를 사용해야 POST로 보내기 전에 파일을 추가/삭제할 수 있음
                     //dataTransfer 생성은 가장 먼저(필드변수)
-                    dataTransfer.items.add(file)
+                    dataTransfer.items.put(file)
                 }
                 fileElem.files = dataTransfer.files;
             }

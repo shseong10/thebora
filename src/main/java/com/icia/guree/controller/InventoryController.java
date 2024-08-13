@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icia.guree.common.FileManager;
 import com.icia.guree.entity.*;
 import com.icia.guree.exception.DBException;
-import com.icia.guree.service.BoardService;
-import com.icia.guree.service.CartService;
-import com.icia.guree.service.InventoryService;
-import com.icia.guree.service.OrderService;
+import com.icia.guree.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -34,10 +31,7 @@ public class InventoryController {
     private InventoryService iSer;
 
     @Autowired
-    private OrderService oSer;
-
-    @Autowired
-    private CartService cSer;
+    private MemberService mSer;
 
     @Autowired
     private FileManager fm;
@@ -111,6 +105,15 @@ public class InventoryController {
 //상품 상세
 @GetMapping("/hotdeal/list/detail")
 public String inventoryDetail(@RequestParam("sb_num") Integer sb_num, Model model) throws JsonProcessingException {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        System.out.println("-----현재 페이지에 접속중인 유저-----");
+        ProfileFile profile = mSer.myPage(userDetails.getUsername());
+        model.addAttribute("profile", profile);
+    }
+
     log.info("<<<<<<<sb_num=" + sb_num);
     if (sb_num == null) {
         return "redirect:/hotdeal/list";
@@ -189,13 +192,6 @@ public String deleteItem(@RequestParam("sb_num") Integer sb_num, HttpSession ses
         rttr.addFlashAttribute("msg", sb_num + "번 삭제실패");
         return "redirect:/hotdeal/list/detail?sb_num=" + sb_num;
     }
-}
-
-//구매하기
-@GetMapping("/hotdeal/buy_item")
-public String buyItem() {
-    log.info("상품 구매 페이지로 이동");
-    return "hotdeal/buyItem";
 }
 
 //관리자페이지

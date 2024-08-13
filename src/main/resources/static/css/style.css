@@ -33,6 +33,10 @@ a {
   background-color: #DB4D89 !important;
 }
 
+.wrapper-border {
+  border: 1px #dee2e6 solid;
+}
+
 
 /* 부트스트랩 요소 색상 강제변경 (페이징 포함) */
 .btn-color-thebora, .active>.page-link, .active>.page-link a {
@@ -86,6 +90,10 @@ a:hover, a:active {
 
 
 /* 메뉴 */
+#main_header {
+
+}
+
 #main_nav li a {
   font-family: 'LINESeedKR-Bd' !important;
   font-size: 1rem !important;
@@ -149,10 +157,17 @@ h1, h2, h3, h4, h5 {
   font-family: 'LINESeedKR-Bd';
 }
 
+/* 메인 배너 */
+#main_banner {
+  text-align: center;
+  background-color: #3831C9;
+  width: 100%; height: 5rem;
+}
+
 /* 메인 섹션(광고상품, 추천상품) */
 .main-section {
   margin-top: 1rem;
-  margin-bottom: 5rem;
+  margin-bottom: 1rem;
   padding-bottom: 3rem;
 }
 

@@ -17,16 +17,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/style.css">
 </head>
-<script>
-    const msg = '${msg}';
-    if (msg !== '') {
-
-        alert(msg);
-    }
-</script>
 <body>
 <header>
     <jsp:include page="header.jsp"></jsp:include>
+    <section id="main_banner" class="mx-auto">
+        <img src="/img/event_banner.png" style="height: 100%">
+    </section>
 </header>
 <main>
     <section>

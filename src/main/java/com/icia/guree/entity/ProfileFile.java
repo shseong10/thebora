@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProfileFile {
     private String m_id;
     private String m_name;
+    private String m_phone;
     private String m_addr;
     private String pf_oriFileName;
     private String pf_sysFileName;
