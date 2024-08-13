@@ -15,43 +15,6 @@
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/style.css">
-    <script>
-        window.onload = function () {
-            const slides = document.getElementById("ad-slider-row");
-            const slide = document.querySelectorAll(".ad-slider-col");
-            let slideCount = slide.length;
-            let slideWidth = 300;
-            let slideMargin = 10;
-
-            let currentIdx = 0;
-            const prevBtn = document.getElementById("prev");
-            const nextBtn = document.getElementById("next");
-
-            slides.style.width = (slideWidth + slideMargin) * slideCount - slideMargin + 'px';
-
-            function moveSlide(num) {
-                slides.style.left = -num * 330 + 'px';
-                currentIdx = num;
-            }
-
-            nextBtn.addEventListener('click', function () {
-                if(currentIdx < slideCount - 1) {
-                    moveSlide(currentIdx + 1);
-                } else {
-                    moveSlide(0);
-                }
-
-            })
-
-            prevBtn.addEventListener('click', function () {
-                if(currentIdx > 0) {
-                    moveSlide(currentIdx - 1);
-                } else {
-                    moveSlide(slideCount - 1);
-                }
-            })
-        }
-    </script>
 </head>
 <body>
 <section class="w-75 mx-auto main-section border-bottom">
@@ -110,5 +73,6 @@
         </div>
     </div>
 </section>
+<script src="/js/slider.js"></script>
 </body>
 </html>

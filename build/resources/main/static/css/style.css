@@ -213,29 +213,30 @@ h1, h2, h3, h4, h5 {
   position: absolute;
   left: 0; top: 0;
   width: 1230px;
+}
+
+#ad-slider-row.animated{
   transition: left 0.5s ease-out;
 }
 
-.ad-slider-col {
-
-}
 
 #ad-slider #prev, #ad-slider #next  {
   position: absolute;
   z-index: 5;
-  top: 30%;
-  color: #ccc;
-  font-size: 4rem;
+  top: 33%;
+  color: #fff;
+  text-shadow: 1px 1px 1px #212529;
+  font-size: 2rem;
   font-weight: bold;
   cursor: pointer;
 }
 
 #ad-slider #prev {
-  right: calc(95%);
+  right: calc(98%);
 }
 
 #ad-slider #next {
-  left: calc(95%);
+  left: calc(98%);
 }
 
 /* 푸터 */
