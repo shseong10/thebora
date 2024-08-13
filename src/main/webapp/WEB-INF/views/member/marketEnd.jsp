@@ -72,7 +72,7 @@
 </header>
 <hr class="w-75 mx-auto" >
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-    <h2 class="article-t">판매완료 내역</h2>
+    <h2 class="article-t">중고거래 완료 내역</h2>
 </div>
 <c:if test="${empty mEList}">
     <div class="none-auction">거래중인 상품이 없습니다.</div>
@@ -100,10 +100,51 @@
                     </div>
                     <div class="col-md-4">
                         <div class="card-body">
-                            <h5 class="card-title"><a href="/board/marketDetail?sb_num=${eList.sb_num}"
+                            <h5 class="card-title"><a href="/board/marketEndDetail?sb_num=${eList.sb_num}"
                                                       class="stretched-link">${eList.sb_title}</a></h5>
                             <p class="card-text">분류:${eList.sb_category}</p>
                             <p class="card-text">가격:${eList.sb_price}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c:forEach>
+</div>
+<hr class="w-75 mx-auto" >
+<div class="d-grid gap-2 w-75 mb-3 mx-auto">
+    <h2 class="article-t">경매 완료 내역</h2>
+</div>
+<c:if test="${empty aEList}">
+    <div class="none-auction">거래중인 상품이 없습니다.</div>
+</c:if>
+<div class="row row-cols-1 row-cols-md-2 g-4 w-75 mx-auto">
+    <c:forEach var="aList" items="${aEList}">
+        <div class="col">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <div class="fileWide">
+                            <c:forEach var="file" items="${aList.bfList}" varStatus="loop">
+                                <c:if test="${file.bf_sysFileName eq ''}">
+                                    <img src="/upload/프사없음.jfif" class="img-fluid rounded-start" alt="...">
+                                </c:if>
+                                <c:if test="${!empty file.bf_sysFileName}">
+                                    <div>
+                                        <img src="/upload/${file.bf_sysFileName}"
+                                             class="img-fluid rounded-start ${loop.index == 0 ? '' : 'img-none' }"
+                                             alt="...">
+                                    </div>
+                                </c:if>
+                            </c:forEach>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="/board/auctionEndDetail?sb_num=${aList.sb_num}"
+                                                      class="stretched-link">${aList.sb_title}</a></h5>
+                            <p class="card-text">분류 : ${aList.sb_category}</p>
+                            입찰가 : <span class="card-text price">${aList.sb_nowPrice}</span>
                         </div>
                     </div>
                 </div>
@@ -115,6 +156,18 @@
 
 <script>
     $('.img-none').hide();
+
+    function formatNumber(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    window.onload = function() {
+        const elements = document.querySelectorAll('.price');
+        elements.forEach(element => {
+            let number = parseInt(element.textContent, 10);
+            element.textContent = formatNumber(number);
+        });
+    }
 
 
 </script>

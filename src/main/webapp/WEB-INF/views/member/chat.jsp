@@ -36,7 +36,7 @@
                 <c:if test="${!empty chat}">
                     <c:forEach items="${chat}" var="critem">
                         <div class="row">
-                            <div class="col" onclick="chatRoom('${critem.c_sendid}','${critem.sellerId}','${critem.c_title}')">
+                            <div class="col" onclick="chatRoom('${critem.c_sendid}','${critem.sellerId}','${critem.c_title}','${critem.sb_num}')">
                                 <c:if test="${critem.c_sendid == userId}">
                                     ${critem.sellerId}
                                 </c:if>
@@ -76,11 +76,11 @@
 
     })
 
-    function chatRoom(buyer, seller, title) {
+    function chatRoom(buyer, seller,title,num) {
         $.ajax({
             method: "post",
             url: "/board/chatRoom",
-            data: {"c_sendid": buyer, "sellerId": seller, "c_title":title}
+            data: {"c_sendid": buyer, "sellerId": seller, "c_title":title , "sb_num":num}
         }).done((resp) => {
             // console.log(resp);
             let chatList = ``;
@@ -89,6 +89,7 @@
                 chatList +=`<input id="sellerId" type="text" hidden="hidden" value="`+chat.sellerId+`"/>`
                 chatList +=`<input id="c_title" type="text" hidden="hidden" value="`+chat.c_title+`"/>`
                 chatList +=`<input id="c_sendid" type="text" hidden="hidden" value="`+chat.c_sendid+`"/>`
+                chatList +=`<input id="sb_num" type="text" hidden="hidden" value="`+chat.sb_num+`"/>`
             })
             $('#chat_contents').html(chatList);
             $('#chat_contents').css("overflow-y", "scroll");
@@ -109,14 +110,15 @@
                 "c_title": $('#c_title').val(),
                 "c_sendid": $('#c_sendid').val(),
                 "sellerId": $('#sellerId').val(),
-                "c_contents": $('#c_contents').val()
+                "c_contents": $('#c_contents').val(),
+                "sb_num": $('#sb_num').val()
             }
         }).done((resp) => {
             $('#chat_contents').append(`<div>`+'${userId}'+` : `+$('#c_contents').val()+`</div>`);
             // console.log(resp);
             //웹 소켓 관련 로직 추가
             if (socket) {
-                let socketMsg = {"type": "chat", "buyer": $('#c_sendid').val(), "seller": $('#sellerId').val(), "msg":$('#c_contents').val()};
+                let socketMsg = {"type": "chat", "buyer": $('#c_sendid').val(), "seller": $('#sellerId').val(), "msg":$('#c_contents').val(), "sb_num":$('#sb_num').val()};
                 socket.send(JSON.stringify(socketMsg));
             }
 

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: user
-  Date: 24. 7. 18.
-  Time: 오후 3:54
+  Date: 24. 8. 9.
+  Time: 오후 2:49
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -11,17 +11,11 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <html>
 <head>
-    <title>공지사항</title>
-    <script
-            src="https://code.jquery.com/jquery-3.7.1.js"
-            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-            crossorigin="anonymous"></script>
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <style>
-        body{
-            font-family: 'MapleStory';
-        }
         .action{
             text-align: center;
         }
@@ -42,39 +36,35 @@
 </header>
 <section>
     <div class="notice">
-        <h2>공지사항</h2>
-        <table class="table table-dark table-striped" style="width: 900px; margin: auto; text-align: center;">
+        <h2>자주 묻는 질문</h2>
+        <table class="table table-striped table-hover" style="width: 900px; margin: auto; text-align: center;">
             <tr>
-                <td style="width: 15%">작성자</td>
-                <td colspan="3" style="width: 85%">${nDto.n_id}</td>
+                <th style="width: 10%">작성자</th>
+                <td colspan="3" style="width: 90%">${qDto.q_id}</td>
             </tr>
             <tr>
-                <td>구분</td>
-                <td colspan="3">${nDto.n_kind}</td>
+                <th style="width: 10%">제목</th>
+                <td colspan="3" style="width: 90%">${qDto.q_title}</td>
             </tr>
             <tr>
-                <td>제목</td>
-                <td colspan="3">${nDto.n_title}</td>
+                <th style="width: 10%">조회수</th>
+                <td colspan="3" style="width: 90%">${qDto.q_views}</td>
             </tr>
             <tr>
-                <td>조회수</td>
-                <td colspan="3">${nDto.n_views}</td>
-            </tr>
-            <tr>
-                <td>내용</td>
-                <td colspan="3">
-                    <c:if test="${!empty nDto.nfList}">
-                        <c:forEach var="files" items="${nDto.nfList}" varStatus="loop">
-                            <img src="/upload/${files.nf_sysFileName}" class="${loop.index == 0 ? '' : 'img-none' }">
+                <th style="width: 10%">내용</th>
+                <td colspan="3" style="width: 90%">
+                    <c:if test="${!empty qDto.qfList}">
+                        <c:forEach var="files" items="${qDto.qfList}" varStatus="loop">
+                            <img src="/upload/${files.qf_sysFileName}" class="${loop.index == 0 ? '' : 'img-none' }">
                             <br><br>
                         </c:forEach>
                     </c:if>
-                    ${nDto.n_contents}</td>
+                    ${qDto.q_contents}</td>
             </tr>
         </table>
         <div class="action">
-            <button onclick="location.href='/report/list'">목록으로</button>
-            <button id="update-btn" onclick="location.href='/report/update?n_num=' + ${nDto.n_num}">수정</button>
+            <button onclick="location.href='/question/list'">목록으로</button>
+            <button id="update-btn" onclick="location.href='/question/update?q_num=' + ${qDto.q_num}">수정</button>
         </div>
     </div>
 </section>
@@ -82,12 +72,12 @@
     <jsp:include page="../footer.jsp"></jsp:include>
 </footer>
 <script>
-    function upload(n_num){
-        location.href = '/report/update?n_num=' + n_num;
+    function upload(q_num){
+        location.href = '/question/update?n_num=' + q_num;
     }
     $('.img-none').hide();
 
-    const joinId = '${nDto.n_id}';
+    const joinId = '${qDto.q_id}';
     const user = '<sec:authentication property="name" />';
 
     if(user === joinId){

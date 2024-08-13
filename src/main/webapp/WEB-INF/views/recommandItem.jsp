@@ -40,14 +40,14 @@
                             <c:if test="${item.sb_saleKind == 1}">
                                     <a href="/board/auctionDetail?sb_num=${item.sb_num}" class="stretched-link">
                                         <h5 class="card-title">${item.sb_title}</h5>
-                                        <h5 class="main-item-price">${item.sb_price}원</h5>
+                                        <h5 class="main-item-price">${item.element}원</h5>
                                     </a>
                                     <small class="main-item-category rounded-3 color-3">경매</small>
                             </c:if>
                             <c:if test="${item.sb_saleKind == 2}">
                                     <a href="/board/marketDetail?sb_num=${item.sb_num}" class="stretched-link">
                                         <h5 class="card-title">${item.sb_title}</h5>
-                                        <h5 class="main-item-price">${item.sb_price}원</h5>
+                                        <h5 class="main-item-price">${item.element}원</h5>
                                     </a>
                                     <small class="main-item-category rounded-3 color-3">중고</small>
                                     <small class="main-item-category rounded-3 color-5">${item.sb_local}</small>

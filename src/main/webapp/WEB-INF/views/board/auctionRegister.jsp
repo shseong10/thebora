@@ -158,25 +158,7 @@
                         <option value=${cList}>${cList}</option>
                         </c:forEach>
                     </select></p>
-                    <p class="card-text"><select name="sb_local" id="local" class="product-local">
-                        <option value="">지역선택</option>
-                        <option value="서울">서울</option>
-                        <option value="인천">인천</option>
-                        <option value="경기">경기</option>
-                        <option value="경북">경북</option>
-                        <option value="경남">경남</option>
-                        <option value="대구">대구</option>
-                        <option value="울산">울산</option>
-                        <option value="부산">부산</option>
-                        <option value="충북">충북</option>
-                        <option value="충남">충남</option>
-                        <option value="대전">대전</option>
-                        <option value="강원도">강원도</option>
-                        <option value="전북">전북</option>
-                        <option value="전남">전남</option>
-                        <option value="광주">광주</option>
-                        <option value="제주">제주</option>
-                    </select></p>
+
                     <p class="card-title">상품명 <input type="text" name="sb_title" class="product-title"></p>
                     <p class="card-text"><small class="text-body-secondary">수량 선택:<input type="text" id="order_count"
                                                                                          name="sb_count"
@@ -186,9 +168,7 @@
                     <p class="card-text">즉시구매가 <input type="text" name="sb_price" class="product-price">원</p>
                     <p class="card-text">종료시간 <input type="datetime-local" id="myDatetime"  class="form-control myInput mt-1" placeholder="날짜를 선택하세요."  readonly="readonly"></p>
                     <input type="text" name="sb_timer" id="sb_timer" hidden="hidden">
-
-
-
+                    <input type="text" value="경매" name="sb_local" hidden="hidden">
                     <input type="text" value="1" name="sb_saleKind" hidden="hidden">
                     <input type="text" value="1" name="sb_scope" hidden="hidden">
 
@@ -245,7 +225,8 @@
 
     //달력에서 선택한 날짜를 전송용 필드에 입력하게 함
     fp.config.onChange.push(function (selectedDates, dateStr, fp) {
-        const isoDatetime = new Date(dateStr).toISOString().slice(0, 16);
+        const date = new Date(dateStr);
+        const isoDatetime = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
         document.getElementById('sb_timer').value = isoDatetime;
     })
 

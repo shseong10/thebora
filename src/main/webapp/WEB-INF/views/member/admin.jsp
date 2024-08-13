@@ -19,7 +19,7 @@
     <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 </head>
 <script>
-    $(()=>{
+    $(() => {
         const msg = '${msg}';
         if (msg !== '') {
 
@@ -27,45 +27,45 @@
         }
 
     })
-    function auctionReject(num,id,title){
+
+    function auctionReject(num, id, title) {
         $.ajax({
             method: 'post',
             url: '/admin/auctionReject',
-            data:{"sb_num": num}
+            data: {"sb_num": num}
 
         }).done((resp) => {
-            if (resp){
+            if (resp) {
                 goAuctionApply()
                 console.log(resp)
                 if (socket) {
-                    let socketMsg = {"type":"reject","seller":id,"sb_title":title,"sb_num":num};
+                    let socketMsg = {"type": "reject", "seller": id, "sb_title": title, "sb_num": num};
                     socket.send(JSON.stringify(socketMsg));
                     alert('거절했습니다.');
                 }
             }
 
-        }).fail((err)=>{
+        }).fail((err) => {
             console.log(err);
         })
 
     }
 
 
-
-    function adApproval(num,date) {
+    function adApproval(num, date) {
         console.log(num);
         console.log(date);
         $.ajax({
             method: 'post',
             url: '/admin/adApproval',
-            data:{'a_num':num, 'a_date':date}
+            data: {'a_num': num, 'a_date': date}
 
         }).done((resp) => {
-            if (resp){
+            if (resp) {
                 alert("승인완료.")
                 $('#ad-submit').modal('hide');
                 goAdApply()
-            }else {
+            } else {
                 alert("승인실패.")
             }
 
@@ -92,6 +92,7 @@
                     <th>카테고리</th>
                     <th>희망 기간</th>
                     <th>신청 시간</th>
+                    <th>만료 기간</th>
                     <th>신청자</th>
                     <th>승인여부</th>
                     <th>&nbsp;</th>
@@ -101,17 +102,17 @@
             $.each(resp, function (i, delList) {
                 let saleKindUrl;
                 let saleKind;
-                switch (delList.sb_saleKind){
+                switch (delList.sb_saleKind) {
                     case '1':
-                        saleKindUrl = '/board/auctionDetail?sb_num='+delList.sb_num;
+                        saleKindUrl = '/board/auctionDetail?sb_num=' + delList.sb_num;
                         saleKind = '경매'
                         break;
                     case '2':
-                        saleKindUrl = '/board/marketDetail?sb_num='+delList.sb_num;
+                        saleKindUrl = '/board/marketDetail?sb_num=' + delList.sb_num;
                         saleKind = '중고거래'
                         break;
                     case '3':
-                        saleKindUrl = '/hotdeal/list/detail?sb_num='+delList.sb_num;
+                        saleKindUrl = '/hotdeal/list/detail?sb_num=' + delList.sb_num;
                         saleKind = '핫딜'
                         break;
                     default:
@@ -125,7 +126,7 @@
                     + saleKind +
                     `</td>
 			        <td>
-			        	<a href="`+saleKindUrl+`">` + delList.sb_title + `</a>
+			        	<a href="` + saleKindUrl + `">` + delList.sb_title + `</a>
 		        	</td>
 			        <td>`
                     + delList.sb_category +
@@ -137,14 +138,17 @@
                     + delList.sb_date +
                     `</td>
                      <td>`
+                    + delList.a_date +
+                    `</td>
+                     <td>`
                     + delList.sb_id +
                     `</td>
                      <td>`
                     + delList.a_app +
                     `</td>
                     <td>
-			        	<button onclick="adReject(`+ delList.a_num +`,`+delList.a_period+`,'` +delList.sb_id +`','`+ delList.sb_title+`')" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
-			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="adSubmit(`+delList.a_num +`)"> 승인 </button>
+			        	<button onclick="adReject(` + delList.a_num + `,` + delList.a_period + `,'` + delList.sb_id + `','` + delList.sb_title + `')" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
+			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="adSubmit(` + delList.a_num + `)"> 승인 </button>
 		        	</td>
 	        	</tr>
  </tbody>`
@@ -157,31 +161,31 @@
         })
     }
 
-    function adReject(num,point,id,title){
+    function adReject(num, point, id, title) {
         $.ajax({
             method: 'post',
             url: '/admin/adReject',
-            data: {'a_num':num,'a_period':point,'sb_id':id},
+            data: {'a_num': num, 'a_period': point, 'sb_id': id},
 
-        }).done((resp)=>{
-            if (resp){
+        }).done((resp) => {
+            if (resp) {
                 alert("거절완료")
                 if (socket) {
-                    let socketMsg = {"type":"adReject","seller":id,"sb_title":title,"sb_num":num};
+                    let socketMsg = {"type": "adReject", "seller": id, "sb_title": title, "sb_num": num};
                     socket.send(JSON.stringify(socketMsg));
                     alert('거절했습니다.');
                 }
                 goAdApply()
 
-            }else{
+            } else {
                 alert("거절실패")
                 goAdApply()
             }
 
-        }).fail((err)=>{
+        }).fail((err) => {
             console.log(err)
         })
-        }
+    }
 
 
     function goAuctionApply() {
@@ -240,8 +244,8 @@
                     + delList.sb_id +
                     `</td>
                     <td>
-			        	<button onclick="auctionReject(`+ delList.sb_num +`,'`+delList.sb_id +`','`+ delList.sb_title+`')" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
-			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="reUpload(`+delList.sb_num +`)"> 경매 올리기 </button>
+			        	<button onclick="auctionReject(` + delList.sb_num + `,'` + delList.sb_id + `','` + delList.sb_title + `')" type="button" class="btn btn-primary btn-color-thebora"> 거절 </button>
+			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="reUpload(` + delList.sb_num + `)"> 경매 올리기 </button>
 		        	</td>
 	        	</tr>
  </tbody>`
@@ -296,8 +300,8 @@
                     + delList.sb_date +
                     `</td>
                     <td>
-			        	<a class="btn btn-primary btn-color-thebora" onclick="auctionRealDelete(`+delList.sb_num+`)"> 삭제 </a>
-			        	<a href="/admin/restore?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 복원 </a>
+			        	<a class="btn btn-primary btn-color-thebora" onclick="auctionRealDelete(` + delList.sb_num + `)"> 삭제 </a>
+			        	<a class="btn btn-primary btn-color-thebora" onclick="auctionRestore(` + delList.sb_num + `)"> 복원 </a>
 		        	</td>
 	        	</tr>
         </tbody>`
@@ -311,6 +315,44 @@
         })
     }
 
+    function auctionRestore(num) {
+        if (!confirm("복원하시겠습니까?")) {
+            return
+        }
+
+        $.ajax({
+            method: 'post',
+            url: '/admin/restore',
+            data: {"sb_num": num},
+        }).done((resp) => {
+            if (resp) {
+                alert("복원완료")
+                goBoardManager()
+            }
+        }).fail((err) => {
+            console.log(err)
+        })
+    }
+
+    function marketRestore(num) {
+        if (!confirm("복원하시겠습니까?")) {
+            return
+        }
+
+        $.ajax({
+            method: 'post',
+            url: '/admin/restore',
+            data: {"sb_num": num},
+        }).done((resp) => {
+            if (resp) {
+                alert("복원완료")
+                goMarketBoardManager()
+            }
+        }).fail((err) => {
+            console.log(err)
+        })
+    }
+
     function goMarketBoardManager() {
         $.ajax({
             method: 'post',
@@ -318,7 +360,7 @@
 
         }).done((resp) => {
             let dList = `<h5 style="text-align: left">중고거래 삭제 게시글 관리</h5>
-            <table class="table table-hover" id="deleted-item-list">
+            <table class="table table-hover" id="deleted-auction-list">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -351,8 +393,8 @@
                     + delList.sb_date +
                     `</td>
                      <td>
-			        	<a class="btn btn-primary btn-color-thebora" onclick="marketRealDelete(`+delList.sb_num+`)"> 삭제 </a>
-			        	<a href="/admin/restore?sb_num=` + delList.sb_num + `" class="btn btn-primary btn-color-thebora"> 복원 </a>
+			        	<a class="btn btn-primary btn-color-thebora" onclick="marketRealDelete(` + delList.sb_num + `)"> 삭제 </a>
+			        	<a class="btn btn-primary btn-color-thebora" onclick="marketRestore(` + delList.sb_num + `)" > 복원 </a>
 		        	</td>
 	        	</tr>
    </tbody>`
@@ -366,64 +408,74 @@
         })
 
     }
-    function auctionRealDelete(num){
+
+    function auctionRealDelete(num) {
+        if (!confirm("삭제하시겠습니까?")) {
+            return
+        }
         $.ajax({
             method: 'post',
             url: '/admin/realDelete',
-            data: {'sb_num':num},
-        }).done((resp)=>{
-            if (resp){
+            data: {'sb_num': num},
+        }).done((resp) => {
+            if (resp) {
                 alert("삭제완료")
                 goBoardManager()
 
-            }else {
+            } else {
                 alert("삭제실패")
                 console.log(resp)
             }
 
-        }).fail((err)=>{
+        }).fail((err) => {
             console.log(err)
         })
     }
 
 
-    function marketRealDelete(num){
-        $.ajax({
-            method: 'post',
-            url: '/admin/realDelete',
-            data: {'sb_num':num},
-    }).done((resp)=>{
-        if (resp){
-            alert("삭제완료")
-            goMarketBoardManager()
-
-        }else {
-            alert("삭제실패")
-            console.log(resp)
+    function marketRealDelete(num) {
+        if (!confirm("삭제하시겠습니까?")) {
+            return
         }
+        $.ajax({
+            method: 'post',
+            url: '/admin/realDelete',
+            data: {'sb_num': num},
+        }).done((resp) => {
+            if (resp) {
+                alert("삭제완료")
+                goMarketBoardManager()
 
-        }).fail((err)=>{
+            } else {
+                alert("삭제실패")
+                console.log(resp)
+            }
+
+        }).fail((err) => {
             console.log(err)
         })
     }
 
 
-    function endAuctionRealDelete(num){
+    function endAuctionRealDelete(num) {
+        if (!confirm("삭제하시겠습니까?")) {
+            return
+        }
         $.ajax({
             method: 'post',
             url: '/admin/realDelete',
-            data: {'sb_num':num},
-        }).done((resp)=>{
-            if (resp){
+            data: {'sb_num': num},
+        }).done((resp) => {
+            if (resp) {
                 alert("삭제완료")
                 goAuctionEndManager()
 
-            }else {
+            } else {
                 alert("삭제실패")
                 console.log(resp)
             }
 
-        }).fail((err)=>{
+        }).fail((err) => {
             console.log(err)
         })
     }
@@ -436,13 +488,12 @@
         }).done((resp) => {
             let cateList = `
         <h5 style="text-align: left">카테고리 관리</h5>
-        <form action="/admin/cateAttend" method="post">
         <table class="table table-hover" id="add-category">
             <tr>
-                <td style="width: 90%"><input type="text" name="c_kind" placeholder="카테고리 추가" class="form-control"></td>
-                <td><button type="submit" class="btn btn-primary btn-color-thebora" style="width: 100%">추가</button></td>
+                <td style="width: 90%"><input type="text" id="c_kind" placeholder="카테고리 추가" class="form-control"></td>
+                <td><button type="button" id="cateAttend" class="btn btn-primary btn-color-thebora" onclick="cateAttend()" style="width: 100%">추가</button></td>
             </tr>
-        </form>`;
+        `;
             $.each(resp, function (i, cList) {
                 cateList += `
             <tr>
@@ -450,7 +501,7 @@
                     + cList +
                     `</td>
                     <td>
-			        	<a href="/admin/cateDelete?c_kind=` + cList + `" class="btn btn-primary btn-color-thebora" style="width: 100%"> 삭제 </a>
+			        	<a onclick="cateDelete('` + cList + `')" class="btn btn-primary btn-color-thebora" style="width: 100%"> 삭제 </a>
 		    	    </td>
             </tr>`
             })
@@ -463,6 +514,47 @@
 
     }
 
+    function cateDelete(cate) {
+        if (!confirm("카테고리를 삭제하시겠습니까?")) {
+            return;
+        }
+        $.ajax({
+            method: 'post',
+            url: '/admin/cateDelete',
+            data: {'c_kind': cate}
+        }).done((resp) => {
+            if (resp) {
+                alert("삭제완료")
+                categoryList()
+            }
+        }).fail((err) => {
+
+        })
+    }
+
+
+    function cateAttend() {
+        if ($('#c_kind').val() === '') {
+            alert("추가할 카테고리를 입력해주세요")
+            return
+        }
+        if (!confirm("카테고리를 추가하시겠습니까?")) {
+            return;
+        }
+        $.ajax({
+            method: 'post',
+            url: '/admin/cateAttend',
+            data: {'c_kind': $('#c_kind').val()}
+        }).done((resp) => {
+            if (resp) {
+                alert("추가완료")
+                categoryList()
+            }
+        }).fail((err) => {
+
+        })
+    }
+
     function memberList() {
         $.ajax({
             method: 'post',
@@ -472,7 +564,6 @@
             let memberList = `<h5 style="text-align: left">회원 관리</h5>`;
             $.each(resp, function (i, mList) {
                 memberList += `
-            <form action="/admin/memberUpdate" method="post" id="update_form">
             <table class="table table-hover" id="memberList">
                 <tr>
                     <th class="topborder">아이디</th>
@@ -483,20 +574,19 @@
                 </tr>
                 <tr>
 			        <td>
-                        <input type="text" name="m_id" value="` + mList.m_id + `" class="form-control">
-                        <input type="text" name="transId" hidden="hidden" value="` + mList.m_id + `" class="form-control">
+                        <input type="text" id="m_id` + i + `" value="` + mList.m_id + `" class="form-control" readonly>
                     </td>
 			        <td>
-                        <input type="text" name="m_name"  value="`+ mList.m_name +`" class="form-control">
+                        <input type="text" id="m_name` + i + `"  value="` + mList.m_name + `" class="form-control">
                     </td>
                     <td>
-                        <input type="text" name="m_phone" value="`+ mList.m_phone +`" class="form-control">
+                        <input type="text" id="m_phone` + i + `" value="` + mList.m_phone + `" class="form-control">
                     </td>
                     <td>
-			            <input type="text" name="m_addr" value="` + mList.m_addr +`" class="form-control">
+			            <input type="text" id="m_addr` + i + `" value="` + mList.m_addr + `" class="form-control">
                     </td>
 			        <td>
-                         <select name="m_role" class="form-select">
+                         <select name="m_role" class="form-select" id="m_role` + i + `">
                              <option value="` + mList.m_role + `">` + mList.m_role + `</option>
                              <option value="admin">admin</option>
                              <option value="user">user</option>
@@ -510,11 +600,11 @@
                     <th>누적포인트</th>
                     <th>포인트부여</th>
                     <th>
-			        	<button class="btn btn-primary btn-color-thebora" style="width:100%;"> 수정 </button>
+			        	<a class="btn btn-primary btn-color-thebora" onclick="memberUpdate($('#m_id` + i + `').val(),$('#m_name` + i + `').val(), $('#m_phone` + i + `').val(), $('#m_addr` + i + `').val(), $('#m_companyNum` + i + `').val(), $('#m_role` + i + `').val(), $('#m_point` + i + `').val())" style="width:100%;"> 수정 </a>
 		        	</th>
                 </tr>
                 <tr>
-			        <td>  <input type="text" name="m_companyNum" value="`
+			        <td>  <input type="text" id="m_companyNum` + i + `" value="`
                     + mList.m_companyNum +
                     `" class="form-control"> </td>
 			        <td style="text-align: center"> `
@@ -524,24 +614,66 @@
                     + mList.m_sumPoint +
                     `</td>
                     <td>
-                        <input type="text" name="m_point" placeholder="0" class="form-control">
+                        <input type="text" id="m_point` + i + `" placeholder="0" class="form-control" value="0">
                     </td>
                     <td>
-                        <a href="/admin/memberDelete?m_id=` + mList.m_id + `" class="btn btn-primary btn-color-thebora" style="width:100%;"> 삭제 </a>
+                        <a onclick="memberDelete('` + mList.m_id + `')" class="btn btn-primary btn-color-thebora" style="width:100%;"> 삭제 </a>
                     </td>
                 </tr>
-</table>
-</form>`
-
+</table>`
             })
-
             $('#admin-content').html(memberList);
             console.log(resp)
         }).fail(function (err) {
             console.log(err)
         })
-
     }
+
+    function memberUpdate(id, name, phone, addr, company, role, point) {
+        if (!confirm("수정하시겠습니까?")) {
+            return
+        }
+        $.ajax({
+            method: 'post',
+            url: '/admin/memberUpdate',
+            data: {
+                'm_id': id,
+                "m_name": name,
+                "m_phone": phone,
+                "m_addr": addr,
+                "m_companyNum": company,
+                "m_role": role,
+                "m_point": point
+            }
+        }).done((done) => {
+            if (done) {
+                alert("수정완료")
+                memberList();
+            }
+        }).fail((err) => {
+            console.log(err)
+        })
+    }
+
+
+    function memberDelete(id) {
+        if (!confirm("삭제하시겠습니까?")) {
+            return
+        }
+        $.ajax({
+            method: 'post',
+            url: '/admin/memberDelete',
+            data: {'m_id': id}
+        }).done((resp) => {
+            if (resp) {
+                alert("삭제완료")
+                memberList();
+            }
+        }).fail((err) => {
+            console.log(err)
+        })
+    }
+
 
     function goAuctionEndManager() {
 
@@ -588,8 +720,8 @@
                     + delList.a_joinId +
                     `</td>
                     <td>
-			        	<a class="btn btn-primary btn-color-thebora" onclick="endAuctionRealDelete(`+delList.sb_num+`)"> 삭제 </a>
-			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="reUpload(`+delList.sb_num +`)"> 다시올리기 </button>
+			        	<a class="btn btn-primary btn-color-thebora" onclick="endAuctionRealDelete(` + delList.sb_num + `)"> 삭제 </a>
+			        	<button class="btn btn-primary btn-color-thebora" type="button" onclick="reUpload(` + delList.sb_num + `)"> 다시올리기 </button>
 		        	</td>
 	        	</tr>
  </tbody>`
@@ -619,7 +751,8 @@
             <li onclick="goBoardManager()">경매 삭제 게시글 관리</li>
             <li onclick="goMarketBoardManager()">중고거래 삭제 게시글 관리</li>
             <li onclick="categoryList()">카테고리 관리</li>
-            <li onclick="memberList()" class="noborder">회원 관리</li>
+            <li onclick="memberList()">회원 관리</li>
+            <li class="noborder"><a href="/board/auctionRegister">경매 올리기</a></li>
         </ul>
     </div>
     <div id="admin-content">
@@ -634,10 +767,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                    종료시간 : <input type="datetime-local" id="adDatetime"  class="form-control myInput mt-1" placeholder="날짜를 선택하세요." readonly="readonly"     ></p>
-                    <input type="text" name="sb_timer" id="ad_timer" hidden="hidden">
-                    <input type="text" name="a_num" id="ad_num" hidden="hidden">
-                    <button class="btn btn-primary btn-color-thebora" type="button" onclick="adApproval($('#ad_num').val(),$('#ad_timer').val())">올리기</button>
+                종료시간 : <input type="datetime-local" id="adDatetime" class="form-control myInput mt-1"
+                              placeholder="날짜를 선택하세요." readonly="readonly"></p>
+                <input type="text" name="sb_timer" id="ad_timer" hidden="hidden">
+                <input type="text" name="a_num" id="ad_num" hidden="hidden">
+                <button class="btn btn-primary btn-color-thebora" type="button"
+                        onclick="adApproval($('#ad_num').val(),$('#ad_timer').val())">올리기
+                </button>
 
             </div>
             <div class="modal-footer">
@@ -656,7 +792,8 @@
             <div class="modal-body">
                 <form action="/admin/reUpload" method="post">
                     <input type="text" id="reUpNum" name="sb_num" hidden="hidden">
-                    종료시간 : <input type="datetime-local" id="myDatetime"  class="form-control myInput mt-1" placeholder="날짜를 선택하세요." readonly="readonly"     ></p>
+                    종료시간 : <input type="datetime-local" id="myDatetime" class="form-control myInput mt-1"
+                                  placeholder="날짜를 선택하세요." readonly="readonly"></p>
                     <input type="text" name="sb_timer" id="sb_timer" hidden="hidden">
                     <button class="btn btn-primary btn-color-thebora">올리기</button>
                 </form>
@@ -668,12 +805,13 @@
     </div>
 </div>
 <script>
-    function reUpload(num){
+
+    function reUpload(num) {
         $('#reUpNum').val(num)
         $('#reUp').modal('show');
     }
 
-    function adSubmit(num){
+    function adSubmit(num) {
         $('#ad_num').val(num)
         $('#ad-submit').modal('show');
     }
@@ -697,7 +835,7 @@
         minuteIncrement: 1,
         dateFormat: "Y-m-d H:i",
         "locale": "ko",
-        minDate: new Date().fp_incr(1) ,
+        minDate: new Date().fp_incr(1),
         minTime: "9:00",
         maxDate: new Date().fp_incr(7) // 7 days from now
 
@@ -740,7 +878,6 @@
         const adIsoDatetime = new Date(adDate.getTime() - (adDate.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
         document.getElementById('ad_timer').value = adIsoDatetime;
     })
-
 
 
 </script>

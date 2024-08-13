@@ -135,11 +135,11 @@
     </insert>
 
     <insert id="chatting">
-        insert into chatting values (null,#{buyer},#{seller},#{sb_title},concat(#{buyer},' : ',#{sb_title},'에 구매신청을 하셨습니다.'),default)
+        insert into chatting values (null,#{buyer},#{seller},#{sb_title},concat(#{buyer},' : ',#{sb_title},'에 구매신청을 하셨습니다.'),default,#{sb_num})
     </insert>
 
     <insert id="chatInsert">
-        insert into chatting values (null,#{c_sendid},#{sellerId},#{c_title},concat(#{username},' : ',#{c_contents}),default)
+        insert into chatting values (null,#{c_sendid},#{sellerId},#{c_title},concat(#{username},' : ',#{c_contents}),default,#{sb_num})
     </insert>
 
     <insert id="adApply">
@@ -165,7 +165,7 @@
     <select id="auctionDetail" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
         select  a_num, a_joinid, progressnum, a_bidprice, sb_id, sb_bid, sb_category, sb_contents, sb_local,
                 sb_date, sb_nowprice, sb_timer, sb_startprice, sb_num, sb_salekind, sb_title, sb_price, sb_scope, sb_view
-                 from auction where sb_num = #{sb_num} order by a_num desc limit 1
+                 from auction where sb_num = #{sb_num} and sb_scope = 1 order by a_num desc limit 1
     </select>
 
     <select id="getNumber" resultType="java.lang.String">
@@ -216,6 +216,10 @@
 
     <select id="marketEndList" resultMap="boardResult">
         select * from saleboard left join boardfile on sb_num = bf_sb_num where sb_salekind = 2 and  sb_id = #{name} and sb_scope = 3 order by sb_num desc
+    </select>
+
+    <select id="myAuctionEndList" resultMap="boardResult">
+        select * from saleboard left join boardfile on sb_num = bf_sb_num where sb_salekind = 1 and  sb_id = #{name} and sb_scope = 3 order by sb_num desc
     </select>
 
     <select id="getMyCart" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
@@ -305,13 +309,13 @@
     </select>
 
     <select id="getChattingList" resultMap="chatting">
-        select c_sendid,sellerId,c_title from chatting  where c_sendid = #{name} or sellerId = #{name} GROUP BY c_sendid, sellerId,c_title
+        select c_sendid,sellerId,c_title,sb_num from chatting  where c_sendid = #{name} or sellerId = #{name} GROUP BY c_sendid, sellerId,c_title,sb_num
         ORDER BY MAX(c_num) desc ;
 
     </select>
 
     <select id="getChatRoom">
-        select * from chatting where c_sendid = #{c_sendid} and sellerId = #{sellerId} and c_title = #{c_title}
+        select * from chatting where c_sendid = #{c_sendid} and sellerId = #{sellerId} and sb_num = #{sb_num}
     </select>
 
     <select id="adApplyList">
@@ -326,6 +330,13 @@
     <update id="reUpload">
         update saleboard set sb_scope = 1,sb_saleKind = 1, sb_timer = #{sb_timer}, sb_date = now() where sb_num = #{sb_num}
     </update>
+
+    <select id="auctionEndDetail" resultMap="boardResult">
+      select a_num, a_joinid, progressnum, a_bidprice, sb_id, sb_bid, sb_category, sb_contents, sb_local,
+                sb_date, sb_nowprice, sb_timer, sb_startprice, sb_num, sb_salekind, sb_title, sb_price, sb_scope, sb_view
+                 from auction where sb_num = #{sb_num} and sb_scope = 3 and sb_id = #{sb_id} order by a_num desc limit 1
+    </select>
+
 
 
 </mapper>

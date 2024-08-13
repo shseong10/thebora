@@ -23,7 +23,7 @@ public class BoardDto {
     private String sb_contents;
     private String sb_brand;
     private int sb_startPrice;
-    private String sb_nowPrice;
+    private int sb_nowPrice;
     private int sb_price;
     private int sb_bid;
     private String sb_timer;
@@ -46,7 +46,10 @@ public class BoardDto {
     private Integer pageNum;
     private Integer listCnt;
     private Integer startIdx;
-
+    private String element;
+    private String start;
+    private String now;
+    private String bid;
 
 
 

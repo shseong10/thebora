@@ -133,7 +133,7 @@
                         <a class="nav-link" href="/board/marketRegister">판매하기</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/member/marketEnd">완료내역</a>
+                        <a class="nav-link" href="/member/marketEnd">거래내역</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/member/myTrade">나의거래</a>

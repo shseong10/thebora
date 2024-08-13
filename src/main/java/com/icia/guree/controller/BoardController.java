@@ -532,5 +532,13 @@ public class BoardController {
         return "redirect:/member/login";
     }
 
+    //구매신청 취소
+    @GetMapping("/board/myTradeDel")
+    public String myTradeDel(@RequestParam("sb_num") String sb_num){
+       boolean del = bSer.myTradeDel(sb_num);
+
+        return "redirect:/member/myTrade";
+    }
+
 
 }
