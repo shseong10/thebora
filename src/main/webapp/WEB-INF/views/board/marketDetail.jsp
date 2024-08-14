@@ -52,7 +52,15 @@
     <jsp:include page="../header.jsp"></jsp:include>
 </header>
 <main>
-    <div class="card mb-3 w-75 mx-auto allDiv-box">
+    <div class="row w-75 mx-auto">
+        <div class="col-11">
+            <h1 class="">중고거래</h1>
+        </div>
+        <div class="col-1">
+            <button onclick="document.location='/board/marketList'" class="btn btn-primary btn-color-thebora" style="display: inline-block">목록으로</button>
+        </div>
+    </div>
+    <div class="wrapper-border rounded-2 mb-3 w-75 mx-auto">
         <div class="row g-5">
             <div class="col-md-4">
                 <div class="fileWide">
@@ -66,14 +74,14 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card-body">
+                <div class="card-body p-3">
                     <p class="card-text">상품설명</p>
                     <p class="card-text" id="product-detail"><small class="text-body-secondary">${bDto.sb_contents}</small>
                     </p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card-body">
+                <div class="card-body p-3">
                     <h5 class="card-title">상품명 : ${bDto.sb_title}</h5>
                     <hr>
                     <p class="card-text">분류 : ${bDto.sb_category}</p>
@@ -99,9 +107,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="w-75 mb-3 mx-auto">
-        <a href="/board/marketList" class="btn btn-primary btn-color-thebora" role="button">목록으로</a>
     </div>
 </main>
 <script>

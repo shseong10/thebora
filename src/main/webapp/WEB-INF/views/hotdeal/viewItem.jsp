@@ -117,10 +117,22 @@
     <jsp:include page="../header.jsp"></jsp:include>
 </header>
 <main>
+    <div class="row w-75 mx-auto">
+        <div class="col-9">
+            <h1 class="">핫딜</h1>
+        </div>
+        <div class="col-3" style="text-align: right">
+            <sec:authorize access="hasRole('admin')">
+                <a href="/hotdeal/update_item?sb_num=${inventory.sb_num}" class="btn btn-warning" role="button" style="color: #333;">수정</a>
+                <a href="/hotdeal/delete_item?sb_num=${inventory.sb_num}" class="btn btn-danger" role="button" style="color: #fff;">삭제</a>
+            </sec:authorize>
+            <button onclick="document.location='/hotdeal/list'" class="btn btn-primary btn-color-thebora" style="display: inline-block">목록으로</button>
+        </div>
+    </div>
     <div class="card mb-3 w-75 mx-auto">
         <div class="row g-0">
             <div class="col-md-4 carousel slide" id="carousel">
-                <div class="carousel-inner" id="carousel-inner">
+                <div class="carousel-inner rounded-2" id="carousel-inner">
 
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
@@ -136,16 +148,18 @@
                 <div class="card-body">
                     <h5 class="card-title">${inventory.sb_title}</h5>
                     <p class="card-text">${inventory.sb_price}원</p>
-                    <p class="card-text"><small class="text-body-secondary">${inventory.sb_contents}</small></p>
-                    <p class="card-text"><small class="text-body-secondary">수량 선택: <input type="text" id="view_qty" name="view_qty" value="3">개</small></p>
+                    <p class="card-text"><small class="text-body-secondary">수량 선택: <input type="number" id="view_qty" class="wrapper-border rounded-3 p-1" name="view_qty" value="1" min="1" size="1">개</small></p>
                     <div class="d-grid gap-2 d-md-block mb-3">
-                        <a href="javascript: view_cart();" class="btn btn-primary btn-color-thebora" role="button">장바구니</a>
                         <a href="javascript: view_order();" class="btn btn-primary btn-color-thebora" role="button">주문하기</a>
                     </div>
-                    <a href="/hotdeal/update_item?sb_num=${inventory.sb_num}" class="btn btn-warning" role="button">수정</a>
-                    <a href="/hotdeal/delete_item?sb_num=${inventory.sb_num}" class="btn btn-danger" role="button">삭제</a>
+                </div>
             </div>
-            </div>
+        </div>
+    </div>
+    <div class="mt-3 p-2 w-75 mx-auto">
+        <h2 style="border-bottom: 1px #dee2e6 solid;" class="mb-4">상세설명</h2>
+        <div>
+            ${inventory.sb_contents}
         </div>
     </div>
     <div class="d-grid gap-2 w-75 mb-3 mx-auto">

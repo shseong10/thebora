@@ -96,72 +96,75 @@
 <header>
     <jsp:include page="../header.jsp"></jsp:include>
 </header>
-<div class="card mb-3 w-75 mx-auto allDiv-box">
-    <div class="row g-5">
-        <div class="col-md-4">
-            <div class="fileWide">
+
+<main>
+    <div class="row w-75 mx-auto mb-2">
+        <div class="col-11">
+            <h1 class="">경매</h1>
+        </div>
+        <div class="col-1">
+            <button onclick="document.location='/board/auctionList'" class="btn btn-color-thebora" style="cursor: pointer">목록으로</button>
+        </div>
+    </div>
+    <div class="wrapper-border rounded-2 mb-3 w-75 mx-auto">
+        <div class="row g-5">
+            <div class="col-md-4">
+                <div class="fileWide">
                     <c:forEach var="img" items="${file}" varStatus="loop">
                         <c:if test="${!empty img.bf_sysFileName}">
                             <img src="/upload/${img.bf_sysFileName}" class="img-fluid rounded-start" alt="...">
                         </c:if>
                     </c:forEach>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card-body">
-                <p class="card-text">상품설명</p>
-                <p class="card-text" id="product-detail"><small class="text-body-secondary">${bDto.sb_contents}</small>
-                </p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card-body">
-                <h5 class="card-title">상품명 : ${bDto.sb_title}</h5>
-                <hr>
-                <p class="card-text">즉시구매가 : ${bDto.element}원</p>
-                <p class="card-text">시작가 : ${bDto.start}원</p>
-                <p id="nowPrice" class="card-text">현재가 : <span id="np">${bDto.now}원</span></p>
-                <p class="card-text">최소입찰가 : ${bDto.bid}원</p>
-                <p class="card-text">경매시작일 : ${bDto.sb_date}</p>
-                <p class="card-text">경매종료일 : ${bDto.sb_timer}</p>
-                <p>판매자 : ${bDto.sb_id}</p>
-                <p id="buyer">현재 입찰 예정자 : ${bDto.a_joinId}</p>
-
-                <div id="timer"></div>
-                <%--                <form action="/board/attend" method="post" class="bid_form">--%>
-                <div class="d-grid gap-2 d-md-block mb-3">
-                    <%--                        <input type="hidden" name="sb_num" value="${bDto.sb_num}">--%>
-                    <input type="number" name="a_bidPrice" id="bidPrice" placeholder="입찰가격">
-                    <input type="button" class="btn btn-primary btn-color-thebora" onclick="userbtnclic()" value="입찰하기">
                 </div>
-                <%--                </form>--%>
+            </div>
+            <div class="col-md-4">
+                <div class="card-body p-3">
+                    <p class="card-text">상품설명</p>
+                    <p class="card-text" id="product-detail"><small class="text-body-secondary">${bDto.sb_contents}</small>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-body p-3">
+                    <h5 class="card-title">상품명 : ${bDto.sb_title}</h5>
+                    <hr>
+                    <p class="card-text">즉시구매가 : ${bDto.element}원</p>
+                    <p class="card-text">시작가 : ${bDto.start}원</p>
+                    <p id="nowPrice" class="card-text">현재가 : <span id="np">${bDto.now}원</span></p>
+                    <p class="card-text">최소입찰가 : ${bDto.bid}원</p>
+                    <p class="card-text">경매시작일 : ${bDto.sb_date}</p>
+                    <p class="card-text">경매종료일 : ${bDto.sb_timer}</p>
+                    <p>판매자 : ${bDto.sb_id}</p>
+                    <p id="buyer">현재 입찰 예정자 : ${bDto.a_joinId}</p>
 
-                <form action="/board/buyNow" method="post" id="buyNow">
-                    <input type="hidden" name="sb_num" value="${bDto.sb_num}">
-                    <input type="hidden" name="sb_id" value="${bDto.sb_id}">
-                    <input type="hidden" name="sb_price" value="${bDto.sb_price}">
-                    <input type="hidden" name="sb_timer" value="${bDto.sb_timer}">
-                    <button type="button" class="btn btn-primary btn-color-thebora" onclick="buyNow()">
-                        즉시구매
-                    </button>
-                    <input class="btn btn-primary btn-color-thebora" type="button" onclick="saleCart()" value="찜하기">
-                    <sec:authorize access="hasRole('admin')">
-                        <input type="button" id="reset-button" class="btn btn-primary btn-color-thebora" value="삭제하기"
-                               onclick="deleteBtn()">
-                    </sec:authorize>
-                </form>
+                    <div id="timer"></div>
+                    <%--                <form action="/board/attend" method="post" class="bid_form">--%>
+                    <div class="d-grid gap-2 d-md-block mb-3">
+                        <%--                        <input type="hidden" name="sb_num" value="${bDto.sb_num}">--%>
+                        <input type="number" name="a_bidPrice" id="bidPrice" placeholder="입찰가격">
+                        <input type="button" class="btn btn-primary btn-color-thebora" onclick="userbtnclic()" value="입찰하기">
+                    </div>
+                    <%--                </form>--%>
 
+                    <form action="/board/buyNow" method="post" id="buyNow">
+                        <input type="hidden" name="sb_num" value="${bDto.sb_num}">
+                        <input type="hidden" name="sb_id" value="${bDto.sb_id}">
+                        <input type="hidden" name="sb_price" value="${bDto.sb_price}">
+                        <input type="hidden" name="sb_timer" value="${bDto.sb_timer}">
+                        <button type="button" class="btn btn-primary btn-color-thebora" onclick="buyNow()">
+                            즉시구매
+                        </button>
+                        <input class="btn btn-primary btn-color-thebora" type="button" onclick="saleCart()" value="찜하기">
+                        <sec:authorize access="hasRole('admin')">
+                            <input type="button" id="reset-button" class="btn btn-primary btn-color-thebora" value="삭제하기"
+                                   onclick="deleteBtn()">
+                        </sec:authorize>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="d-grid gap-2 w-75 mb-3 mx-auto">
-    <a href="/board/auctionList" class="btn btn-primary btn-color-thebora" role="button">목록으로</a>
-</div>
-
-
+</main>
 <script>
     const joinId = '${bDto.sb_id}';
     const user = '<sec:authentication property="name"/>'
