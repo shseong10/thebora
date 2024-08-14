@@ -28,7 +28,10 @@
     </ul>
     <p>“더보라” 상점의 판매상품을 제외한 모든 상품들에 대하여, (주)더보라는 통신판매중개자로서 거래 당사자가 아니며 판매 회원과 구매 회원 간의 상품거래 정보 및 거래에 관여하지 않고, 어떠한 의무와 책임도 부담하지 않습니다.</p>
   </div>
-  <div class="goingTop" onclick="window.scrollTo(0,0);">UP</div>
+  <div id="topbutton" class="color-1 rounded-3" onclick="window.scrollTo(0,0);">
+    <i class="bi bi-caret-up-fill"></i><br>
+    TOP
+  </div>
 </footer>
 </body>
 </html>

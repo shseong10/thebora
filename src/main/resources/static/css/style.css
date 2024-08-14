@@ -604,3 +604,16 @@ footer {
 .noborder {
   border: 0 !important;
 }
+
+/* 위로가기 */
+#topbutton {
+  position: fixed;
+  bottom:5rem;
+  right: 2rem;
+  z-index: 99;
+  width: 3rem !important;
+  cursor: pointer;
+  padding: 0.5rem 0.2rem;
+  font-size: 0.8rem;
+  text-align: center; color: #ffffff;
+}
