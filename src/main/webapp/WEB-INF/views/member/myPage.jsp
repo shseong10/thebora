@@ -20,134 +20,74 @@
     </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-
-        .profile-picture {
-            width: 200px;
-            height: 200px;
-            border: 2px solid violet;
-            padding: 5px;
-            border-radius: 20px;
-            margin: 0px 20px 0 20px;
-
-        }
-
-        .info-title {
-            margin: 0 0 20px 0;
-        }
-
-
-        img {
-            max-width: 100%;
-
-            max-height: 100%;
-
-        }
-
         .profile-update {
             display: flex;
             justify-content: center;
             margin: 10px;
-        }
-
-        .profile-info {
-            font-size: 25px;
-            font-weight: 600;
-            margin: 10px 0 0 0;
-        }
-
-        .profile-info-all {
-            margin: 0 0 0 20px;
-
-        }
-
-        .font-right {
-            display: flex;
-            justify-content: left;
-        }
-        .profile-btn{
-            display: flex;
-            justify-content: center;
-            align-content: center;
-            margin: 20px 0 0 0;
         }
     </style>
 </head>
 <body>
 <header>
     <jsp:include page="../header.jsp"></jsp:include>
-
 </header>
-
-<div class="container-lg">
-    <div class="font-right">
-        <h2 class="article-t">마이페이지</h2>
+<main class="row w-75 mx-auto mb-5">
+    <div class="info-title">
+        <h1>마이페이지</h1>
     </div>
-    <div class="row" style="margin-top:50px;">
-
-        <div class="col-sm-4">
-            <div class="info-title">
-                <h1>Profile</h1>
+    <section id="my-info" class="col-3">
+        <div class="position-relative">
+            <div id="my-info-img" class="color-1 rounded-2" data-bs-toggle="modal" data-bs-target="#profile-up">
+                이미지 업로드
             </div>
-            <div class="rounded float-start">
-                <!-- Button trigger modal -->
-                <div class="container-sm profile-picture" data-bs-toggle="modal" data-bs-target="#profile-up">
-                    <c:if test="${empty profile.pf_oriFileName}">
-                        <img src="/upload/프사없음.jfif" width="200px">
-                    </c:if>
-                    <c:if test="${!empty profile.pf_oriFileName}">
-                        <img src="/upload/${profile.pf_sysFileName}" width="200px">
-                    </c:if>
-                </div>
-
-            </div>
-
-            <div class="profile-info">NAME</div>
-            <div>${profile.m_name}</div>
-            <div class="profile-info">LEVEL</div>
-            <div>${profile.p_level}</div>
-            <div class="profile-info">POINT</div>
-            <div>${profile.m_point}P</div>
-            <div class="profile-info">TOTAL POINT</div>
-            <div>${profile.m_sumPoint}P</div>
-
-        </div>
-        <div class="col-sm-1">
-            <div class="d-flex" style="height: 100%;">
-                <div class="vr"></div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="info-title">
-                <h1 style="display: inline;">Management</h1>
-                <div class="float-end">
-                    <a class="btn btn-primary btn-color-thebora" href="/member/infoUpdate">정보수정</a>
-                </div>
-            </div>
-            <div class="profile-info-all">
-                <div class="profile-info">주소지</div>
-                <div>${profile.m_addr}</div>
-            </div>
-            <div class="profile-info">
-                <ul class="nav nav-pills">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/board/marketRegister">판매하기</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/member/marketEnd">거래내역</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/member/myTrade">나의거래</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/member/myCart">관심상품</a>
-                    </li>
+            <c:if test="${empty profile.pf_oriFileName}">
+                <img src="/upload/프사없음.jfif" class="card-img-top profile-picture" data-bs-toggle="modal" data-bs-target="#profile-up" style="cursor: pointer">
+            </c:if>
+            <c:if test="${!empty profile.pf_oriFileName}">
+                <img src="/upload/${profile.pf_sysFileName}" class="card-img-top profile-picture" data-bs-toggle="modal" data-bs-target="#profile-up" style="cursor: pointer">
+            </c:if>
+            <div class="card-body my-info-list">
+                <ul>
+                    <li><h5>${profile.m_name}</h5></li>
+                    <li><h5><span style="font-size: 1rem;">레벨</span> ${profile.p_level}</h5></li>
+                    <li><h5><span style="font-size: 1rem;">포인트</span> ${profile.m_point}P</h5></li>
                 </ul>
+                <p class="card-text" style="text-align: center">${profile.m_addr}
+                    <b><a class="btn btn-primary btn-color-thebora" href="/member/infoUpdate">수정하기</a></b>
+                </p>
             </div>
-
-
         </div>
-    </div>
-</div>
+    </section>
+    <section class="col-9 my-info-list">
+        <ul style="height: 100%">
+            <li style="cursor: pointer" class="position-relative">
+                <h2 style="margin-top:30%">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-receipt-cutoff mb-3" viewBox="0 0 16 16">
+                        <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5M11.5 4a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z"/>
+                        <path d="M2.354.646a.5.5 0 0 0-.801.13l-.5 1A.5.5 0 0 0 1 2v13H.5a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1H15V2a.5.5 0 0 0-.053-.224l-.5-1a.5.5 0 0 0-.8-.13L13 1.293l-.646-.647a.5.5 0 0 0-.708 0L11 1.293l-.646-.647a.5.5 0 0 0-.708 0L9 1.293 8.354.646a.5.5 0 0 0-.708 0L7 1.293 6.354.646a.5.5 0 0 0-.708 0L5 1.293 4.354.646a.5.5 0 0 0-.708 0L3 1.293zm-.217 1.198.51.51a.5.5 0 0 0 .707 0L4 1.707l.646.647a.5.5 0 0 0 .708 0L6 1.707l.646.647a.5.5 0 0 0 .708 0L8 1.707l.646.647a.5.5 0 0 0 .708 0L10 1.707l.646.647a.5.5 0 0 0 .708 0L12 1.707l.646.647a.5.5 0 0 0 .708 0l.509-.51.137.274V15H2V2.118z"/>
+                    </svg><br>
+                    <a href="/member/marketEnd" style="display: block" class="stretched-link">거래내역</a>
+                </h2>
+            </li>
+            <li style="cursor: pointer" class="position-relative">
+                <h2 style="margin-top:30%">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-basket3-fill mb-3" viewBox="0 0 16 16">
+                        <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.468 15.426.943 9h14.114l-1.525 6.426a.75.75 0 0 1-.729.574H3.197a.75.75 0 0 1-.73-.574z"/>
+                    </svg><br>
+                    <a href="/member/myTrade" style="display: block" class="stretched-link">나의거래</a>
+                </h2>
+            </li>
+            <li style="cursor: pointer" class="position-relative">
+                <h2 style="margin-top:30%">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-bookmark-heart-fill mb-3" viewBox="0 0 16 16">
+                        <path d="M2 15.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2zM8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
+                    </svg><br>
+                    <a href="/member/myCart" style="display: block" class="stretched-link">관심상품</a>
+                </h2>
+            </li>
+        </ul>
+    </section>
+</main>
 
 <!-- Modal -->
 <div class="modal fade" id="profile-up" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -194,8 +134,6 @@
     function basicProfile() {
         location.href="/member/profileDelete"
     }
-
-
 </script>
 <footer>
     <jsp:include page="../footer.jsp"></jsp:include>

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 24. 7. 17.
-  Time: 오전 11:47
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
@@ -19,151 +12,159 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <style>
-    .file-size {
-        display: flex;
-        align-items: center;
-        justify-items: center;
-
-    }
-
-    .file-size img {
-
-        max-height: 200px; /* 높이를 자동으로 조정하여 가로 세로 비율 유지 */
-        max-width: 200px; /* 높이를 자동으로 조정하여 가로 세로 비율 유지 */
-        margin: auto;
-
-
-    }
-
-    .line-line {
-
-        border: solid 1px black;
-        border-radius: 10%;
-        width: 300px;
-        display: flex;
-        justify-content: center;
-
-    }
-
-    .fileWide {
-        display: flex;
-        justify-content: center;
-        overflow: hidden;
-        width: 245px;
-        height: 245px;
-
-    }
-
-    .fileWide img {
-        width: 100%;
-        height: 100%;
-    }
-
     .none-auction {
         display: flex;
         justify-content: center;
         align-content: center;
         margin: 150px;
     }
-
-
 </style>
 <body>
 <header>
     <jsp:include page="../header.jsp"></jsp:include>
-
 </header>
-
-<hr class="w-75 mx-auto">
-<div class="d-grid gap-2 w-75 mb-3 mx-auto">
-    <h2 class="article-t">찜한 경매</h2>
-</div>
-<c:if test="${empty myAuctionCart}">
-    <div class="none-auction">관심있는 경매가 없습니다.</div>
-</c:if>
-<div class="row row-cols-1 row-cols-md-2 g-4 w-75 mx-auto">
-
-    <c:forEach var="item" items="${myAuctionCart}">
-        <div class="col">
-            <a type="button" class="btn-close" aria-label="Close" href="/board/myCartDel?sb_num=${item.sb_num}"></a>
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <div class="fileWide">
+<main>
+    <div class="w-75 mx-auto">
+        <h1 class="mb-5">나의 거래</h1>
+    </div>
+    <div class="d-grid gap-2 w-75 mb-3 mx-auto">
+        <h2 class="article-t">찜한 경매</h2>
+    </div>
+    <c:if test="${empty myAuctionCart}">
+        <div class="none-auction">관심있는 경매가 없습니다.</div>
+    </c:if>
+    <div class="row row-cols-1 row-cols-md-2 g-4 w-75 mx-auto">
+        <c:forEach var="item" items="${myAuctionCart}">
+            <div class="col">
+                <div class="card mb-3 position-relative my-trade-card"><%-- 카드 컨테이너 --%>
+                    <div class="row g-0">
+                        <div class="col-md-6"><%-- 카드 좌측 --%>
                             <c:forEach var="file" items="${item.bfList}" varStatus="loop">
                                 <c:if test="${file.bf_sysFileName eq ''}">
-                                    <img src="/upload/프사없음.jfif" class="img-fluid rounded-start" alt="...">
+                                    <div class="my-trade-thumbnail rounded-1 ${loop.index == 0 ? '' : 'img-none' }" style="background-image: url('/upload/프사없음.jfif'); background-size: cover; background-position: 50% 50%;">
+
+                                    </div>
                                 </c:if>
                                 <c:if test="${!empty file.bf_sysFileName}">
-                                    <div>
-                                        <img src="/upload/${file.bf_sysFileName}"
-                                             class="img-fluid rounded-start ${loop.index == 0 ? '' : 'img-none' }"
-                                             alt="...">
+                                    <div class="my-trade-thumbnail rounded-1 ${loop.index == 0 ? '' : 'img-none' }" style="background-image: url('/upload/${file.bf_sysFileName}'); background-size: cover; background-position: 50% 50%;">
+
                                     </div>
                                 </c:if>
                             </c:forEach>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="/board/auctionDetail?sb_num=${item.sb_num}"
-                                                      class="stretched-link">${item.sb_title}</a></h5>
-                            <p class="card-text">분류:${item.sb_category}</p>
-                            <p class="card-text">즉시구매가:${item.sb_price}</p>
-                            <p class="card-text">현재가:${item.sb_nowPrice}</p>
-                            <p class="card-text">내 입찰 금액:${item.a_bidPrice}</p>
+                        <div class="col-md-6"><%-- 카드 우측 --%>
+                            <div class="card-body" style="text-align: center">
+                                <h5 class="card-title mt-1">
+                                    <a href="/board/auctionDetail?sb_num=${item.sb_num}" class="stretched-link">
+                                        <small class="main-item-category rounded-3 color-3">경매</small> ${item.sb_title}
+                                    </a>
+                                </h5>
+                                <small class="text-body-secondary">${item.sb_category}</small>
+                                <div class="card-text row row-cols-1 row-cols-md-2 g-4 mt-1">
+                                    <div class="col my-trade-card-col">
+                                        <small class="text-body-secondary">판매자</small><br>
+                                        <b>${item.sb_id}</b>
+                                    </div>
+                                    <div class="col my-trade-card-col">
+                                        <small class="text-body-secondary">즉시구매가</small><br>
+                                        <b>${item.sb_price}</b>
+                                    </div>
+                                    <div class="col my-trade-card-col">
+                                        <small class="text-body-secondary">현재가</small><br>
+                                        <b>${item.sb_nowPrice}원</b>
+                                    </div>
+                                    <div class="col my-trade-card-col">
+                                        <small class="text-body-secondary">내 입찰 금액</small><br>
+                                        <b>${item.a_bidPrice}</b>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col d-grid">
+                                        <a type="button" class="btn btn-color-thebora btn-sm" href="/board/auctionDetail?sb_num=${item.sb_num}">보기</a>
+                                    </div>
+                                    <div class="col d-grid">
+                                        <a type="button" class="btn my-trade-btn-del btn-sm" href="/board/myCartDel?sb_num=${item.sb_num}">삭제</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </c:forEach>
-</div>
-<hr class="w-75 mx-auto">
-<div class="d-grid gap-2 w-75 mb-3 mx-auto">
-    <h2 class="article-t">찜한 상품</h2>
-</div>
-<c:if test="${empty mySalesCart}">
-    <div class="none-auction">관심있는 상품이 없습니다.</div>
-</c:if>
-<div class="row row-cols-1 row-cols-md-2 g-4 w-75 mx-auto">
-
-    <c:forEach var="Sales" items="${mySalesCart}">
-        <div class="col">
-            <a type="button" class="btn-close" aria-label="Close" href="/board/myCartDel?sb_num=${Sales.sb_num}"></a>
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <div class="fileWide">
+        </c:forEach>
+    </div>
+    <hr class="w-75 mx-auto">
+    <div class="d-grid gap-2 w-75 mb-3 mx-auto">
+        <h2 class="article-t">찜한 상품</h2>
+    </div>
+    <c:if test="${empty mySalesCart}">
+        <div class="none-auction">관심있는 상품이 없습니다.</div>
+    </c:if>
+    <div class="row row-cols-1 row-cols-md-2 g-4 w-75 mx-auto">
+        <c:forEach var="Sales" items="${mySalesCart}">
+            <div class="col">
+                <div class="card mb-3 position-relative my-trade-card"><%-- 카드 컨테이너 --%>
+                    <div class="row g-0">
+                        <div class="col-md-6"><%-- 카드 좌측 --%>
                             <c:forEach var="sfile" items="${Sales.bfList}" varStatus="loop">
                                 <c:if test="${sfile.bf_sysFileName eq ''}">
-                                    <img src="/upload/프사없음.jfif" class="img-fluid rounded-start" alt="...">
+                                    <div class="my-trade-thumbnail rounded-1 ${loop.index == 0 ? '' : 'img-none' }" style="background-image: url('/upload/프사없음.jfif'); background-size: cover; background-position: 50% 50%;">
+
+                                    </div>
                                 </c:if>
                                 <c:if test="${!empty sfile.bf_sysFileName}">
-                                    <div>
-                                        <img src="/upload/${sfile.bf_sysFileName}"
-                                             class="img-fluid rounded-start ${loop.index == 0 ? '' : 'img-none' }"
-                                             alt="...">
+                                    <div class="my-trade-thumbnail rounded-1 ${loop.index == 0 ? '' : 'img-none' }" style="background-image: url('/upload/${sfile.bf_sysFileName}'); background-size: cover; background-position: 50% 50%;">
+
                                     </div>
                                 </c:if>
                             </c:forEach>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="/board/marketDetail?sb_num=${Sales.sb_num}"
-                                                      class="stretched-link">상품명 : ${Sales.sb_title}</a></h5>
-                            <p class="card-text">분류 : ${Sales.sb_category}</p>
-                            <p class="card-text">가격 : ${Sales.sb_price}</p>
+                        <div class="col-md-6"><%-- 카드 우측 --%>
+                            <div class="card-body" style="text-align: center">
+                                <h5 class="card-title mt-4">
+                                    <a href="/board/marketDetail?sb_num=${Sales.sb_num}" class="stretched-link">
+                                        <small class="main-item-category rounded-3 color-3">판매중</small> ${Sales.sb_title}
+                                    </a>
+                                </h5>
+                                <small class="text-body-secondary">${Sales.sb_category}</small>
+                                <div class="card-text row row-cols-1 row-cols-md-2 g-4 mt-1">
+                                        <%--                                <div class="col my-trade-card-col">--%>
+                                        <%--                                    <small class="text-body-secondary">판매자</small><br>--%>
+                                        <%--                                    <b>${Sales.sb_id}</b>--%>
+                                        <%--                                </div>--%>
+                                        <%--                                <div class="col my-trade-card-col">--%>
+                                        <%--                                    <small class="text-body-secondary">지역</small><br>--%>
+                                        <%--                                    <b>${Sales.sb_price}</b>--%>
+                                        <%--                                </div>--%>
+                                    <div class="col my-trade-card-col">
+                                        <small class="text-body-secondary">가격</small><br>
+                                        <b>${Sales.sb_price}원</b>
+                                    </div>
+                                    <div class="col my-trade-card-col">
+                                        <small class="text-body-secondary">등록일</small><br>
+                                        <b>${Sales.sb_date}</b>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-5">
+                                    <div class="col d-grid">
+                                        <a type="button" class="btn btn-color-thebora btn-sm" href="/board/marketDetail?sb_num=${Sales.sb_num}">보기</a>
+                                    </div>
+                                    <div class="col d-grid">
+                                        <a type="button" class="btn my-trade-btn-del btn-sm" href="/board/myCartDel?sb_num=${Sales.sb_num}">삭제</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </c:forEach>
-</div>
+        </c:forEach>
+    </div>
+</main>
 
 
 <script>
