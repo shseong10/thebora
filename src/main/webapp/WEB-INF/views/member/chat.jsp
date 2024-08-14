@@ -17,45 +17,41 @@
 <header>
     <jsp:include page="../header.jsp"></jsp:include>
 </header>
-<section>
-    <div id="chatting-wrapper" class="row">
+<main class="row w-75 mx-auto mb-5">
+    <h1>채팅하기</h1>
+    <div id="chatting-wrapper" class="row wrapper-border rounded-2">
         <div id="chat_left" class="col-4">
-            <div>
-                <h5>채팅목록</h5>
+            <div class="row">
+                <h5 style="border-bottom: #dee2e6 1px solid; margin-bottom: 0;">채팅목록</h5>
             </div>
-            <div class="row chat_name">
-                <div class="col">대화상대</div>
-                <div class="col">채팅방 이름</div>
-            </div>
-            <div class="row chat_name">
                 <c:if test="${empty chat}">
-                    <div>
-                        <h5>참여중인 채팅방이 없습니다.</h5>
+                    <div class="row">
+                        <div class="col-12">
+                            <h5>참여중인 채팅방이 없습니다.</h5>
+                        </div>
                     </div>
                 </c:if>
                 <c:if test="${!empty chat}">
                     <c:forEach items="${chat}" var="critem">
-                        <div class="row">
-                            <div class="col" onclick="chatRoom('${critem.c_sendid}','${critem.sellerId}','${critem.c_title}','${critem.sb_num}')">
+                        <div class="row chat_name" onclick="chatRoom('${critem.c_sendid}','${critem.sellerId}','${critem.c_title}','${critem.sb_num}')">
+                            <%-- 대화상대 --%>
+                            <div class="col-6 pt-2">
                                 <c:if test="${critem.c_sendid == userId}">
-                                    ${critem.sellerId}
+                                    <h5>${critem.sellerId}님</h5>
                                 </c:if>
                                 <c:if test="${critem.sellerId == userId}">
-                                    ${critem.c_sendid}
+                                    <h5>${critem.c_sendid}님</h5>
                                 </c:if>
                             </div>
-                            <div class="col">
-                                    ${critem.c_title}
+                            <%-- 대화중인 상품 --%>
+                            <div class="col-6 pt-2">
+                                <h5>${critem.c_title}</h5>
                             </div>
                         </div>
                     </c:forEach>
                 </c:if>
-            </div>
         </div>
         <div id="chat_right" class="col-8">
-            <div>
-                <h5>채팅하기</h5>
-            </div>
             <div id="chat_contents">
                 <h5>목록에서 채팅방을 선택해주세요.</h5>
             </div>
@@ -65,14 +61,13 @@
             </div>
         </div>
     </div>
-</section>
+</main>
 <footer>
     <jsp:include page="../footer.jsp"></jsp:include>
 </footer>
 <script>
     $(() => {
         console.log('${userId}');
-
 
     })
 
@@ -93,6 +88,7 @@
             })
             $('#chat_contents').html(chatList);
             $('#chat_contents').css("overflow-y", "scroll");
+            $('#chat_contents').css("min-height", "15rem");
             $('#chat_input_field').css("visibility", "visible");
 
 
