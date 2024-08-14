@@ -204,9 +204,8 @@ public class BoardController {
             List<BoardDto> myTrading = bSer.myTrading(name);
             List<BoardDto> myAuction = bSer.myTrade(name);
             List<BoardDto> mySales = bSer.mySales(name);
-            List<OrderDto> myOrder = oSer.myOrder(name);
 
-            log.info("--=-=-=-=-=-=-=-=-=-={}", myOrder);
+//            log.info("--=-=-=-=-=-=-=-=-=-={}", );
             if (myTrading != null) {
                 model.addAttribute("myTrading", myTrading);
             }
@@ -215,9 +214,6 @@ public class BoardController {
             }
             if (mySales != null) {
                 model.addAttribute("mySales", mySales);
-            }
-            if (myOrder != null) {
-                model.addAttribute("myOrder", myOrder);
             }
             return "member/myTrade";
         }

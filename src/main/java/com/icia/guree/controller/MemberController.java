@@ -5,6 +5,7 @@ import com.icia.guree.dao.MemberDao;
 import com.icia.guree.entity.*;
 import com.icia.guree.service.BoardService;
 import com.icia.guree.service.MemberService;
+import com.icia.guree.service.OrderService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,18 @@ import java.util.List;
 public class MemberController {
     @Autowired
     private MemberService mSer;
+
     @Autowired
     private MemberDao mDao;
+
     @Autowired
     private FileDao pDao;
+
     @Autowired
     private BoardService bSer;
+
+    @Autowired
+    private OrderService oSer;
 
     //로그인 안된경우만 로그인창으로
     @PreAuthorize("isAnonymous()")
@@ -209,11 +216,16 @@ public class MemberController {
             String name = userDetails.getUsername();
             List<BoardDto> mEList = bSer.myMarketEndList(name);
             List<BoardDto> aEList = bSer.myAuctionEndList(name);
+            List<OrderDto> myOrder = oSer.myOrder(name);
+
             if (mEList != null) {
                 model.addAttribute("mEList", mEList);
             }
             if (aEList != null) {
                 model.addAttribute("aEList", aEList);
+            }
+            if (myOrder != null) {
+                model.addAttribute("myOrder", myOrder);
             }
 
         }
