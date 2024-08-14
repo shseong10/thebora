@@ -120,7 +120,7 @@
                         <div class="col-md-6"><%-- 카드 우측 --%>
                             <div class="card-body" style="text-align: center">
                                 <h5 class="card-title mt-1">
-                                    <a href="/board/auctionDetail?sb_num=${item.sb_num}" class="stretched-link">
+                                    <a href="/board/auctionDetail?sb_num=${item.sb_num}">
                                         <small class="main-item-category rounded-3 color-3">경매</small> ${item.sb_title}
                                     </a>
                                 </h5>
@@ -187,7 +187,7 @@
                         <div class="col-md-6"><%-- 카드 우측 --%>
                             <div class="card-body" style="text-align: center">
                                 <h5 class="card-title mt-4">
-                                    <a href="/board/marketDetail?sb_num=${Sales.sb_num}" class="stretched-link">
+                                    <a href="/board/marketDetail?sb_num=${Sales.sb_num}">
                                         <small class="main-item-category rounded-3 color-3">판매중</small> ${Sales.sb_title}
                                     </a>
                                 </h5>
@@ -217,6 +217,70 @@
                                     </div>
                                     <div class="col d-grid">
                                         <a type="button" class="btn my-trade-btn-del btn-sm" href="/board/myTradeDel?sb_num=${Sales.sb_num}">삭제</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+    <hr class="w-75 mx-auto" >
+    <div class="d-grid gap-2 w-75 mb-3 mx-auto">
+        <h2 class="article-t">핫딜 구매 상품</h2>
+    </div>
+    <c:if test="${empty myOrder}">
+        <div class="none-auction">구매한 상품이 없습니다.</div>
+    </c:if>
+    <div class="row row-cols-1 row-cols-md-2 g-4 w-75 mx-auto">
+        <c:forEach var="myOrder" items="${myOrder}">
+            <div class="col">
+                <div class="card mb-3 position-relative my-trade-card"><%-- 카드 컨테이너 --%>
+                    <div class="row g-0">
+                        <div class="col-md-6"><%-- 카드 좌측 --%>
+                            <c:forEach var="file" items="${myOrder.bfList}" varStatus="loop">
+                                <c:if test="${file.bf_sysFileName eq ''}">
+                                    <div class="my-trade-thumbnail rounded-1 ${loop.index == 0 ? '' : 'img-none' }" style="background-image: url('/upload/프사없음.jfif'); background-size: cover; background-position: 50% 50%;">
+
+                                    </div>
+                                </c:if>
+                                <c:if test="${!empty file.bf_sysFileName}">
+                                    <div class="my-trade-thumbnail rounded-1 ${loop.index == 0 ? '' : 'img-none' }" style="background-image: url('/upload/${file.bf_sysFileName}'); background-size: cover; background-position: 50% 50%;">
+
+                                    </div>
+                                </c:if>
+                            </c:forEach>
+                        </div>
+                        <div class="col-md-6"><%-- 카드 우측 --%>
+                            <div class="card-body" style="text-align: center">
+                                <h5 class="card-title mt-4">
+                                    <a href="${myOrder.order_num}">
+                                        <small class="main-item-category rounded-3 color-3">핫딜</small> ${myOrder.sb_title}
+                                    </a>
+                                </h5>
+                                <div class="card-text row row-cols-1 row-cols-md-2 g-4 mt-1">
+    <%--                                <div class="col my-trade-card-col">--%>
+    <%--                                    <small class="text-body-secondary">판매자</small><br>--%>
+    <%--                                    <b>${Sales.sb_id}</b>--%>
+    <%--                                </div>--%>
+    <%--                                <div class="col my-trade-card-col">--%>
+    <%--                                    <small class="text-body-secondary">지역</small><br>--%>
+    <%--                                    <b>${Sales.sb_price}</b>--%>
+    <%--                                </div>--%>
+                                    <div class="col my-trade-card-col">
+                                        <small class="text-body-secondary">가격</small><br>
+                                        <b>${myOrder.item_price}원</b>
+                                    </div>
+                                    <div class="col my-trade-card-col">
+                                        <small class="text-body-secondary">주문일자</small><br>
+                                        <b>${myOrder.order_date}</b>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-5">
+                                    <div class="col d-grid">
+                                        <a type="button" class="btn btn-color-thebora btn-sm" href="/hotdeal/list/detail?sb_num=${myOrder.order_num}">보기</a>
                                     </div>
                                 </div>
                             </div>

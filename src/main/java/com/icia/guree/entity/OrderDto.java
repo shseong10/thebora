@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Accessors(chain = true)
@@ -19,7 +20,7 @@ public class OrderDto {
     private String order_id;
     private int order_count;
     private int item_price;
-    private LocalDateTime order_date;
+    private String order_date;
     private String order_status;
 
     private String sb_title;
@@ -31,4 +32,10 @@ public class OrderDto {
     private int total_amount;
     private String item_name;
     private int quantity;
+
+    private int sb_num;
+    private int sb_salekind;
+    private int sb_id;
+    private int sb_scope;
+    private List<BoardFileDto> bfList;
 }

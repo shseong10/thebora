@@ -1,13 +1,11 @@
 package com.icia.guree.controller;
 
 import com.icia.guree.dao.FileDao;
-import com.icia.guree.entity.BoardDto;
-import com.icia.guree.entity.BoardFileDto;
-import com.icia.guree.entity.MemberDto;
-import com.icia.guree.entity.SearchDto;
+import com.icia.guree.entity.*;
 import com.icia.guree.exception.DBException;
 import com.icia.guree.service.BoardService;
 import com.icia.guree.service.MemberService;
+import com.icia.guree.service.OrderService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +36,9 @@ public class BoardController {
 
     @Autowired
     private FileDao pDao;
+
+    @Autowired
+    private OrderService oSer;
 
     // 경매 물품 올리기 페이지로
     @PreAuthorize("isAuthenticated()")
@@ -201,8 +202,9 @@ public class BoardController {
             List<BoardDto> myTrading = bSer.myTrading(name);
             List<BoardDto> myAuction = bSer.myTrade(name);
             List<BoardDto> mySales = bSer.mySales(name);
+            List<OrderDto> myOrder = oSer.myOrder(name);
 
-            log.info("--=-=-=-=-=-=-=-=-=-={}", myAuction);
+            log.info("--=-=-=-=-=-=-=-=-=-={}", myOrder);
             if (myTrading != null) {
                 model.addAttribute("myTrading", myTrading);
             }
@@ -211,6 +213,9 @@ public class BoardController {
             }
             if (mySales != null) {
                 model.addAttribute("mySales", mySales);
+            }
+            if (myOrder != null) {
+                model.addAttribute("myOrder", myOrder);
             }
             return "member/myTrade";
         }

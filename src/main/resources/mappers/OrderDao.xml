@@ -9,7 +9,23 @@
         <result property="item_price" column="item_price" />
         <result property="order_date" column="order_date" />
         <result property="order_status" column="order_status" />
+        <result property="sb_num" column="sb_num" />
+        <result property="sb_salekind" column="sb_salekind" />
+        <result property="sb_id" column="sb_id" />
+        <result property="sb_scope" column="sb_scope" />
+        <result property="sb_title" column="sb_title" />
+        <collection property="bfList" javaType="ArrayList" ofType="BoardFileDto">
+            <result property="bf_sysFileName" column="bf_sysfilename"/>
+            <result property="bf_oriFileName" column="bf_orifilename"/>
+        </collection>
     </resultMap>
+    <resultMap type="boardFileDto" id="boardFile">
+        <id property="bf_num" column="bf_num" />
+        <result property="bf_sb_num" column="bf_sb_num" />
+        <result property="bf_oriFileName" column="bf_orifilename"/>
+        <result property="bf_sysFileName" column="bf_sysfilename"/>
+    </resultMap>
+
     <insert id="buyNewItem" parameterType="OrderDto" useGeneratedKeys="true" keyProperty="order_num">
         insert into hotdealorder (item_num, order_id, order_count, item_price, order_date, order_status)
         values (#{item_num}, #{order_id}, #{quantity}, #{total_amount}, default, 1)
@@ -17,6 +33,11 @@
             select last_insert_id()
         </selectKey>
     </insert>
+
+    <select id="getMyOrder" resultMap="orderResult">
+        select *, (select sb_title from saleboard where sb_num = item_num) as sb_title from hotdealorder left join boardfile on item_num = bf_sb_num
+                 where order_status = 1 order by item_num desc;
+    </select>
 
     <update id="addPoint">
         update member set m_point = m_point + #{total_amount}, m_sumpoint = m_sumpoint + #{total_amount} where m_id = #{order_id}
