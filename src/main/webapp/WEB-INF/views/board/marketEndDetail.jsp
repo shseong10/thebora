@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 24. 7. 8.
-  Time: 오후 5:25
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/security/tags"
@@ -30,22 +23,6 @@
         -webkit-appearance: none;
         margin: 0;
     }
-
-    .carousel-item {
-
-        margin: auto;
-        width: auto; /* 너비를 자동으로 조정하여 가로 세로 비율 유지 */
-        height: auto; /* 높이를 자동으로 조정하여 가로 세로 비율 유지 */
-
-
-    }
-
-    .carousel-inner {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
     #product-detail {
         width: 450px;
         height: 500px;
@@ -60,15 +37,6 @@
         max-height: 500px; /* 높이를 자동으로 조정하여 가로 세로 비율 유지 */
 
     }
-
-    .carousel-control-prev-icon {
-        background-color: #cccccc;
-    }
-
-    .carousel-control-next-icon {
-        background-color: #cccccc;
-    }
-
 </style>
 <script>
 
