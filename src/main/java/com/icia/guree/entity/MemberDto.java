@@ -17,6 +17,8 @@ public class MemberDto {
     private String m_name;
     private String m_phone;
     private String m_addr;
+    private String m_bank;
+    private String m_bankNum;
     private int m_point;
     private int m_sumPoint;
     private String m_companyNum;

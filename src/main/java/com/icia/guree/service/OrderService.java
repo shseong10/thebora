@@ -20,4 +20,8 @@ public class OrderService {
             return false;
         }
     }
+
+    public boolean addPoint(OrderDto order) {
+        return oDao.addPoint(order);
+    }
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        " http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.icia.guree.dao.OrderDao">
     <resultMap id="orderResult" type="OrderDto">
         <result property="order_num" column="order_num" />
@@ -18,4 +17,8 @@
             select last_insert_id()
         </selectKey>
     </insert>
+
+    <update id="addPoint">
+        update member set m_point = m_point + #{total_amount}, m_sumpoint = m_sumpoint + #{total_amount} where m_id = #{order_id}
+    </update>
 </mapper>

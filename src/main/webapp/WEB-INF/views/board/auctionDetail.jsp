@@ -179,7 +179,7 @@
 
     function buyNow() {
         if (user === joinId) {
-            alert("본인의 상품은 장바구니에 넣을 수 없습니다.")
+            alert("본인의 상품은 구매할 수 없습니다.")
             return
         }
         if (confirm("즉시구매 하시겠습니까?")) {
@@ -189,7 +189,7 @@
 
     function saleCart() {
         if (user === joinId) {
-            alert("본인의 상품은 장바구니에 넣을 수 없습니다.")
+            alert("본인의 상품은 찜할 수 없습니다.")
             return
 
         }

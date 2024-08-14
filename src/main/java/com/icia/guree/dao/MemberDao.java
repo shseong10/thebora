@@ -62,4 +62,7 @@ public interface MemberDao {
 
     @Delete("delete from member where m_id = #{mId}")
     boolean memberDelete(String mId);
+
+    @Update("update member set m_point = m_point - #{m_point} where m_id = #{m_id}")
+    void pointExchange(MemberDto mDto);
 }

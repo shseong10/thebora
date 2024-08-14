@@ -6,4 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OrderDao {
     boolean buyNewItem(OrderDto order);
+
+    boolean addPoint(OrderDto order);
 }
