@@ -54,6 +54,7 @@
                             <li><a class="dropdown-item" href="/board/auctionApply">경매 신청하기</a></li>
                             <li><a class="dropdown-item" href="/board/adApply">광고 신청하기</a></li>
                             <li><a class="dropdown-item" href="/member/pointCharge">포인트 충전</a></li>
+                            <li><a class="dropdown-item" href="/member/pointExchange">포인트 환전</a></li>
                         </ul>
                     </li>
                 </ul>

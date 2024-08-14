@@ -3,6 +3,7 @@ package com.icia.guree.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icia.guree.common.SessionUtils;
+import com.icia.guree.entity.MemberDto;
 import com.icia.guree.entity.OrderDto;
 import com.icia.guree.service.OrderService;
 import jakarta.servlet.http.HttpSession;
@@ -53,6 +54,32 @@ public class OrderController {
         }
 
         return "hotdeal/orderResult";
+    }
+
+
+    @GetMapping("/member/pointOrder/result")
+    public String PointOrderResult(){
+        return "member/pointOrderResult";
+    }
+
+    @PostMapping("/member/order")
+    public String pointchargeOrder(OrderDto order, Model model) throws JsonProcessingException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            order.setOrder_id(userDetails.getUsername());
+            order.setSb_title("point");
+            order.setItem_name("point");
+            order.setOrder_count(1);
+
+        }
+        if (order != null) {
+            model.addAttribute("json", new ObjectMapper().writeValueAsString(order));
+            model.addAttribute("order", order);
+            return "member/pointOrderConfirm";
+        }else {
+            return "redirect:/";
+        }
     }
 
 }

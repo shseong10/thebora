@@ -225,6 +225,44 @@ public class MemberController {
     public String pointCharge(){
         return "member/pointCharge";
     }
+    // 포인트 환전 페이지
+    @GetMapping("/member/pointExchange")
+    public String pointExchange(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+           int point = mDao.getUserPoint(userDetails.getUsername());
+           model.addAttribute("point",point);
+        }
+
+        return "member/pointExchange";
+    }
+    //포인트 환전 확인
+    @GetMapping("/member/pointExchangeResult")
+        public String exchangepoint(){
+        return "member/pointExchangeResult";
+    }
+
+    //포인트 환전
+    @PostMapping("/member/pointExchange")
+    public String Exchange(MemberDto mDto,RedirectAttributes redirectAttributes){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            mDto.setM_id(userDetails.getUsername());
+        }
+        mDto.setM_sumPoint((int) (mDto.getM_point() * 0.95));
+        int point = mDao.getUserPoint(mDto.getM_id());
+        if (point>mDto.getM_point()){
+            mDao.pointExchange(mDto);
+            redirectAttributes.addFlashAttribute("mDto", mDto);
+            return "redirect:/member/pointExchangeResult";
+        }else{
+            redirectAttributes.addFlashAttribute("msg","환전 신청한 금액보다 보유 포인트가 적습니다.");
+            return "redirect:/member/pointExchange";
+        }
+    }
+
 
     //완료 경매 디테일
     @GetMapping("/board/auctionEndDetail")

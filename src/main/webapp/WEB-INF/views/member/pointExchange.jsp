@@ -19,22 +19,47 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+<script>
+    const msg = '${msg}';
+    if (msg !== '') {
+        alert(msg);
+    }
+</script>
+
 <header>
     <jsp:include page="../header.jsp"></jsp:include>
 </header>
-<form action="/member/order" method="post" enctype="multipart/form-data" id="chargePoint">
-    <h1 class="w-75 mx-auto">포인트 충전</h1>
+<form action="/member/pointExchange" method="post" enctype="multipart/form-data" id="chargePoint">
+    <h1 class="w-75 mx-auto">포인트 환전</h1>
     <div class="card mb-3 w-75 mx-auto allDiv-box">
 
         <div class="row g-0">
             <div class="col-md-4">
             포인트는 1P에 1원입니다.
+                <p></p>
+            환전 수수료는 5% 입니다.
 
             </div>
 
             <div class="col-md-4">
                 <div class="card-body">
+                    <p class="card-text"> 보유 포인트 : ${point}</p>
 
+
+                    계좌번호
+                    <p class="card-text">
+                        <select id="bank" name="m_bank" class="product-category">
+                            <option value="">은행</option>
+                            <option value="농협">농협</option>
+                            <option value="신한">신한</option>
+                            <option value="우리">우리</option>
+                            <option value="국민">국민</option>
+                            <option value="하나">하나</option>
+                            <option value="대구">대구</option>
+                            <option value="기업">기업</option>
+                        </select>
+                    <input id="m_account" name="m_bankNum" type="text">
+                    </p>
                     <p class="card-text">
                         <select id="category" class="product-category">
                             <option value="">직접입력</option>
@@ -48,8 +73,7 @@
                         </select>
                     </p>
 
-
-                        <input id="m_point" name="item_price" type="text">P
+                        <input id="m_point" name="m_point" type="text">P
 
                 </div>
             </div>
@@ -57,7 +81,7 @@
     </div>
 </form>
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-    <button type="button" class="btn btn-primary btn-color-thebora" id="charge" onclick="charge()">충전</button>
+    <button type="button" class="btn btn-primary btn-color-thebora" id="charge" onclick="charge()">환전하기</button>
 </div>
 <footer>
     <jsp:include page="../footer.jsp"></jsp:include>
@@ -71,12 +95,23 @@
     let pattern = /^\d+$/;
     function charge(){
         let point = $('#m_point').val()
+        if($('#bank').val()===''){
+            alert("환전받을 은행 입력해주세요");
+            return
+        }
+        if($('#m_account').val()===''){
+            alert("환전받을 계좌번호 입력해주세요");
+            return
+        }
+
         if(point  === '') {
-            alert("충전할 포인트를 입력해주세요");
+            alert("환전할 포인트를 입력해주세요");
         }else if(!pattern.test(point)){
             alert("숫자만 입력해주세요");
         }else {
-            $('#chargePoint').submit();
+            if(confirm("환전하시겠습니까?")){
+                $('#chargePoint').submit();
+            }
         }
     }
 
