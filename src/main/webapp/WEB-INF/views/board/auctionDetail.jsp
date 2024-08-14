@@ -31,44 +31,15 @@
         margin: 0;
     }
 
-    .carousel-item {
-
-        margin: auto;
-        width: auto; /* 너비를 자동으로 조정하여 가로 세로 비율 유지 */
-        height: auto; /* 높이를 자동으로 조정하여 가로 세로 비율 유지 */
-
-
+    .text-body-secondary img {
+        max-width: 100% !important;
     }
 
-    .carousel-inner {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .carousel-control-btn {
+        color: #ced4da;
+        font-weight: bold;
+        font-size: 2.5rem;
     }
-
-    #product-detail {
-        width: 450px;
-        height: 500px;
-    }
-
-    .allDiv-box {
-        height: 600px;
-
-    }
-
-    .carousel-item img {
-        max-height: 500px; /* 높이를 자동으로 조정하여 가로 세로 비율 유지 */
-
-    }
-
-    .carousel-control-prev-icon {
-        background-color: #cccccc;
-    }
-
-    .carousel-control-next-icon {
-        background-color: #cccccc;
-    }
-
 </style>
 <script>
 
@@ -91,6 +62,39 @@
             alert(msg);
         }
     })
+    window.onload = function () {
+        console.log("${profile}")
+
+
+        //이미지 슬라이더
+        //컨트롤러로 가져온 데이터 중 파일리스트로 배열 생성
+        const curFiles = new Array();
+        <c:forEach items="${file}" var="item">
+        curFiles.push({filename : '${item.bf_sysFileName}'});
+        </c:forEach>
+        //파일리스트 배열을 슬라이더 요소로 생성
+        const carouselInner = document.getElementById('carousel-inner');
+
+        for (const file of curFiles) {
+            //슬라이더 div 생성
+            const carouselItem = document.createElement('div');
+            carouselItem.className = 'carousel-item';
+
+            //슬라이더 이미지 생성
+            const img = '/upload/' + file.filename;
+            const carouselItemImg = document.createElement('img');
+            carouselItemImg.className = 'd- block w-100'
+            carouselItemImg.setAttribute('src', img);
+
+            //생성된 슬라이더 div와 이미지를 문서 내에 추가
+            carouselInner.appendChild(carouselItem);
+            carouselItem.appendChild(carouselItemImg);
+        }
+
+        //추가된 슬라이더중 첫번째 슬라이더에만 클래스(.active)추가 - 부트스트랩 슬라이더 사용 조건
+        document.querySelector('.carousel-item').classList.add('active');
+
+    }
 </script>
 <body>
 <header>
@@ -108,58 +112,77 @@
     </div>
     <div class="wrapper-border rounded-2 mb-3 w-75 mx-auto">
         <div class="row g-5">
-            <div class="col-md-4">
-                <div class="fileWide">
-                    <c:forEach var="img" items="${file}" varStatus="loop">
-                        <c:if test="${!empty img.bf_sysFileName}">
-                            <img src="/upload/${img.bf_sysFileName}" class="img-fluid rounded-start" alt="...">
-                        </c:if>
-                    </c:forEach>
+            <%-- 상품이미지 --%>
+            <div class="col-md-4 carousel slide" id="carousel">
+                <div class="carousel-inner rounded-2" id="carousel-inner">
+
                 </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                    <span class="carousel-control-btn" aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+                    <span class="visually-hidden">이전</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                    <span class="carousel-control-btn" aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+                    <span class="visually-hidden">다음</span>
+                </button>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <div class="card-body p-3">
-                    <p class="card-text">상품설명</p>
-                    <p class="card-text" id="product-detail"><small class="text-body-secondary">${bDto.sb_contents}</small>
+                    <h4 class="card-title">${bDto.sb_title}</h4>
+                    <small class="text-body-secondary">${bDto.sb_category}</small>
+                    <h5 class="card-title mt-4" style="border-bottom: 1px #dee2e6 solid">상세설명</h5>
+                    <p style="padding: 1rem;">
+                        ${bDto.sb_contents}
                     </p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card-body p-3">
-                    <h5 class="card-title">상품명 : ${bDto.sb_title}</h5>
-                    <hr>
-                    <p class="card-text">즉시구매가 : ${bDto.element}원</p>
-                    <p class="card-text">시작가 : ${bDto.start}원</p>
-                    <p id="nowPrice" class="card-text">현재가 : <span id="np">${bDto.now}원</span></p>
-                    <p class="card-text">최소입찰가 : ${bDto.bid}원</p>
-                    <p class="card-text">경매시작일 : ${bDto.sb_date}</p>
-                    <p class="card-text">경매종료일 : ${bDto.sb_timer}</p>
-                    <p>판매자 : ${bDto.sb_id}</p>
-                    <p id="buyer">현재 입찰 예정자 : ${bDto.a_joinId}</p>
-
+                    <table class="table table-bordered">
+                        <tr>
+                            <th class="table-light">즉시구매가</th>
+                            <td>${bDto.element}원</td>
+                            <th class="table-light">최소입찰가</th>
+                            <td>${bDto.bid}원</td>
+                        </tr>
+                        <tr>
+                            <th class="table-light">시작가</th>
+                            <td>${bDto.start}원</td>
+                            <th class="table-light">현재가</th>
+                            <td id="nowPrice"><span id="np">${bDto.now}원</span></td>
+                        </tr>
+                        <tr>
+                            <th class="table-light">경매시작일</th>
+                            <td>${bDto.sb_date}</td>
+                            <th class="table-light">경매종료일</th>
+                            <td>${bDto.sb_timer}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-light">판매자</th>
+                            <td>${bDto.sb_id}</td>
+                            <th class="table-light">현재 입찰 예정자</th>
+                            <td id="buyer">${bDto.a_joinId}</td>
+                        </tr>
+                    </table>
                     <div id="timer"></div>
-                    <%--                <form action="/board/attend" method="post" class="bid_form">--%>
-                    <div class="d-grid gap-2 d-md-block mb-3">
-                        <%--                        <input type="hidden" name="sb_num" value="${bDto.sb_num}">--%>
-                        <input type="number" name="a_bidPrice" id="bidPrice" placeholder="입찰가격">
-                        <input type="button" class="btn btn-primary btn-color-thebora" onclick="userbtnclic()" value="입찰하기">
+                    <div class="row">
+                        <div class="col-8">
+                            <form action="/board/buyNow" method="post" id="buyNow">
+                                <input type="hidden" name="sb_num" value="${bDto.sb_num}">
+                                <input type="hidden" name="sb_id" value="${bDto.sb_id}">
+                                <input type="hidden" name="sb_price" value="${bDto.sb_price}">
+                                <input type="hidden" name="sb_timer" value="${bDto.sb_timer}">
+                            <button class="btn btn-primary btn-color-thebora" onclick="buyNow()">즉시구매</button>
+                            <button class="btn btn-primary btn-color-thebora" onclick="saleCart()">찜하기</button>
+                            <sec:authorize access="hasRole('admin')">
+                                <button class="btn btn-danger" onclick="deleteBtn()">삭제하기</button>
+                            </sec:authorize>
+                            </form>
+                        </div>
+                        <div class="col-4" style="text-align: right">
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="a_bidPrice" id="bidPrice" placeholder="입찰가격">
+                                <span class="input-group-text">원</span>
+                                <button class="btn btn-primary btn-color-thebora" onclick="userbtnclic()">입찰하기</button>
+                            </div>
+                        </div>
                     </div>
-                    <%--                </form>--%>
-
-                    <form action="/board/buyNow" method="post" id="buyNow">
-                        <input type="hidden" name="sb_num" value="${bDto.sb_num}">
-                        <input type="hidden" name="sb_id" value="${bDto.sb_id}">
-                        <input type="hidden" name="sb_price" value="${bDto.sb_price}">
-                        <input type="hidden" name="sb_timer" value="${bDto.sb_timer}">
-                        <button type="button" class="btn btn-primary btn-color-thebora" onclick="buyNow()">
-                            즉시구매
-                        </button>
-                        <input class="btn btn-primary btn-color-thebora" type="button" onclick="saleCart()" value="찜하기">
-                        <sec:authorize access="hasRole('admin')">
-                            <input type="button" id="reset-button" class="btn btn-primary btn-color-thebora" value="삭제하기"
-                                   onclick="deleteBtn()">
-                        </sec:authorize>
-                    </form>
                 </div>
             </div>
         </div>

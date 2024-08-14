@@ -79,4 +79,9 @@ public class PayController {
 //        }
         return "redirect:/hotdeal/order/result";
     }
+
+//    @GetMapping("/pay/cancel")
+//    public String payCanceled(){
+//        return "redirect:/hotdeal/order";
+//    }
 }

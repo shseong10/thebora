@@ -48,9 +48,13 @@
     <a href="/board/auctionApply" class="btn btn-primary btn-color-thebora" role="button">경매신청</a>
     <div>
         <ul id="sb_category">
-            <li name="sb_category"><a href="/board/auctionList?pageNum=1">전체</a></li>
+            <li name="sb_category"><a href="/board/auctionList?pageNum=1"><small class="text-body-secondary">전체</small></a></li>
             <c:forEach var="cList" items="${cateList}">
-                <li name="sb_category"><a href="/board/auctionList?sb_category=${cList}&pageNum=1">${cList}</a></li>
+                <li name="sb_category">
+                    <a href="/board/auctionList?sb_category=${cList}&pageNum=1">
+                        <small class="text-body-secondary">${cList}</small>
+                    </a>
+                </li>
             </c:forEach>
         </ul>
     </div>

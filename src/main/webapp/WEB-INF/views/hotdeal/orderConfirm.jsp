@@ -21,6 +21,7 @@
                 const totalQty = ${order.order_count};
 
                 //서비스 DB 저장을 위한 필수값
+                const userId = "${order.order_id}";
                 const name = "${order.m_name}";
                 const phone = "${order.m_phone}";
                 const addr = "${order.m_addr}";
@@ -34,6 +35,7 @@
                     quantity: totalQty,
 
                     //서비스 DB 저장을 위한 필수값
+                    order_id: userId,
                     m_name: name,
                     m_phone: phone,
                     m_addr: addr,

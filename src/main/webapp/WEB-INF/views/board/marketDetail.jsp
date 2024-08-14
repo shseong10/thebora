@@ -16,36 +16,15 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <style>
-    .carousel-item {
-
-        margin: auto;
-        width: auto; /* 너비를 자동으로 조정하여 가로 세로 비율 유지 */
-        height: auto; /* 높이를 자동으로 조정하여 가로 세로 비율 유지 */
-
-
+    .text-body-secondary img {
+        max-width: 100% !important;
     }
 
-    .carousel-inner {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .carousel-control-btn {
+        color: #ced4da;
+        font-weight: bold;
+        font-size: 2.5rem;
     }
-
-    #product-detail {
-        width: 450px;
-        height: 500px;
-    }
-
-    .allDiv-box {
-        height: 600px;
-
-    }
-
-    .carousel-item img {
-        max-height: 500px; /* 높이를 자동으로 조정하여 가로 세로 비율 유지 */
-
-    }
-
 </style>
 <body>
 <script>
@@ -56,6 +35,36 @@
             alert(msg);
         }
     })
+    window.onload = function (){
+        //이미지 슬라이더
+        //컨트롤러로 가져온 데이터 중 파일리스트로 배열 생성
+        const curFiles = new Array();
+        <c:forEach items="${file}" var="item">
+        curFiles.push({filename : '${item.bf_sysFileName}'});
+        </c:forEach>
+        //파일리스트 배열을 슬라이더 요소로 생성
+        const carouselInner = document.getElementById('carousel-inner');
+
+        for (const file of curFiles) {
+            //슬라이더 div 생성
+            const carouselItem = document.createElement('div');
+            carouselItem.className = 'carousel-item';
+
+            //슬라이더 이미지 생성
+            const img = '/upload/' + file.filename;
+            const carouselItemImg = document.createElement('img');
+            carouselItemImg.className = 'd- block w-100'
+            carouselItemImg.setAttribute('src', img);
+
+            //생성된 슬라이더 div와 이미지를 문서 내에 추가
+            carouselInner.appendChild(carouselItem);
+            carouselItem.appendChild(carouselItemImg);
+        }
+
+        //추가된 슬라이더중 첫번째 슬라이더에만 클래스(.active)추가 - 부트스트랩 슬라이더 사용 조건
+        document.querySelector('.carousel-item').classList.add('active');
+
+    }
 </script>
 <header>
     <jsp:include page="../header.jsp"></jsp:include>
@@ -71,49 +80,49 @@
     </div>
     <div class="wrapper-border rounded-2 mb-3 w-75 mx-auto">
         <div class="row g-5">
-            <div class="col-md-4">
-                <div class="fileWide">
-                    <c:forEach var="img" items="${file}" varStatus="loop">
-                        <c:if test="${!empty img.bf_sysFileName}">
-                            <div class="${loop.index == 0 ? 'active' : ''}">
-                                <img src="/upload/${img.bf_sysFileName}" class="img-fluid rounded-start" alt="...">
-                            </div>
-                        </c:if>
-                    </c:forEach>
+            <%-- 상품이미지 --%>
+            <div class="col-md-4 carousel slide" id="carousel">
+                <div class="carousel-inner rounded-2" id="carousel-inner">
+
                 </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                    <span class="carousel-control-btn" aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+                    <span class="visually-hidden">이전</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                    <span class="carousel-control-btn" aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+                    <span class="visually-hidden">다음</span>
+                </button>
             </div>
-            <div class="col-md-4">
-                <div class="card-body p-3">
-                    <p class="card-text">상품설명</p>
-                    <p class="card-text" id="product-detail"><small class="text-body-secondary">${bDto.sb_contents}</small>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <p class="mt-3">
+                        <h4 class="card-title">${bDto.sb_title}</h4>
+                        <small class="text-body-secondary">${bDto.sb_category}</small>
+                        <h5 class="card-text">${bDto.element}원</h5>
+                        <small class="text-body-secondary">${bDto.sb_date}</small>
+                    </p>
+                    <h5 class="card-title" style="border-bottom: 1px #dee2e6 solid">판매자 정보</h5>
+                    <p class="card-text" style="padding: 1rem;">
+                        <span style="font-weight: bold; font-size:1rem;">${bDto.sb_id}</span>
+                        <span class="color-1 rounded-2 main-item-category">${bDto.sb_local}</span>
+                    </p>
+                    <h5 class="card-title" style="border-bottom: 1px #dee2e6 solid">상세설명</h5>
+                    <p style="padding: 1rem;">
+                        ${bDto.sb_contents}
                     </p>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card-body p-3">
-                    <h5 class="card-title">상품명 : ${bDto.sb_title}</h5>
-                    <hr>
-                    <p class="card-text">분류 : ${bDto.sb_category}</p>
-                    <p class="card-text">가격 : ${bDto.element}원</p>
-                    <p class="card-text">지역 : ${bDto.sb_local}</p>
-                    <p class="card-text">날짜 : ${bDto.sb_date}</p>
-                    <p>판매자 : ${bDto.sb_id}</p>
-                    <div id="timer"></div>
-                    <form action="/board/attend" method="post" class="bid_form">
-                        <div class="d-grid gap-2 d-md-block mb-3">
-                            <button class="btn btn-primary btn-color-thebora" type="button" onclick="marketCart()">찜하기</button>
-                            <button type="button" class="btn btn-primary btn-color-thebora" onclick="buyApply()">구매신청</button>
-                            <input type="hidden" name="sb_num" value="${bDto.sb_num}">
-                        </div>
-                    </form>
-                    <form action="#">
-                        <input type="hidden" name="h_o_p_num" value="${bDto.sb_num}">
+                <div id="timer"></div>
+                <div class="row">
 
-                        <input type="button" id="reset-button" class="btn btn-primary btn-color-thebora" value="삭제하기" onclick="deleteBtn()">
-                        <input type="button" id="end-button" class="btn btn-primary btn-color-thebora" value="판매완료" onclick="endBtn(${bDto.sb_num})">
-
-                    </form>
                 </div>
+                <form action="/board/attend" method="post" class="bid_form">
+                    <button class="btn btn-primary btn-color-thebora" type="button" onclick="marketCart()">찜하기</button>
+                    <button type="button" class="btn btn-primary btn-color-thebora" onclick="buyApply()">구매신청</button>
+                    <input type="hidden" name="sb_num" value="${bDto.sb_num}">
+                    <input type="button" id="reset-button" class="btn btn-primary btn-color-thebora" value="삭제하기" onclick="deleteBtn()">
+                    <input type="button" id="end-button" class="btn btn-primary btn-color-thebora" value="판매완료" onclick="endBtn(${bDto.sb_num})">
+                </form>
             </div>
         </div>
     </div>

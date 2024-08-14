@@ -13,7 +13,7 @@
     </resultMap>
     <insert id="buyNewItem" parameterType="OrderDto" useGeneratedKeys="true" keyProperty="order_num">
         insert into hotdealorder (item_num, order_id, order_count, item_price, order_date, order_status)
-        values (#{item_num}, #{order_id}, #{order_count}, #{item_price}, default, 1)
+        values (#{item_num}, #{order_id}, #{quantity}, #{total_amount}, default, 1)
         <selectKey keyProperty="order_num" resultType="Integer" order="AFTER">
             select last_insert_id()
         </selectKey>

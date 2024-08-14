@@ -46,6 +46,12 @@ public class OrderController {
 
     @GetMapping("/hotdeal/order/result")
     public String hotdealOrderResult(){
+        OrderDto order = (OrderDto) SessionUtils.getAttribute("order");
+        log.info("결제가 완료된 주문 정보: {}", order);
+        if(order != null){
+            oSer.buyItem(order);
+        }
+
         return "hotdeal/orderResult";
     }
 

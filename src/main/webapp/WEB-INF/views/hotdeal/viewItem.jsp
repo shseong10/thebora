@@ -38,7 +38,7 @@
             item_num.value = ${inventory.sb_num};
             item_price.value = ${inventory.sb_price};
             order_count.value = qty.value;
-            order_id.value = "<sec:authentication property="name"/>";
+            order_id.value = "${profile.m_id}";
             sb_title.value = "${inventory.sb_title}";
             bf_sysfilename.value = "${inventory.ifList[0].bf_sysfilename}";
             m_name.value = "${profile.m_name}";
@@ -146,11 +146,39 @@
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title">${inventory.sb_title}</h5>
-                    <p class="card-text">${inventory.sb_price}원</p>
-                    <p class="card-text"><small class="text-body-secondary">수량 선택: <input type="number" id="view_qty" class="wrapper-border rounded-3 p-1" name="view_qty" value="1" min="1" size="1">개</small></p>
-                    <div class="d-grid gap-2 d-md-block mb-3">
-                        <a href="javascript: view_order();" class="btn btn-primary btn-color-thebora" role="button">주문하기</a>
+                    <h4 class="card-title">${inventory.sb_title}</h4>
+                    <small class="text-body-secondary">${inventory.sb_category}</small>
+                    <h5 class="card-text">${inventory.sb_price}원</h5>
+                    <small class="text-body-secondary">${inventory.sb_date}</small>
+                    <h5 class="card-title mt-5" style="border-bottom: 1px #dee2e6 solid">핫딜 판매 정보</h5>
+                    <p class="card-text" style="padding: 1rem;">
+                        <small class="text-body-secondary">구매 가능 레벨</small>
+                            <c:if test="${inventory.sb_buylevel == 0}">
+                                <b>제한 없음</b>
+                            </c:if>
+                            <c:if test="${inventory.sb_buylevel > 0}">
+                                <b>${inventory.sb_buylevel}부터</b>
+                            </c:if>
+                        <br>
+                        <small class="text-body-secondary">판매 기간</small>
+                            <c:if test="${inventory.sb_timer_str == null}">
+                                <b>재고 소진시까지</b>
+                            </c:if>
+                            <c:if test="${inventory.sb_timer_str != null}">
+                                <b>${inventory.sb_timer_str}까지</b>
+                            </c:if>
+                    </p>
+                    <div class="row">
+                        <div class="col-8">
+
+                        </div>
+                        <div class="col-4">
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="view_qty" id="view_qty" placeholder="수량 선택">
+                                <span class="input-group-text">개</span>
+                                <button class="btn btn-primary btn-color-thebora" onclick="view_order()">주문하기</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

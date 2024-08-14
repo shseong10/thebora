@@ -42,9 +42,13 @@
     <a href="/board/marketRegister" class="btn btn-primary btn-color-thebora" role="button">상품등록</a>
     <div>
         <ul id="sb_category">
-            <li name="sb_category"><a href="/board/marketList?pageNum=1">전체</a></li>
+            <li name="sb_category"><a href="/board/marketList?pageNum=1"><small class="text-body-secondary">전체</small></a></li>
             <c:forEach var="cList" items="${cateList}">
-                <li name="sb_category"><a href="/board/marketList?sb_category=${cList}&pageNum=1">${cList}</a></li>
+                <li name="sb_category">
+                    <a href="/board/marketList?sb_category=${cList}&pageNum=1">
+                        <small class="text-body-secondary">${cList}</small>
+                    </a>
+                </li>
             </c:forEach>
         </ul>
     </div>
