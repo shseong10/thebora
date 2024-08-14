@@ -112,7 +112,7 @@
                     <div class="notification-target">
                         <sec:authorize access="isAuthenticated()">
                             <div class="nav-link">
-                                <a href="/member/chat" id="chatAlert" aria-expanded="false">채팅</a>
+                                <a href="/member/chat" id="chatAlert" aria-expanded="false" onclick="chat()">채팅</a>
                             </div>
                         </sec:authorize>
                         <%--                        <span class="notification-badge">NEW</span>--%>
@@ -160,6 +160,9 @@
         })
     }
 
+    function chat(){
+        localStorage.removeItem("chatNewItem");
+    }
 
     function alertInfo() {
         $.ajax({
@@ -213,6 +216,7 @@
         //소켓 연결
         connectWs();
         $('#alertLink').append(localStorage.getItem("newItem"))
+        $('#chatAlert').append(localStorage.getItem("chatNewItem"))
     });
 
     function connectWs() {
@@ -251,15 +255,14 @@
                 }else
                 if(result.type ==="chatAlert"){
                     $('#toastContainer').append(result.contents);
-                    localStorage.setItem("newItem", "<span id='newIcon' class='notification-badge'>NEW</span>");
-                    $('#chatAlert').append(localStorage.getItem("newItem"))
+                    localStorage.setItem("chatNewItem", "<span id='newIcon' class='notification-badge'>NEW</span>");
+                    $('#chatAlert').append(localStorage.getItem("chatNewItem"))
                     const toastElements = document.querySelectorAll('.choose');
                     toastElements.forEach((toastElement) => {
                         const toastBootstrap = new bootstrap.Toast(toastElement);
                         toastBootstrap.show();
                     });
-                }
-                else{
+                }else{
                     $('#toastContainer').append(result.contents);
                     localStorage.setItem("newItem", "<span id='newIcon' class='notification-badge'>NEW</span>");
                     $('#alertLink').append(localStorage.getItem("newItem"))
