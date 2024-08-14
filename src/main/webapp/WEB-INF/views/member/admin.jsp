@@ -217,7 +217,7 @@
                 <tr>
 			        <th scope="row">` + delList.sb_num + `</th>
 			        <td>
-			        	<a href="/board/auctionDetail?sb_num=` + delList.sb_num + `">` + delList.sb_title + `</a>
+			        	<a onclick="picture(`+delList.sb_num+`)">` + delList.sb_title + `</a>
 		        	</td>
 			        <td>`
                     + delList.sb_category +
@@ -258,6 +258,27 @@
 
         })
     }
+
+    function picture(num){
+        $.ajax({
+            method: 'post',
+            url: '/admin/picture',
+            data:{"sb_num":num}
+        }).done((resp)=>{
+            console.log(resp)
+            // if (resp.size!=null){
+                // for (const i of resp) {
+            //         console.log(i)
+            //         $('#show_pic').append("<img src='/upload/"+i+"'>")
+            //     }
+            // }
+            // $('#showPicture').modal('show');
+
+        }).fail((err)=>{
+            console.log(err)
+        })
+    }
+
 
     function goBoardManager() {
 
@@ -797,6 +818,22 @@
                     <input type="text" name="sb_timer" id="sb_timer" hidden="hidden">
                     <button class="btn btn-primary btn-color-thebora">올리기</button>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="showPicture" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">경매시간</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="show_pic">
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

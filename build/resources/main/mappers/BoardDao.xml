@@ -233,7 +233,7 @@
 
     <select id="allList" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
         select * from saleboard left join boardfile on sb_num = bf_sb_num
-                 where (sb_title like concat('%',#{keyWord},'%') or sb_contents like concat ('%',#{keyWord},'%') or sb_category like concat ('%',#{keyWord},'%')) and sb_scope = 1
+                 where sb_scope = 1 and sb_salekind != 4 and(sb_title like concat('%',#{keyWord},'%') or sb_contents like concat ('%',#{keyWord},'%') or sb_category like concat ('%',#{keyWord},'%'))
                  order by sb_date desc limit #{startIdx}, #{listCnt}
     </select>
 

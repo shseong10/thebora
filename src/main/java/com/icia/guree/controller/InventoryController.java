@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,6 +38,7 @@ public class InventoryController {
     private FileManager fm;
 
     //상품 업로드
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/hotdeal/add_item")
     public String addItem(Model model) {
         log.info("상품 업로드 페이지로 이동");
@@ -47,7 +49,7 @@ public class InventoryController {
         }
         return "hotdeal/addItem";
     }
-
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/hotdeal/add_item")
     public String addItem(InventoryDto inventory, HttpSession session, RedirectAttributes rttr) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -131,6 +133,7 @@ public String inventoryDetail(@RequestParam("sb_num") Integer sb_num, Model mode
 }
 
 //상품 수정하기
+@PreAuthorize("isAuthenticated()")
 @GetMapping("/hotdeal/update_item")
 public String updateItem(@RequestParam("sb_num") Integer sb_num, Model model) throws JsonProcessingException {
     log.info("{}번째 상품 수정 페이지로 이동", sb_num);
@@ -149,6 +152,7 @@ public String updateItem(@RequestParam("sb_num") Integer sb_num, Model model) th
     }
 }
 
+@PreAuthorize("isAuthenticated()")
 @PostMapping("/hotdeal/update_item")
 public String updateItem(@RequestParam("sb_num") Integer sb_num, InventoryDto inventory, HttpSession session, RedirectAttributes rttr,
                          HttpServletRequest request) {
@@ -179,6 +183,7 @@ public String updateItem(@RequestParam("sb_num") Integer sb_num, InventoryDto in
 }
 
 //상품 삭제하기 *이미 주문되었거나 장바구니에 담긴 상품은 삭제 불가.
+@PreAuthorize("isAuthenticated()")
 @GetMapping("/hotdeal/delete_item")
 public String deleteItem(@RequestParam("sb_num") Integer sb_num, HttpSession session, RedirectAttributes rttr) {
     log.info(">>>>>삭제 대상 글번호: {}", sb_num);

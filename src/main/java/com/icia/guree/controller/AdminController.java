@@ -41,4 +41,6 @@ public class AdminController {
         return "member/admin";
     }
 
+
+
 }

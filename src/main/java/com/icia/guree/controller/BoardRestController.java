@@ -57,6 +57,8 @@ public class BoardRestController {
         }
     }
 
+    // 알람 확인
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/board/alertInfo")
     public List<AlertDto> alertInfo(@RequestParam("sb_id") String sb_id) {
         List<AlertDto> alertInfo = bSer.alertInfo(sb_id);
@@ -64,6 +66,8 @@ public class BoardRestController {
         return alertInfo;
     }
 
+    //알람 지우기
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/board/alertDel")
     public boolean alertDel(AlertDto aDto) {
         boolean aDel = bSer.alertDel(aDto.getSb_num());
@@ -72,14 +76,16 @@ public class BoardRestController {
         return aDel;
 
     }
-
+    //채팅 방
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/board/chatRoom")
     public List<ChattingDto> chatRoom(ChattingDto cDto) {
         List<ChattingDto> chat = bSer.chatRoom(cDto);
 
         return chat;
     }
-
+    // 채팅 하기
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/board/chatInsert")
     public boolean chatInsert(ChattingDto cDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

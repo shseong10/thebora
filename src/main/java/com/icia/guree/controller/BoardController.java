@@ -11,6 +11,7 @@ import com.icia.guree.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -127,40 +128,9 @@ public class BoardController {
         model.addAttribute("file", file);
         return "board/auctionDetail";
     }
-    // 입찰하기 (이거 비동기로 바꿈)
-//    @PreAuthorize("isAuthenticated()")
-//    @PostMapping("/board/attend")
-//    public String attend(BoardDto bDto, Model model) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//            bDto.setA_joinId(userDetails.getUsername());
-//            log.info("======================" + bDto.toString());
-//            String result = bSer.attend(bDto);
-//            log.info("=================sadasdasdasdas=====" + result);
-//            if (result.equals("입찰 성공")) {
-//                bSer.auctionUser(bDto);
-//                BoardDto detail = bSer.auctionDetail(bDto);
-//                List<BoardFileDto> file = bSer.getFile(bDto);
-//                if (detail != null) {
-//                    model.addAttribute("bDto", detail);
-//                    model.addAttribute("file", file);
-//                    model.addAttribute("successMsg", result);
-//                    return "board/auctionDetail";
-//                }
-//            } else {
-//                BoardDto detail = bSer.auctionDetail(bDto);
-//                List<BoardFileDto> file = bSer.getFile(bDto);
-//                model.addAttribute("bDto", detail);
-//                model.addAttribute("file", file);
-//                model.addAttribute("successMsg", result);
-//                return "board/auctionDetail";
-//            }
-//        }
-//        return "redirect:/member/login";
-//    }
 
     // 경매 신청 페이지
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/board/auctionApply")
     public String auctionApply(Model model) {
         List<String> cateList = bSer.cateList();
@@ -170,6 +140,7 @@ public class BoardController {
     }
 
     // 경매 신청
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/board/auctionApply")
     public String auctionApply(BoardDto bDto, HttpSession session) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -189,6 +160,7 @@ public class BoardController {
 
 
     // 경매 게시글 삭제
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/board/auctionDelete")
     public String auctionDelete(@RequestParam("sb_num") String sb_num, RedirectAttributes redirectAttributes) {
         boolean result = bSer.saleBoardDelete(sb_num);
@@ -200,6 +172,7 @@ public class BoardController {
     }
 
     // 중고거래 게시글 삭제
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/board/marketDelete")
     public String marketDelete(@RequestParam("sb_num") String sb_num, RedirectAttributes redirectAttributes) {
         boolean result = bSer.saleBoardDelete(sb_num);
@@ -244,6 +217,7 @@ public class BoardController {
         return "redirect:/";
     }
     //중고거래 판매 완료
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/board/marketEnd")
     public String marketEnd(@RequestParam("sb_num") String sb_num, RedirectAttributes redirectAttributes ){
        boolean end = bSer.marketEnd(sb_num);
@@ -352,6 +326,7 @@ public class BoardController {
         return "redirect:/member/login";
     }
     // 경매 즉시구매
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/board/buyNow")
     public String buyNow(BoardDto bDto, RedirectAttributes redirectAttributes ){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -373,6 +348,7 @@ public class BoardController {
 
 
     // 경매 관심상품 등록
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/board/myAuctionCart")
     public String myAuctionCart(@RequestParam("sb_num") String sb_num, Model model, BoardDto bDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -405,6 +381,7 @@ public class BoardController {
     }
 
     // 중고거래 관심상품 등록
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/board/mySalesCart")
     public String mySalesCart(@RequestParam("sb_num") String sb_num, Model model, BoardDto bDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -478,6 +455,7 @@ public class BoardController {
 //    }
 
     //관심목록 삭제
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/board/myCartDel")
     public String myAuctionCartDel(BoardDto bDto, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -493,6 +471,7 @@ public class BoardController {
     }
 
     //광고 신청 페이지
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/board/adApply")
     public String adApply(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -506,6 +485,8 @@ public class BoardController {
         return "redirect:/member/login";
     }
 
+    //광고 신청하기
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/board/adApply")
     public String adApply(BoardDto bDto, MemberDto mDto, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -533,6 +514,7 @@ public class BoardController {
     }
 
     //구매신청 취소
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/board/myTradeDel")
     public String myTradeDel(@RequestParam("sb_num") String sb_num){
        boolean del = bSer.myTradeDel(sb_num);
