@@ -165,7 +165,7 @@ public class EchoHandler extends TextWebSocketHandler {
                     result +
                     "</div>" +
                     "<div class='toast-body'>" +
-                    alertMsg.getBuyer() + " 님이 " + "<a href='/board/marketDetail?sb_num=" + alertMsg.getSb_num() + "' style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong> 에 구매신청을 하였습니다..</a>" +
+                    alertMsg.getBuyer() + " 님이 " + "<a href='/board/marketDetail?sb_num="+alertMsg.getSb_num()+"' style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong> 에 구매신청을 하였습니다..</a>" +
                     "</div>" +
                     "</div>");
             String alertContents = alertMsg.getMsg().replace("\"", "\\\"");
