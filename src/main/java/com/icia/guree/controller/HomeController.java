@@ -131,7 +131,7 @@ public class HomeController {
 //        return "member/authenticated";
 //    }
 //
-//    @Secured({"ROLE_ADMIN","ROLE_USER"})
+//    @Secured({"ROLE_admin","ROLE_USER"})
 //    @GetMapping("/member/user")
 //    public String user() {
 //        return "member/user";

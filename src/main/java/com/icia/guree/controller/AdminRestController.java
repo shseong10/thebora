@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +35,7 @@ public class AdminRestController {
     AdminService aSer;
 
     // 경매 삭제 게시글 보기
+    @Secured({"ROLE_admin"})
     @PostMapping("/admin/boardManager")
     public List<BoardDto> boardManager() {
         List<BoardDto> delList = bDao.boardDelList();
@@ -43,6 +45,7 @@ public class AdminRestController {
     }
 
     // 중고 삭제 게시글 보기
+    @Secured({"ROLE_admin"})
     @PostMapping("/admin/marketBoardManager")
     public List<BoardDto> marketBoardManager() {
         List<BoardDto> delList = bDao.marketBoardDelList();
@@ -65,29 +68,41 @@ public class AdminRestController {
         return  aSer.restore(sb_num);
     }
 
-
+    // 카테고리 리스트
+    @Secured({"ROLE_admin"})
     @PostMapping("/admin/categoryList")
     public List<String> categoryList() {
         List<String> cateList = bSer.cateList();
         return cateList;
     }
 
+    // 회원 리스트
+    @Secured({"ROLE_admin"})
     @PostMapping("/admin/memberList")
     public List<MemberDto> memberList() {
         List<MemberDto> memberList = mSer.MemberList();
         return memberList;
     }
 
+    // 경매 완료 관리
+    @Secured({"ROLE_admin"})
     @PostMapping("/admin/AuctionEndManager")
     public List<BoardDto> auctionEndManager() {
         List<BoardDto> endList = bDao.boardEndList();
         return endList;
     }
+
+    // 경매 신청받은 리스트
+    @Secured({"ROLE_admin"})
     @PostMapping("/admin/auctionApplyList")
     public List<BoardDto>auctionApplyList(){
         List<BoardDto> applyList = bDao.auctionApplyList();
         return applyList;
     }
+
+    // 광고 신청받은 리스트
+    @Secured({"ROLE_admin"})
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/admin/adApplyList")
     public List<BoardDto>adApplyList(){
         List<BoardDto> adList = bDao.adApplyList();
@@ -101,16 +116,21 @@ public class AdminRestController {
         }
         return adList;
     }
+    // 광고 승인
+    @Secured({"ROLE_admin"})
     @PostMapping("/admin/adApproval")
     public boolean abApproval(BoardDto bDto){
         return bDao.abApproval(bDto);
     }
+    // 경매 신청 거절
+    @Secured({"ROLE_admin"})
     @PostMapping("/admin/auctionReject")
     public boolean auctionReject(@RequestParam("sb_num") String sb_num){
         return bDao.auctionReject(sb_num);
     }
 
     // 광고신청 거절
+    @Secured({"ROLE_admin"})
     @PostMapping("/admin/adReject")
     public boolean adReject(BoardDto bDto){
 
@@ -118,12 +138,14 @@ public class AdminRestController {
     }
 
     //회원 삭제
+    @Secured({"ROLE_admin"})
     @PostMapping("/admin/memberDelete")
     public boolean memberDelete(@RequestParam("m_id") String m_id){
         return mDao.memberDelete(m_id);
     }
 
     //회원정보 수정
+    @Secured({"ROLE_admin"})
     @PostMapping("/admin/memberUpdate")
     public boolean memberUpdate(MemberDto mDto) {
        return aSer.memberUpdate(mDto);
@@ -131,6 +153,7 @@ public class AdminRestController {
 
 
     //카테고리 추가
+    @Secured({"ROLE_admin"})
     @PostMapping("/admin/cateAttend")
     public boolean cateAttend(@RequestParam("c_kind") String c_kind) {
 
@@ -138,10 +161,19 @@ public class AdminRestController {
     }
 
     //카테고리 삭제
+    @Secured({"ROLE_admin"})
     @PostMapping("/admin/cateDelete")
     public boolean cateDelete(@RequestParam("c_kind") String c_kind) {
 
         return  aSer.cateDelete(c_kind);
+    }
+
+    //신청받은 경매 사진 보기
+    @Secured({"ROLE_admin"})
+    @PostMapping("/admin/picture")
+    public List<String> picture(@RequestParam("sb_num") String sb_num){
+
+        return aSer.picture(sb_num);
     }
 
 

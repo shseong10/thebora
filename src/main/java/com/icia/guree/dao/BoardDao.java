@@ -156,5 +156,7 @@ public interface BoardDao {
 
    BoardDto auctionEndDetail(BoardDto bDto);
 
+   @Select("select bf_sysfilename from boardfile where bf_sb_num = #{sbNum}")
+    List<String> picture(String sbNum);
 }
 

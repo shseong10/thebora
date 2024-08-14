@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class AdminService {
@@ -50,5 +52,9 @@ public class AdminService {
 
     public boolean reUpload(BoardDto bDto) {
         return bDao.reUpload(bDto);
+    }
+
+    public List<String> picture(String sbNum) {
+        return bDao.picture(sbNum);
     }
 }

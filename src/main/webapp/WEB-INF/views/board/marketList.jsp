@@ -63,7 +63,8 @@
                                 <h5>${item.sb_title}</h5></a>
                             <small class="text-body-secondary">${item.sb_category}</small>
                             <div><small class="text-body-secondary">${item.sb_local}</small></div>
-                            <p class="hotdeal-item-price">${item.element}원</p>
+                            <div class="hotdeal-item-price">${item.element}원</div>
+                            <small class="text-body-secondary">조회수 : ${item.sb_view}</small>
                         </div>
                     </div>
                 </div>

@@ -18,6 +18,13 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+
+<script>
+    const msg = '${msg}';
+    if (msg !== '') {
+        alert(msg);
+    }
+</script>
 <header>
     <jsp:include page="header.jsp"></jsp:include>
 </header>
