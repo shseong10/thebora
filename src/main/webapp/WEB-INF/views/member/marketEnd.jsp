@@ -205,7 +205,7 @@
 
                                 <div class="row mt-5">
                                     <div class="col d-grid">
-                                        <a type="button" class="btn btn-color-thebora btn-sm" href="/hotdeal/list/detail?sb_num=${myOrder.order_num}">보기</a>
+                                        <a type="button" class="btn btn-color-thebora btn-sm" href="/hotdeal/list/detail?sb_num=${myOrder.item_num}">보기</a>
                                     </div>
                                 </div>
                             </div>
