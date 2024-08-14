@@ -1,5 +1,6 @@
 package com.icia.guree.controller;
 
+import com.icia.guree.dao.BoardDao;
 import com.icia.guree.dao.FileDao;
 import com.icia.guree.entity.BoardDto;
 import com.icia.guree.entity.BoardFileDto;
@@ -35,7 +36,8 @@ public class BoardController {
     private BoardService bSer;
     @Autowired
     private MemberService mSer;
-
+    @Autowired
+    private BoardDao bDao;
     @Autowired
     private FileDao pDao;
 
@@ -220,8 +222,15 @@ public class BoardController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/board/marketEnd")
     public String marketEnd(@RequestParam("sb_num") String sb_num, RedirectAttributes redirectAttributes ){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String name = userDetails.getUsername();
+
+        }
        boolean end = bSer.marketEnd(sb_num);
         if (end){
+            bDao.chatDel(sb_num);
             redirectAttributes.addFlashAttribute("msg", "판매완료되었습니다.");
             return "redirect:/board/marketList";
         }
