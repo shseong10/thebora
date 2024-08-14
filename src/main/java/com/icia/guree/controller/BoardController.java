@@ -362,7 +362,7 @@ public class BoardController {
             for (BoardDto dto : myCart) {
 
                 if (dto.getSb_num().equals(sb_num)) {
-                    model.addAttribute("msg", "이미 장바구니에 있는 상품입니다.");
+                    model.addAttribute("msg", "이미 관심상품에 있는 상품입니다.");
                     model.addAttribute("bDto", detail);
                     model.addAttribute("file", file);
                     return "board/auctionDetail";
@@ -370,7 +370,7 @@ public class BoardController {
             }
             boolean cart = bSer.myCartAttend(sb_num, userDetails.getUsername());
             if (cart) {
-                model.addAttribute("msg", "상품을 장바구니에 담았습니다..");
+                model.addAttribute("msg", "관심상품에 등록했습니다.");
                 model.addAttribute("bDto", detail);
                 model.addAttribute("file", file);
                 return "board/auctionDetail";
@@ -397,14 +397,14 @@ public class BoardController {
                     log.info("---------dto------{}", sb_num);
                     model.addAttribute("bDto", detail);
                     model.addAttribute("file", file);
-                    model.addAttribute("msg", "이미 장바구니에 있는 상품입니다.");
+                    model.addAttribute("msg", "이미 관심상품에 있는 상품입니다.");
                     return "board/marketDetail";
                 }
             }
             bSer.myCartAttend(sb_num, userDetails.getUsername());
             model.addAttribute("bDto", detail);
             model.addAttribute("file", file);
-            model.addAttribute("msg", "상품을 장바구니에 담았습니다..");
+            model.addAttribute("msg", "관심상품에 등록했습니다.");
             return "board/marketDetail";
         }
         return "redirect:/member/login";

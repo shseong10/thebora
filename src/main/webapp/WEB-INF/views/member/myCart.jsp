@@ -58,7 +58,7 @@
                         <div class="col-md-6"><%-- 카드 우측 --%>
                             <div class="card-body" style="text-align: center">
                                 <h5 class="card-title mt-1">
-                                    <a href="/board/auctionDetail?sb_num=${item.sb_num}" class="stretched-link">
+                                    <a href="/board/auctionDetail?sb_num=${item.sb_num}">
                                         <small class="main-item-category rounded-3 color-3">경매</small> ${item.sb_title}
                                     </a>
                                 </h5>
@@ -125,7 +125,7 @@
                         <div class="col-md-6"><%-- 카드 우측 --%>
                             <div class="card-body" style="text-align: center">
                                 <h5 class="card-title mt-4">
-                                    <a href="/board/marketDetail?sb_num=${Sales.sb_num}" class="stretched-link">
+                                    <a href="/board/marketDetail?sb_num=${Sales.sb_num}">
                                         <small class="main-item-category rounded-3 color-3">판매중</small> ${Sales.sb_title}
                                     </a>
                                 </h5>
