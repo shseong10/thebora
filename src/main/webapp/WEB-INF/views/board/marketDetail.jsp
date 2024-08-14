@@ -48,6 +48,15 @@
 
 </style>
 <body>
+<script>
+    $(() => {
+        const msg = '${msg}';
+        if (msg !== '') {
+
+            alert(msg);
+        }
+    })
+</script>
 <header>
     <jsp:include page="../header.jsp"></jsp:include>
 </header>
@@ -174,7 +183,7 @@
 
     function marketCart() {
         if (user === sellerId) {
-            alert("본인의 상품은 장바구니에 넣을 수 없습니다.")
+            alert("본인의 상품은 찜 할 수 없습니다.")
             return
 
         }
