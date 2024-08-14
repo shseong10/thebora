@@ -20,9 +20,6 @@
 <body>
 <header>
     <jsp:include page="header.jsp"></jsp:include>
-    <section id="main_banner" class="mx-auto">
-        <img src="/img/event_banner.png" style="height: 100%">
-    </section>
 </header>
 <main>
     <section>

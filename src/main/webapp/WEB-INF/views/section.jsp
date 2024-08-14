@@ -13,7 +13,7 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>더보라</title>
 </head>
 <style>
     body {

@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<header class="w-75 mt-3 mx-auto">
+<div class="w-75 mt-3 mx-auto">
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
@@ -139,7 +139,10 @@
     <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3">
         <%--        알람--%>
     </div>
-</header>
+</div>
+<div id="main_banner" class="mx-auto mb-5">
+    <img src="/img/event_banner.png" style="height: 100%">
+</div>
 <script>
     const userId = '<sec:authentication property="name"/>';
 

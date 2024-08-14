@@ -1,17 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 24. 7. 16.
-  Time: 오후 3:18
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/security/tags"
            prefix="sec" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>더보라</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -54,76 +47,63 @@
     }
 
 </style>
-
-<script>
-    $(() => {
-        const msg = '${msg}';
-        if (msg !== '') {
-
-            alert(msg);
-        }
-    })
-</script>
-
 <body>
 <header>
     <jsp:include page="../header.jsp"></jsp:include>
 </header>
-<div class="card mb-3 w-75 mx-auto allDiv-box">
-    <div class="row g-5">
-        <div class="col-md-4">
-            <div class="fileWide">
-                <c:forEach var="img" items="${file}" varStatus="loop">
-                    <c:if test="${!empty img.bf_sysFileName}">
-                        <div class="${loop.index == 0 ? 'active' : ''}">
-                            <img src="/upload/${img.bf_sysFileName}" class="img-fluid rounded-start" alt="...">
+<main>
+    <div class="card mb-3 w-75 mx-auto allDiv-box">
+        <div class="row g-5">
+            <div class="col-md-4">
+                <div class="fileWide">
+                    <c:forEach var="img" items="${file}" varStatus="loop">
+                        <c:if test="${!empty img.bf_sysFileName}">
+                            <div class="${loop.index == 0 ? 'active' : ''}">
+                                <img src="/upload/${img.bf_sysFileName}" class="img-fluid rounded-start" alt="...">
+                            </div>
+                        </c:if>
+                    </c:forEach>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-body">
+                    <p class="card-text">상품설명</p>
+                    <p class="card-text" id="product-detail"><small class="text-body-secondary">${bDto.sb_contents}</small>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-body">
+                    <h5 class="card-title">상품명 : ${bDto.sb_title}</h5>
+                    <hr>
+                    <p class="card-text">분류 : ${bDto.sb_category}</p>
+                    <p class="card-text">가격 : ${bDto.element}원</p>
+                    <p class="card-text">지역 : ${bDto.sb_local}</p>
+                    <p class="card-text">날짜 : ${bDto.sb_date}</p>
+                    <p>판매자 : ${bDto.sb_id}</p>
+                    <div id="timer"></div>
+                    <form action="/board/attend" method="post" class="bid_form">
+                        <div class="d-grid gap-2 d-md-block mb-3">
+                            <button class="btn btn-primary btn-color-thebora" type="button" onclick="marketCart()">찜하기</button>
+                            <button type="button" class="btn btn-primary btn-color-thebora" onclick="buyApply()">구매신청</button>
+                            <input type="hidden" name="sb_num" value="${bDto.sb_num}">
                         </div>
-                    </c:if>
-                </c:forEach>
-            </div>
-        </div>
+                    </form>
+                    <form action="#">
+                        <input type="hidden" name="h_o_p_num" value="${bDto.sb_num}">
 
-        <div class="col-md-4">
-            <div class="card-body">
-                <p class="card-text">상품설명</p>
-                <p class="card-text" id="product-detail"><small class="text-body-secondary">${bDto.sb_contents}</small>
-                </p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card-body">
-                <h5 class="card-title">상품명 : ${bDto.sb_title}</h5>
-                <hr>
-                <p class="card-text">분류 : ${bDto.sb_category}</p>
-                <p class="card-text">가격 : ${bDto.element}원</p>
-                <p class="card-text">지역 : ${bDto.sb_local}</p>
-                <p class="card-text">날짜 : ${bDto.sb_date}</p>
-                <p>판매자 : ${bDto.sb_id}</p>
-                <div id="timer"></div>
-                <form action="/board/attend" method="post" class="bid_form">
-                    <div class="d-grid gap-2 d-md-block mb-3">
-                        <button class="btn btn-primary btn-color-thebora" type="button" onclick="marketCart()">찜하기</button>
-                        <button type="button" class="btn btn-primary btn-color-thebora" onclick="buyApply()">구매신청</button>
-                        <input type="hidden" name="sb_num" value="${bDto.sb_num}">
-                    </div>
-                </form>
-                <form action="#">
-                    <input type="hidden" name="h_o_p_num" value="${bDto.sb_num}">
+                        <input type="button" id="reset-button" class="btn btn-primary btn-color-thebora" value="삭제하기" onclick="deleteBtn()">
+                        <input type="button" id="end-button" class="btn btn-primary btn-color-thebora" value="판매완료" onclick="endBtn(${bDto.sb_num})">
 
-                    <input type="button" id="reset-button" class="btn btn-primary btn-color-thebora" value="삭제하기" onclick="deleteBtn()">
-                    <input type="button" id="end-button" class="btn btn-primary btn-color-thebora" value="판매완료" onclick="endBtn(${bDto.sb_num})">
-
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="d-grid gap-2 w-75 mb-3 mx-auto">
-    <a href="/board/marketList" class="btn btn-primary btn-color-thebora" role="button">목록으로</a>
-</div>
-
-
+    <div class="w-75 mb-3 mx-auto">
+        <a href="/board/marketList" class="btn btn-primary btn-color-thebora" role="button">목록으로</a>
+    </div>
+</main>
 <script>
     function endBtn(num){
         location.href = "/board/marketEnd?sb_num=" + num
@@ -199,7 +179,6 @@
     <sec:authorize access="hasRole('admin')">
     $('#reset-button').show();
     </sec:authorize>
-
 
 </script>
 <footer>
