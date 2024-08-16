@@ -70,7 +70,7 @@
             </div>
         </div>
         <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-color-thebora" style="width: 100%;">확인</button>
+            <a href="/member/marketEnd#hotdeal-order" class="btn btn-primary btn-color-thebora" style="width: 100%;">확인</a>
         </div>
     </div>
 </main>

@@ -215,6 +215,7 @@
     </div>
     <hr class="w-75 mx-auto" >
     <div class="d-grid gap-2 w-75 mb-3 mx-auto">
+        <a name="hotdeal-order"></a>
         <h2 class="article-t">핫딜 구매 내역</h2>
     </div>
     <c:if test="${empty myOrder}">
