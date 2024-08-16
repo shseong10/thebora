@@ -490,5 +490,8 @@
     </script>
     <script type="module" src="/api/ckeditor5/main.js"></script>
 </div>
+<footer>
+    <jsp:include page="../footer.jsp"></jsp:include>
+</footer>
 </body>
 </html>
