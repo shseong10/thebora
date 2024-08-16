@@ -321,7 +321,7 @@
                             ${item.sb_buylevel}
                         </td>
                         <td>
-                            누적판매량
+                            1
                         </td>
                     </tr>
                 </c:forEach>
