@@ -43,7 +43,7 @@
             <input type="text" placeholder="채팅방 검색">
             <input type="button" id="search" value="검색">
         </div><br>
-        <table class="table table-dark table-striped" style="width: 1000px; margin: auto">
+        <table class="table table-striped" style="width: 1000px; margin: auto">
             <tr>
                 <th colspan="2" style="text-align: center">채팅목록</th>
             </tr>
