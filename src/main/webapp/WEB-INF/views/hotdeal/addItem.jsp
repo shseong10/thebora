@@ -102,124 +102,133 @@
     </style>
 </head>
 <body>
-<form action="/hotdeal/add_item" method="post" enctype="multipart/form-data">
-    <div class="card mb-3 p-3 w-75 mx-auto">
-        <div class="p-3">
-            <div class="row row-cols-2">
-                <div class="col-md-4">
-                    <div class="text-center align-middle h-100">
-                        <div onclick="upload()" id="preview_main">
-                            &nbsp;
-                        </div>
-                        <div id="preview_sub" class="row row-cols-4">
-                        </div>
-                    </div>
-                    <input type="file" name="attachments" id="attachments" multiple accept="image/*" hidden="hidden"/>
-                </div>
-                <div class="col-md-8">
-                    <div class="row row-cols-2 gy-3">
-                        <div class="col-6">
-                            상품명
-                            <input type="text" class="form-control" id="p-name" name="sb_title" value="선풍기">
-                        </div>
-                        <div class="col-6">
-                            카테고리
-                            <select id="p-category" name="sb_category" class="form-select">
-                                <option selected>카테고리 선택</option>
-                                <c:forEach var="category" items="${cList}">
-                                    <option value="${category.c_kind}">${category.c_kind}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            가격
-                            <input type="text" class="form-control" id="p-price" name="sb_price" value="30000">
-                        </div>
-                        <div class="col-6">
-                            수량
-                            <input type="text" class="form-control" id="p-inven" name="sb_count" value="10">
-                        </div>
-                        <div class="col-6">
-                            <div class="row row-cols-2 g-2">
-                                <div class="col-3">
-                                    판매기간
-                                </div>
-                                <div class="col-9">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radioDate" id="radioDate1" value="option1" checked>
-                                        <label class="form-check-label" for="radioDate1">
-                                            지정안함
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radioDate" id="radioDate2" value="option2">
-                                        <label class="form-check-label" for="radioDate2">
-                                            지정일까지
-                                        </label>
-                                        <input type="datetime-local" class="form-control myInput mt-1" placeholder="날짜를 선택하세요." readonly="readonly">
-                                        <input type="text" name="sb_timer" id="sb_timer" hidden="hidden">
-                                    </div>
-                                </div>
-                            </div>
 
+<header>
+    <jsp:include page="../header.jsp"></jsp:include>
+</header>
+<main>
+    <form action="/hotdeal/add_item" method="post" enctype="multipart/form-data">
+        <div class="card mb-3 p-3 w-75 mx-auto">
+            <div class="p-3">
+                <div class="row row-cols-2">
+                    <div class="col-md-4">
+                        <div class="text-center align-middle h-100">
+                            <div onclick="upload()" id="preview_main">
+                                &nbsp;
+                            </div>
+                            <div id="preview_sub" class="row row-cols-4">
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <div class="row row-cols-2 g-2">
-                                <div class="col-3">
-                                    구매제한
-                                </div>
-                                <div class="col-9">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radioMem" id="radioMem1" value="option1" checked>
-                                        <label class="form-check-label" for="radioMem1">
-                                            모든 회원
-                                        </label>
+                        <input type="file" name="attachments" id="attachments" multiple accept="image/*" hidden="hidden"/>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row row-cols-2 gy-3">
+                            <div class="col-6">
+                                상품명
+                                <input type="text" class="form-control" id="p-name" name="sb_title">
+                            </div>
+                            <div class="col-6">
+                                카테고리
+                                <select id="p-category" name="sb_category" class="form-select">
+                                    <option selected>카테고리 선택</option>
+                                    <c:forEach var="category" items="${cList}">
+                                        <option value="${category.c_kind}">${category.c_kind}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                가격
+                                <input type="text" class="form-control" id="p-price" name="sb_price">
+                            </div>
+                            <div class="col-6">
+                                수량
+                                <input type="text" class="form-control" id="p-inven" name="sb_count">
+                            </div>
+                            <div class="col-6">
+                                <div class="row row-cols-2 g-2">
+                                    <div class="col-3">
+                                        판매기간
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radioMem" id="radioMem2" value="option2">
-                                        <label class="form-check-label" for="radioMem2">
-                                            <div class="row">
-                                                <div class="col-auto">
-                                                    구매 가능 레벨
+                                    <div class="col-9">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="radioDate" id="radioDate1" value="option1" checked>
+                                            <label class="form-check-label" for="radioDate1">
+                                                지정안함
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="radioDate" id="radioDate2" value="option2">
+                                            <label class="form-check-label" for="radioDate2">
+                                                지정일까지
+                                            </label>
+                                            <input type="datetime-local" class="form-control myInput mt-1" placeholder="날짜를 선택하세요." readonly="readonly">
+                                            <input type="text" name="sb_timer" id="sb_timer" hidden="hidden">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-6">
+                                <div class="row row-cols-2 g-2">
+                                    <div class="col-3">
+                                        구매제한
+                                    </div>
+                                    <div class="col-9">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="radioMem" id="radioMem1" value="option1" checked>
+                                            <label class="form-check-label" for="radioMem1">
+                                                모든 회원
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="radioMem" id="radioMem2" value="option2">
+                                            <label class="form-check-label" for="radioMem2">
+                                                <div class="row">
+                                                    <div class="col-auto">
+                                                        구매 가능 레벨
+                                                    </div>
+                                                    <div class="col-auto p-0">
+                                                        <input type="text" class="form-control" size="1em" id="sb_buylevel" name="sb_buylevel" value="0">
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        부터
+                                                    </div>
                                                 </div>
-                                                <div class="col-auto p-0">
-                                                    <input type="text" class="form-control" size="1em" id="sb_buylevel" name="sb_buylevel" value="0">
-                                                </div>
-                                                <div class="col-auto">
-                                                    부터
-                                                </div>
-                                            </div>
-                                        </label>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="form-label">상품설명</label>
-                        <div class="main-container">
-                            <div class="editor-container editor-container_classic-editor" id="editor-container">
-                                <div class="editor-container__editor"><textarea id="sb_contents" name="sb_contents"></textarea></div>
+                        <div>
+                            <label class="form-label">상품설명</label>
+                            <div class="main-container">
+                                <div class="editor-container editor-container_classic-editor" id="editor-container">
+                                    <div class="editor-container__editor"><textarea id="sb_contents" name="sb_contents"></textarea></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-        <input type="submit" class="btn btn-primary btn-color-thebora" value="등록하기">
-    </div>
-    <script type="importmap">
-        {
-            "imports": {
-                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.js",
-                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.1/"
+        <div class="d-grid gap-2 w-75 mb-3 mx-auto">
+            <input type="submit" class="btn btn-primary btn-color-thebora" value="등록하기">
+        </div>
+        <script type="importmap">
+            {
+                "imports": {
+                    "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.js",
+                    "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.1/"
+                }
             }
-        }
-    </script>
-    <script type="module" src="/api/ckeditor5/main.js"></script>
-</form>
+        </script>
+        <script type="module" src="/api/ckeditor5/main.js"></script>
+    </form>
+</main>
+<footer>
+    <jsp:include page="../footer.jsp"></jsp:include>
+</footer>
 </body>
 </html>
 
