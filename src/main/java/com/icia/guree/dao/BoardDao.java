@@ -125,7 +125,6 @@ public interface BoardDao {
     @Delete("delete from saleboard where sb_num = #{sb_num} ")
     boolean auctionReject(String sb_num);
 
-    @Select("select sb_timer,sb_num,sb_price,sb_id from saleboard where sb_salekind = 1 and sb_scope = 1")
     List<BoardDto> auctionEndList();
 
     @Update("update saleboard set sb_scope = 3 where  sb_num = #{sbNum}")
@@ -158,5 +157,7 @@ public interface BoardDao {
 
    @Select("select bf_sysfilename from boardfile where bf_sb_num = #{sbNum}")
     List<String> picture(String sbNum);
+
+    List<BoardDto> myAuctionBuyList(String name);
 }
 

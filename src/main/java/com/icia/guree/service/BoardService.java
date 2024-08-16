@@ -117,6 +117,7 @@ public class BoardService {
 
     public boolean buyNow(BoardDto bDto) {
         BoardDto attender = bDao.getAttender(bDto);
+
         int point = mDao.getUserPoint(bDto.getA_joinId());
         MemberDto mDto = new MemberDto();
         mDto.setM_id(bDto.getA_joinId());
@@ -128,6 +129,7 @@ public class BoardService {
                 mDao.pointGet(bDto);
                 bDao.buyNow(bDto);
                 bDao.auctionUser(bDto);
+                mDao.auctionGet(bDto);
                 return true;
             }
         }else if (point >= bDto.getSb_price()) {
@@ -290,6 +292,7 @@ public class BoardService {
     public void auctionEnd(BoardDto bDto) {
         bDao.auctionEnd(bDto);
         mDao.pointGet(bDto);
+        mDao.auctionGet(bDto);
 
     }
 
@@ -442,4 +445,7 @@ public class BoardService {
        return bDao.auctionEndDetail(bDto);
     }
 
-   }
+    public List<BoardDto> myAuctionBuyList(String name) {
+        return bDao.myAuctionBuyList(name);
+    }
+}

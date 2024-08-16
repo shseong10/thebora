@@ -91,7 +91,7 @@
     </div>
     <hr class="w-75 mx-auto" >
     <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-        <h2 class="article-t">경매 완료 내역</h2>
+        <h2 class="article-t">경매 판매 내역</h2>
     </div>
     <c:if test="${empty aEList}">
         <div class="none-auction">거래된 상품이 없습니다.</div>
@@ -137,12 +137,74 @@
                                         <b>${aList.sb_nowPrice}원</b>
                                     </div>
                                     <div class="col my-trade-card-col">
-                                        <small class="text-body-secondary">ㅁㅁㅁㅁㅁㅁ</small><br>
+                                        <small class="text-body-secondary"></small><br>
                                         <b></b>
                                     </div>
                                 </div>
                                 <div class="d-grid mt-3">
-                                    <a type="button" class="btn btn-color-thebora btn-sm" href="/board/auctionEndDetail?sb_num=${aList.sb_num}">보기</a>
+                                    <a type="button" class="btn btn-color-thebora btn-sm" href="/board/auctionEndDetail?sb_num=${aList.sb_num}&sb_id=${aList.sb_id}">보기</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+    <hr class="w-75 mx-auto" >
+    <div class="d-grid gap-2 w-75 mb-3 mx-auto">
+        <h2 class="article-t">경매 구매 내역</h2>
+    </div>
+    <c:if test="${empty aBList}">
+        <div class="none-auction">거래된 상품이 없습니다.</div>
+    </c:if>
+    <div class="row row-cols-1 row-cols-md-2 g-4 w-75 mx-auto">
+        <c:forEach var="aList" items="${aBList}">
+            <div class="col">
+                <div class="card mb-3 position-relative my-trade-card"><%-- 카드 컨테이너 --%>
+                    <div class="row g-0">
+                        <div class="col-md-6"><%-- 카드 좌측 --%>
+                            <c:forEach var="file" items="${aList.bfList}" varStatus="loop">
+                                <c:if test="${file.bf_sysFileName eq ''}">
+                                    <div class="my-trade-thumbnail rounded-1 ${loop.index == 0 ? '' : 'img-none' }" style="background-image: url('/upload/프사없음.jfif'); background-size: cover; background-position: 50% 50%;">
+
+                                    </div>
+                                </c:if>
+                                <c:if test="${!empty file.bf_sysFileName}">
+                                    <div class="my-trade-thumbnail rounded-1 ${loop.index == 0 ? '' : 'img-none' }" style="background-image: url('/upload/${file.bf_sysFileName}'); background-size: cover; background-position: 50% 50%;">
+
+                                    </div>
+                                </c:if>
+                            </c:forEach>
+                        </div>
+                        <div class="col-md-6"><%-- 카드 우측 --%>
+                            <div class="card-body" style="text-align: center">
+                                <h5 class="card-title mt-1">
+                                    <a href="/board/auctionEndDetail?sb_num=${aList.sb_num}">
+                                        <small class="main-item-category rounded-3 color-3">경매</small> ${aList.sb_title}
+                                    </a>
+                                </h5>
+                                <small class="text-body-secondary">${aList.sb_category}</small>
+                                <div class="card-text row row-cols-1 row-cols-md-2 g-4 mt-1">
+                                    <div class="col my-trade-card-col">
+                                        <small class="text-body-secondary">판매자</small><br>
+                                        <b>${aList.sb_id}</b>
+                                    </div>
+                                    <div class="col my-trade-card-col">
+                                        <small class="text-body-secondary">즉시구매가</small><br>
+                                        <b>${aList.sb_price}</b>
+                                    </div>
+                                    <div class="col my-trade-card-col">
+                                        <small class="text-body-secondary">입찰가</small><br>
+                                        <b>${aList.sb_nowPrice}원</b>
+                                    </div>
+                                    <div class="col my-trade-card-col">
+                                        <small class="text-body-secondary"></small><br>
+                                        <b></b>
+                                    </div>
+                                </div>
+                                <div class="d-grid mt-3">
+                                    <a type="button" class="btn btn-color-thebora btn-sm" href="/board/auctionEndDetail?sb_num=${aList.sb_num}&sb_id=${aList.sb_id}">보기</a>
                                 </div>
                             </div>
                         </div>

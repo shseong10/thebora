@@ -40,6 +40,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(HttpSession session, Model model,BoardDto bDto, Principal principal) {
+
         System.out.println("Principal:"+principal);
         if(session.getAttribute("msg")!=null) {
             model.addAttribute("msg", session.getAttribute("msg"));
@@ -57,6 +58,7 @@ public class HomeController {
                 bDto.setSb_num(bList.getSb_num());
                 bDto.setSb_price(bList.getSb_price());
                 bDto.setSb_id(bList.getSb_id());
+                bDto.setA_joinId(bList.getA_joinId());
                 bSer.auctionEnd(bDto);
             }
         }

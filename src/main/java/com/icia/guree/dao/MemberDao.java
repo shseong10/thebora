@@ -65,4 +65,7 @@ public interface MemberDao {
 
     @Update("update member set m_point = m_point - #{m_point} where m_id = #{m_id}")
     void pointExchange(MemberDto mDto);
+
+    @Insert("insert into getitem values (null, #{sb_num},#{a_joinId})")
+    void auctionGet(BoardDto bDto);
 }
