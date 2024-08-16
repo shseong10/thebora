@@ -40,7 +40,7 @@
     <div class="update">
     <h2>글 수정</h2>
     <form action="/notice/update" method="post" enctype="multipart/form-data">
-        <table class="table table-dark table-striped" style="width: 800px; margin: auto; text-align: center;">
+        <table class="table table-striped" style="width: 800px; margin: auto; text-align: center;">
             <tr>
                 <td>글번호</td>
                 <td>

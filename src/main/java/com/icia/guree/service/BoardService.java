@@ -340,6 +340,7 @@ public class BoardService {
         if (alertMsg.getType().equals("adReject")) {
             alertMsg.setMsg("<li>" +
                     "<div>" +
+                    "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
                     alertMsg.getAlertDate() +
                     "</div>" +
                     "<div>" +

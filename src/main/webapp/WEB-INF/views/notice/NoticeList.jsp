@@ -17,28 +17,32 @@
             integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
             crossorigin="anonymous">
     </script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
     <style>
         body {
             font-family: "MapleStory";
         }
-        h2{
+
+        h2 {
             text-align: center;
         }
 
-        .All{
+        .All {
             width: 800px;
             margin: auto;
         }
+
         .search {
-            border: 2px solid red;
-            background-color: gray;
+            border: 2px solid #dee2e6;
             width: 306px;
             /*margin: 0 0 0 auto;*/
         }
 
-        .paging{
+        .paging {
             text-align: right;
         }
 
@@ -46,15 +50,16 @@
             margin: 40px;
             text-align: center;
         }
-        .write{
+
+        .write {
             margin: auto;
         }
 
     </style>
     <script>
-    if('${msg}'!=''){
-        alert('${msg}')
-    }
+        if ('${msg}' != '') {
+            alert('${msg}')
+        }
     </script>
 </head>
 <body>
@@ -69,10 +74,10 @@
                 <option value="n_title" name="n_title">제목</option>
                 <option value="n_contents" name="n_contents">내용</option>
             </select>
-            <input type="text" id="keyWord" />
+            <input type="text" id="keyWord"/>
             <button id="search">검색</button>
         </div>
-        <table class="table table-dark table-striped" style="width: 800px; margin: auto; text-align: center;">
+        <table class="table table-striped" style="width: 800px; margin: auto; text-align: center;">
             <tr class="">
                 <th>작성자</th>
                 <th>구분</th>
@@ -98,10 +103,11 @@
                     </c:forEach>
                 </c:when>
             </c:choose>
-        </table><br>
+        </table>
+        <br>
         <div class="paging">
             <sec:authorize access="hasRole('admin')">
-            <button class="write" onclick="location.href='/notice/write'">공지 작성</button>
+                <button class="write" onclick="location.href='/notice/write'">공지 작성</button>
             </sec:authorize>
             <div class="page">${pageHtml}</div>
         </div>

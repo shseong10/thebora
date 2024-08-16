@@ -51,7 +51,7 @@
     <div>
         <form action="/notice/write" method="post" enctype="multipart/form-data">
             <h2 class="op">공지사항 작성</h2>
-            <table class="table table-dark table-striped" style="width: 900px; margin: auto; text-align: center">
+            <table class="table table-striped" style="width: 900px; margin: auto; text-align: center">
                 <tr>
                     <td>
                         <input type="hidden" name="n_id" value="${userId}" />

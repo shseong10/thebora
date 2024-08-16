@@ -872,7 +872,7 @@
         minuteIncrement: 1,
         dateFormat: "Y-m-d H:i",
         "locale": "ko",
-        minDate: new Date().fp_incr(1),
+        minDate: new Date().fp_incr(0),
         minTime: "9:00",
         maxDate: new Date().fp_incr(7) // 7 days from now
 
@@ -903,7 +903,7 @@
         minuteIncrement: 1,
         dateFormat: "Y-m-d H:i",
         "locale": "ko",
-        // minDate: new Date().fp_incr(1) ,
+        minDate: new Date().fp_incr(0) ,
         minTime: "9:00",
         maxDate: new Date().fp_incr(7) // 7 days from now
 

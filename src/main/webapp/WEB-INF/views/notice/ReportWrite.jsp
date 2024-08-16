@@ -60,7 +60,7 @@
     <div class="write">
         <form action="/report/write" method="post" enctype="multipart/form-data">
             <h2 class="op">신고/문의하기</h2>
-            <table class="table table-dark table-striped" style="width: 800px; margin: auto; text-align: center">
+            <table class="table table-striped" style="width: 800px; margin: auto; text-align: center">
                 <tr>
                     <td>
                         <input type="hidden" name="n_id" value="${userId}" />

@@ -24,8 +24,7 @@
             margin: auto;
         }
         .search {
-            border: 2px solid aqua;
-            background-color: gray;
+            border: 2px solid #dee2e6;
             width: 306px;
             /*margin: 0 0 0 auto;*/
         }
@@ -58,7 +57,7 @@
             <input type="text" id="keyWord" />
             <button id="search">검색</button>
         </div>
-        <table class="table table-dark table-striped" style="width: 800px; margin: auto; text-align: center;">
+        <table class="table table-striped" style="width: 800px; margin: auto; text-align: center;">
             <tr class="">
                 <th>작성자</th>
                 <th>제목</th>

@@ -23,6 +23,7 @@
     <div id="login_input">
         <input type="text" class="form-control me-2" name="m_name" id="name" placeholder="이름"><br>
         <input type="text" class="form-control me-2" name="m_phone" id="phone" placeholder="전화번호"><br>
+        <p id="id" hidden="hidden"></p>
         <button type="button" class="btn btn-primary btn-color-thebora" onclick="idFinder()">찾기</button>
         <ul class="login_finder">
             <li><a href="/member/pwFind">패스워드 찾기</a></li>
