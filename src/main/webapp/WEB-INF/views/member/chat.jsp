@@ -111,7 +111,6 @@
             }
         }).done((resp) => {
             $('#chat_contents').append(`<div>`+'${userId}'+` : `+$('#c_contents').val()+`</div>`);
-            // console.log(resp);
             //웹 소켓 관련 로직 추가
             if (socket) {
                 let socketMsg = {"type": "chat", "buyer": $('#c_sendid').val(), "seller": $('#sellerId').val(), "msg":$('#c_contents').val(), "sb_num":$('#sb_num').val()};
