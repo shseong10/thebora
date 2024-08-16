@@ -117,6 +117,7 @@ public class BoardService {
 
     public boolean buyNow(BoardDto bDto) {
         BoardDto attender = bDao.getAttender(bDto);
+
         int point = mDao.getUserPoint(bDto.getA_joinId());
         MemberDto mDto = new MemberDto();
         mDto.setM_id(bDto.getA_joinId());
@@ -128,6 +129,7 @@ public class BoardService {
                 mDao.pointGet(bDto);
                 bDao.buyNow(bDto);
                 bDao.auctionUser(bDto);
+                mDao.auctionGet(bDto);
                 return true;
             }
         }else if (point >= bDto.getSb_price()) {
@@ -290,6 +292,7 @@ public class BoardService {
     public void auctionEnd(BoardDto bDto) {
         bDao.auctionEnd(bDto);
         mDao.pointGet(bDto);
+        mDao.auctionGet(bDto);
 
     }
 
@@ -315,18 +318,18 @@ public class BoardService {
         if (alertMsg.getType().equals("apply")) {
             alertMsg.setMsg("<li>" +
                     "<div>" +
-                    "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel(" + alertMsg.getSb_num() + ")'></button>" +
+                    "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
                     alertMsg.getAlertDate() +
                     "</div>" +
                     "<div>" +
-                    alertMsg.getBuyer() + " 님이 " + "<a href='/board/marketDetail?sb_num=" + alertMsg.getSb_num() + "' style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong> 에 구매신청을 하였습니다..</a>" +
+                    alertMsg.getBuyer() + " 님이 " + "<a href='/board/marketDetail?sb_num="+alertMsg.getSb_num()+"'style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong> 에 구매신청을 하였습니다..</a>" +
                     "</div>" +
                     "</li>");
         }
         if (alertMsg.getType().equals("reject")) {
             alertMsg.setMsg("<li>" +
                     "<div>" +
-                    "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel(" + alertMsg.getSb_num() + ")'></button>" +
+                    "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
                     alertMsg.getAlertDate() +
                     "</div>" +
                     "<div>" +
@@ -442,4 +445,7 @@ public class BoardService {
        return bDao.auctionEndDetail(bDto);
     }
 
-   }
+    public List<BoardDto> myAuctionBuyList(String name) {
+        return bDao.myAuctionBuyList(name);
+    }
+}

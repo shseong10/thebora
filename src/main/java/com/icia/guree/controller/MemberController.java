@@ -217,6 +217,7 @@ public class MemberController {
             List<BoardDto> mEList = bSer.myMarketEndList(name);
             List<BoardDto> aEList = bSer.myAuctionEndList(name);
             List<OrderDto> myOrder = oSer.myOrder(name);
+            List<BoardDto> aBList = bSer.myAuctionBuyList(name);
 
             if (mEList != null) {
                 model.addAttribute("mEList", mEList);
@@ -226,6 +227,9 @@ public class MemberController {
             }
             if (myOrder != null) {
                 model.addAttribute("myOrder", myOrder);
+            }
+            if (aBList != null){
+                model.addAttribute("aBList", aBList);
             }
 
         }
@@ -279,19 +283,15 @@ public class MemberController {
     //완료 경매 디테일
     @GetMapping("/board/auctionEndDetail")
     public String auctionEndDetail(BoardDto bDto, Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String name = userDetails.getUsername();
-            bDto.setSb_id(name);
+
            BoardDto eDetail = bSer.auctionEndDetail(bDto);
             List<BoardFileDto> file = bSer.getFile(bDto);
             model.addAttribute("eDetail",eDetail);
             model.addAttribute("file", file);
 
             return "board/auctionEndDetail";
-    }
-        return  "member/login";
+
+
 }
 
 }

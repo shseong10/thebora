@@ -147,9 +147,6 @@
                                     <div class="col d-grid">
                                         <a type="button" class="btn btn-color-thebora btn-sm" href="/board/auctionDetail?sb_num=${item.sb_num}">보기</a>
                                     </div>
-                                    <div class="col d-grid">
-                                        <a type="button" class="btn my-trade-btn-del btn-sm" href="/board/myTradeDel?sb_num=${item.sb_num}">삭제</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -214,9 +211,6 @@
                                 <div class="row mt-5">
                                     <div class="col d-grid">
                                         <a type="button" class="btn btn-color-thebora btn-sm" href="/board/marketDetail?sb_num=${Sales.sb_num}">보기</a>
-                                    </div>
-                                    <div class="col d-grid">
-                                        <a type="button" class="btn my-trade-btn-del btn-sm" href="/board/myTradeDel?sb_num=${Sales.sb_num}">삭제</a>
                                     </div>
                                 </div>
                             </div>

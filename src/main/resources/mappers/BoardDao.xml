@@ -337,6 +337,13 @@
                  from auction where sb_num = #{sb_num} and sb_scope = 3 and sb_id = #{sb_id} order by a_num desc limit 1
     </select>
 
+    <select id="auctionEndList" resultType="com.icia.guree.entity.BoardDto">
+        select sb_timer,sb_num,sb_nowprice,sb_id,(select a_joinid from auctionprogress where sb_num = progressnum order by a_bidprice desc limit 1 )as a_joinid from saleboard where sb_salekind = 1 and sb_scope = 1
+    </select>
+
+    <select id="myAuctionBuyList" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
+        select * from saleboard s join getitem g on s.sb_num = g.sb_num left join boardfile b on s.sb_num = b.bf_sb_num where a_joinid = #{a_joinid}
+    </select>
 
 
 </mapper>

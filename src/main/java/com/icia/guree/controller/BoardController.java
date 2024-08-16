@@ -120,6 +120,7 @@ public class BoardController {
         log.info("======zzzzzzz===============" + ifafter);
         if (ifafter) {
             bSer.auctionEnd(detail);
+
             redirectAttributes.addFlashAttribute("msg", "이미 완료된 경매입니다.");
             return "redirect:/board/auctionList";
         }
