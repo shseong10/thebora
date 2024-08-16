@@ -55,7 +55,7 @@
                         <div class="col-md-6"><%-- 카드 우측 --%>
                             <div class="card-body" style="text-align: center">
                                 <h5 class="card-title mt-4">
-                                    <a href="/board/marketDetail?sb_num=${eList.sb_num}" class="stretched-link">
+                                    <a href="/board/marketDetail?sb_num=${eList.sb_num}">
                                         <small class="main-item-category rounded-3 color-3">판매중</small> ${eList.sb_title}
                                     </a>
                                 </h5>
