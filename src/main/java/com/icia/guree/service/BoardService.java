@@ -96,8 +96,12 @@ public class BoardService {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String viewId = bDao.getViewId(userDetails.getUsername(), bDto.getSb_num());
             if (viewId == null || !viewId.equals(userDetails.getUsername())) {
-                bDao.setViewInfo(bDto.getSb_num(), userDetails.getUsername());
-                bDao.setBoardView(bDto.getSb_num());
+                try {
+                    bDao.setViewInfo(bDto.getSb_num(), userDetails.getUsername());
+                    bDao.setBoardView(bDto.getSb_num());
+                }catch (RuntimeException e){
+                    return null;
+                }
             }
         }
         // 조회수 끝

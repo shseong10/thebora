@@ -165,7 +165,7 @@
     <select id="auctionDetail" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
         select  a_num, a_joinid, progressnum, a_bidprice, sb_id, sb_bid, sb_category, sb_contents, sb_local,
                 sb_date, sb_nowprice, sb_timer, sb_startprice, sb_num, sb_salekind, sb_title, sb_price, sb_scope, sb_view
-                 from auction where sb_num = #{sb_num} and sb_scope = 1 order by a_num desc limit 1
+                 from auction where sb_num = #{sb_num} order by a_num desc limit 1
     </select>
 
     <select id="getNumber" resultType="java.lang.String">
@@ -334,7 +334,7 @@
     <select id="auctionEndDetail" resultMap="boardResult">
       select a_num, a_joinid, progressnum, a_bidprice, sb_id, sb_bid, sb_category, sb_contents, sb_local,
                 sb_date, sb_nowprice, sb_timer, sb_startprice, sb_num, sb_salekind, sb_title, sb_price, sb_scope, sb_view
-                 from auction where sb_num = #{sb_num} and sb_scope = 3 and sb_id = #{sb_id} order by a_num desc limit 1
+                 from auction where sb_num = #{sb_num} and sb_scope = 3 order by a_num desc limit 1
     </select>
 
     <select id="auctionEndList" resultType="com.icia.guree.entity.BoardDto">

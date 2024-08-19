@@ -142,7 +142,7 @@
                                     </div>
                                 </div>
                                 <div class="d-grid mt-3">
-                                    <a type="button" class="btn btn-color-thebora btn-sm" href="/board/auctionEndDetail?sb_num=${aList.sb_num}&sb_id=${aList.sb_id}">보기</a>
+                                    <a type="button" class="btn btn-color-thebora btn-sm" href="/board/auctionEndDetail?sb_num=${aList.sb_num}">보기</a>
                                 </div>
                             </div>
                         </div>

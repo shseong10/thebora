@@ -307,16 +307,17 @@ public class BoardController {
 
     // 중고거래 상세 페이지
     @GetMapping("/board/marketDetail")
-    public String marketDetail(BoardDto bDto, Model model) {
+    public String marketDetail(BoardDto bDto, Model model, RedirectAttributes redirectAttributes) {
         BoardDto detail = bSer.auctionDetail(bDto);
         List<BoardFileDto> file = bSer.getFile(bDto);
-        log.info("=========auctionDetail============" + file.toString());
-        log.info("==========auctionDetail============" + detail.toString());
-        model.addAttribute("bDto", detail);
-        model.addAttribute("file", file);
-        return "board/marketDetail";
-
-
+        if (detail==null){
+            redirectAttributes.addFlashAttribute("msg", "삭제된 게시글입니다.");
+            return "redirect:/";
+        }else {
+            model.addAttribute("bDto", detail);
+            model.addAttribute("file", file);
+            return "board/marketDetail";
+        }
     }
 
     // 관심상품목록

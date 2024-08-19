@@ -723,7 +723,7 @@
                 <tr>
 			        <th scope="row">` + delList.sb_num + `</th>
 			        <td>
-			        	<a href="/board/auctionDetail?sb_num=` + delList.sb_num + `">` + delList.sb_title + `</a>
+			        	<a href="/board/auctionEndDetail?sb_num=` + delList.sb_num + `">` + delList.sb_title + `</a>
 		        	</td>
 			        <td>`
                     + delList.sb_category +
