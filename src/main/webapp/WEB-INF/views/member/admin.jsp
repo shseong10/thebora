@@ -217,7 +217,7 @@
                 <tr>
 			        <th scope="row">` + delList.sb_num + `</th>
 			        <td>
-			        	<a onclick="picture(`+delList.sb_num+`)">` + delList.sb_title + `</a>
+			        	<span>` + delList.sb_title + `</span>
 		        	</td>
 			        <td>`
                     + delList.sb_category +
@@ -258,27 +258,6 @@
 
         })
     }
-
-    function picture(num){
-        $.ajax({
-            method: 'post',
-            url: '/admin/picture',
-            data:{"sb_num":num}
-        }).done((resp)=>{
-            console.log(resp)
-            // if (resp.size!=null){
-                // for (const i of resp) {
-            //         console.log(i)
-            //         $('#show_pic').append("<img src='/upload/"+i+"'>")
-            //     }
-            // }
-            // $('#showPicture').modal('show');
-
-        }).fail((err)=>{
-            console.log(err)
-        })
-    }
-
 
     function goBoardManager() {
 
@@ -825,22 +804,7 @@
         </div>
     </div>
 </div>
-<div id="showPicture" class="modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">경매시간</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="show_pic">
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 <script>
 
     function reUpload(num) {

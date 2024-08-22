@@ -81,11 +81,12 @@
             }).fail(function (err) {
                 console.log(err)
             })
-
         }
-
-
     }
+
+    $('#login_logo').click(()=>{
+        location.href="/";
+    })
 </script>
 </body>
 </html>

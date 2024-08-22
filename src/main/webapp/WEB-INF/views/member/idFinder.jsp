@@ -18,7 +18,6 @@
 <body>
 <div id="login_wrapper">
     <div id="login_logo">
-        <a href="/"></a>
     </div>
     <div id="login_input">
         <input type="text" class="form-control me-2" name="m_name" id="name" placeholder="이름"><br>
@@ -57,6 +56,10 @@
             })
         }
     }
+
+    $('#login_logo').click(()=>{
+        location.href="/";
+    })
 </script>
 </body>
 </html>
