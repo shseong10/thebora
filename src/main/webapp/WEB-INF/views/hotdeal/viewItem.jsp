@@ -159,6 +159,9 @@
                             <c:if test="${inventory.sb_buylevel > 0}">
                                 <b>${inventory.sb_buylevel}부터</b>
                             </c:if>
+                            <c:if test="${profile.p_level >= inventory.sb_buylevel}">
+                                <span class="main-item-category rounded-3 color-5">구매가 가능해요!</span>
+                            </c:if>
                         <br>
                         <small class="text-body-secondary">판매 기간</small>
                             <c:if test="${inventory.sb_timer_str == null}">
@@ -174,9 +177,12 @@
                         </div>
                         <div class="col-4">
                             <div class="input-group">
-                                <input type="number" class="form-control" name="view_qty" id="view_qty" placeholder="수량 선택">
-                                <span class="input-group-text">개</span>
-                                <button class="btn btn-primary btn-color-thebora" onclick="view_order()">주문하기</button>
+                                <c:if test="${profile.p_level >= inventory.sb_buylevel}">
+                                    <span class="input-group-text">수량 선택</span>
+                                    <input type="number" class="form-control" name="view_qty" id="view_qty" placeholder="1" value="1">
+                                    <span class="input-group-text">개</span>
+                                    <button class="btn btn-primary btn-color-thebora" onclick="view_order()">주문하기</button>
+                                </c:if>
                             </div>
                         </div>
                     </div>

@@ -28,6 +28,7 @@ public class InventoryDto {
     private int sb_count;
     private String sb_contents;
     private int sb_buylevel;
+    private int sb_total_sales;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

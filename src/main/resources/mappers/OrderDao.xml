@@ -34,6 +34,10 @@
         </selectKey>
     </insert>
 
+    <update id="saveSales">
+        update saleboard set sb_total_sales = sb_total_sales + #{quantity} where sb_num = #{item_num}
+    </update>
+
     <select id="getMyOrder" resultMap="orderResult">
         select *, (select sb_title from saleboard where sb_num = item_num) as sb_title from hotdealorder left join boardfile on item_num = bf_sb_num
                  where order_status = 1 and order_id = #{name} order by item_num desc;

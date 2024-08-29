@@ -35,13 +35,14 @@
         <result property="sb_timer" column="sb_timer" />
         <result property="sb_timer_str" column="sb_timer_str" />
         <result property="sb_buylevel" column="sb_buylevel" />
+        <result property="sb_total_sales" column="sb_total_sales" />
         <collection property="ifList" javaType="ArrayList" ofType="InventoryFile">
             <result property="bf_orifilename" column="bf_orifilename" />
             <result property="bf_sysfilename" column="bf_sysfilename" />
         </collection>
     </resultMap>
     <select id="getInventoryList" parameterType="HashMap" resultMap="ifList" resultType="InventoryDto">
-        select sb_num, sb_title, sb_price, sb_contents, sb_category, sb_count, sb_buylevel,
+        select sb_num, sb_title, sb_price, sb_contents, sb_category, sb_count, sb_buylevel, sb_total_sales,
         date_format(sb_timer,'%Y-%m-%d %H:%i') sb_timer_str,
         bf_orifilename, bf_sysfilename
         from saleboard left join boardfile
@@ -53,7 +54,7 @@
 
     <!-- 관리자 페이지 보기 -->
     <select id="getAdmin" parameterType="HashMap" resultMap="ifList" resultType="InventoryDto">
-        select sb_num, sb_title, sb_price, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel,
+        select sb_num, sb_title, sb_price, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel, sb_total_sales,
         date_format(sb_timer,'%Y-%m-%d %H:%i') sb_timer_str,
         bf_orifilename, bf_sysfilename
         from saleboard left join boardfile

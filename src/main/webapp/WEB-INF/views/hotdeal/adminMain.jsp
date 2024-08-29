@@ -312,7 +312,7 @@
                             ${item.sb_price}
                         </td>
                         <td id="${item.sb_num}_quantity">
-                            ${item.sb_count}
+                            ${item.sb_count-item.sb_total_sales}
                         </td>
                         <td id="${item.sb_num}_enddate">
                             ${item.sb_timer_str}
@@ -320,8 +320,8 @@
                         <td id="${item.sb_num}_buylevel">
                             ${item.sb_buylevel}
                         </td>
-                        <td>
-                            1
+                        <td id="${item.sb_num}_total_sales">
+                            ${item.sb_total_sales}
                         </td>
                     </tr>
                 </c:forEach>

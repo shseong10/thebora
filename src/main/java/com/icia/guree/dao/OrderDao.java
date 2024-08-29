@@ -12,4 +12,6 @@ public interface OrderDao {
     boolean addPoint(OrderDto order);
 
     List<OrderDto> getMyOrder(String name);
+
+    boolean saveSales(OrderDto order);
 }

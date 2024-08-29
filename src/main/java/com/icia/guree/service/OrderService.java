@@ -17,7 +17,11 @@ public class OrderService {
     public boolean buyItem(OrderDto order) {
         boolean result = oDao.buyNewItem(order);
         if (result) {
-            return true;
+            if (oDao.saveSales(order)){
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
