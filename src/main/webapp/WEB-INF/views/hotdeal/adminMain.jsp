@@ -371,10 +371,11 @@
                     <div class="row row-cols-2">
                         <div class="col-md-4">
                             <div class="text-center align-middle h-100">
-                                <div onclick="upload()" id="preview_main">
-                                    <img src="/img/logo.png" id="preview_main_img">
-                                </div>
                                 <div id="preview_sub" class="row row-cols-4">
+                                </div>
+                                <div id="preview_main">
+                                    <span class="btn btn-primary btn-color-thebora" onclick="upload()">상품 이미지 추가</span><br>
+                                    <small>추가된 이미지를 클릭하면 삭제됩니다.</small>
                                 </div>
                             </div>
                             <input type="file" name="attachments" id="attachments" multiple accept="image/*" hidden="hidden"/>
@@ -410,7 +411,7 @@
                                         </div>
                                         <div class="col-9">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="radioDate" id="radioDate1" value="option1" checked>
+                                                <input class="form-check-input" type="radio" name="radioDate" id="radioDate1" value="option1">
                                                 <label class="form-check-label" for="radioDate1">
                                                     지정안함
                                                 </label>

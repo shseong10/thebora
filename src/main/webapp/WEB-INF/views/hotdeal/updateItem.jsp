@@ -62,6 +62,8 @@
                     previewSub.appendChild(savedImg);
 
                     savedImg.addEventListener('click', removePreSubOri, false);
+
+
                 }
             }
 
@@ -160,24 +162,6 @@
             document.getElementById('attachments').click()
         }
     </script>
-    <style>
-        #preview_main {
-            background-image: url("https://icons.getbootstrap.com/assets/icons/images.svg");
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: 50%;
-
-            cursor:pointer;
-            border:1px black solid;
-            min-height: 80%;
-
-            text-align: center;
-        }
-
-        #preview_main img {
-            width: 100%;
-        }
-    </style>
 </head>
 <body>
 <header>
@@ -190,11 +174,13 @@
             <div class="row row-cols-2">
                 <div class="col-md-4">
                     <div class="text-center align-middle h-100">
-                        <div onclick="upload()" id="preview_main">
-                            &nbsp;
-                        </div>
                         <div id="preview_sub" class="row row-cols-4">
                         </div>
+                        <div id="preview_main">
+                            <span class="btn btn-primary btn-color-thebora" onclick="upload()">상품 이미지 추가</span><br>
+                            <small>추가된 이미지를 클릭하면 삭제됩니다.</small>
+                        </div>
+
                     </div>
                     <input type="file" name="attachments" id="attachments" multiple accept="image/*" hidden="hidden"/>
                 </div>

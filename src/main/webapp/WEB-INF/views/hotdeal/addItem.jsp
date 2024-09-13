@@ -51,9 +51,8 @@
                     previewSubImg.style.cursor = 'pointer';
                     previewSub.appendChild(previewSubImg); //생성한 이미지 요소를 문서에 추가
 
-                    previewMain.style.backgroundImage = 'url('+ img +')';
-
                     previewSubImg.addEventListener('click', removePreSub, false);
+
 
                     //업로드중인 파일을 dataTransfer에 추가
                     //dataTransfer를 사용해야 POST로 보내기 전에 파일을 추가/삭제할 수 있음
@@ -92,7 +91,7 @@
             this.remove();
         }
 
-        //파일 첨부 필드 대신 이미지를 클릭하면 파일 첨부 필드가 클릭되도록 함
+        //파일 첨부 필드 대신 버튼을 클릭하면 파일 첨부 필드가 클릭되도록 함
         function upload(){
             document.getElementById('attachments').click()
         }
@@ -113,10 +112,11 @@
                 <div class="row row-cols-2">
                     <div class="col-md-4">
                         <div class="text-center align-middle h-100">
-                            <div onclick="upload()" id="preview_main">
-                                &nbsp;
-                            </div>
                             <div id="preview_sub" class="row row-cols-4">
+                            </div>
+                            <div id="preview_main">
+                                <span class="btn btn-primary btn-color-thebora" onclick="upload()">상품 이미지 추가</span><br>
+                                <small>추가된 이미지를 클릭하면 삭제됩니다.</small>
                             </div>
                         </div>
                         <input type="file" name="attachments" id="attachments" multiple accept="image/*" hidden="hidden"/>

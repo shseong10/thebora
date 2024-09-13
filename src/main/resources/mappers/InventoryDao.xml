@@ -71,7 +71,7 @@
         on sb_num=bf_sb_num
         where sb_num=#{sb_num}
     </select>
-    <!-- 상품 상세 보기 -->
+    <!-- 관리자페이지 상품 정보 빠른 보기-->
     <select id="getQuickView" parameterType="Integer" resultMap="ifList">
         select sb_num, sb_title, sb_price, sb_contents, sb_category, sb_count, sb_timer, sb_buylevel,
         date_format(sb_timer,'%Y-%m-%d %H:%i') sb_timer_str,
@@ -80,7 +80,7 @@
         on sb_num=bf_sb_num
         where sb_num=#{sb_num}
     </select>
-    <!-- 관리자 상품 빠른 수정-->
+    <!-- 관리자페이지 상품 빠른 수정-->
     <update id="quickUpdate" parameterType="InventoryDto">
         update saleboard set sb_title = #{sb_title}, sb_category = #{sb_category}, sb_price = #{sb_price},
         sb_count = #{sb_count}, sb_contents = #{sb_contents}, sb_date = default, sb_timer = #{sb_timer}, sb_buylevel = #{sb_buylevel}
