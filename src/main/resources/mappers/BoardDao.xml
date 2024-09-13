@@ -68,12 +68,12 @@
 
     <insert id="productRegister" >
         insert into saleboard
-        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, #{sb_startPrice}, #{sb_startPrice}, #{sb_price}, #{sb_bid}, #{sb_timer}, #{sb_local}, #{sb_count}, default, #{sb_scope}, default,default)
+        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, #{sb_startPrice}, #{sb_startPrice}, #{sb_price}, #{sb_bid}, #{sb_timer}, #{sb_local}, #{sb_count}, default, #{sb_scope}, default, 0, 0)
     </insert>
 
     <insert id="auctionApply">
         insert into saleboard
-        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, #{sb_startPrice}, #{sb_startPrice}, #{sb_price}, #{sb_bid}, null , #{sb_local}, #{sb_count}, default, #{sb_scope}, default,#{sb_timer})
+        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, #{sb_startPrice}, #{sb_startPrice}, #{sb_price}, #{sb_bid}, null , #{sb_local}, #{sb_count}, default, #{sb_scope}, default, #{sb_timer}, 0)
     </insert>
 
     <insert id="auctionUser">
@@ -82,8 +82,8 @@
     </insert>
 
     <insert id="marketProductRegister">
-        insert into saleboard
-        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, null, 0, #{sb_price}, null, null, #{sb_local}, #{sb_count}, default, #{sb_scope}, default,default)
+        INSERT INTO saleboard (sb_id, sb_category, sb_saleKind, sb_title, sb_contents, sb_price, sb_local, sb_count, sb_scope, sb_date)
+        VALUES (#{sb_id}, #{sb_category}, 2, #{sb_title}, #{sb_contents}, #{sb_price}, #{sb_local}, #{sb_count}, 1, default)
     </insert>
     <insert id="myCartAttend">
         insert into watchlist values (null,#{sb_num},#{username})
