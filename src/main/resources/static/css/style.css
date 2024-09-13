@@ -585,15 +585,7 @@ footer {
 
 
 #preview_main {
-  background-image: url("https://icons.getbootstrap.com/assets/icons/images.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 50%;
-
-  cursor:pointer;
-  border:1px black solid;
   min-height: 80%;
-
   text-align: center;
 }
 

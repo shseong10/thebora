@@ -31,53 +31,54 @@
 </header>
 <form action="/member/pointExchange" method="post" enctype="multipart/form-data" id="chargePoint">
     <h1 class="w-75 mx-auto">포인트 환전</h1>
-    <div class="card mb-3 w-75 mx-auto allDiv-box">
+    <div class="card mb-3 p-3 w-75 mx-auto">
+        <p>1포인트당 1원의 비율로 포인트를 환전할 수 있습니다. (환전 수수료: 5%)</p>
+        <h5>현재 보유 포인트 : <span style="color: #4E4DDB">${point}</span> 포인트</h5>
 
-        <div class="row g-0">
-            <div class="col-md-4">
-            포인트는 1P에 1원입니다.
-                <p></p>
-            환전 수수료는 5% 입니다.
-
+        <h5>계좌 정보</h5>
+        <div class="row mb-3">
+            <div class="col-2">
+                <select id="bank" name="m_bank" class="form-select">
+                    <option value="">은행 선택</option>
+                    <option value="농협">농협</option>
+                    <option value="신한">신한</option>
+                    <option value="우리">우리</option>
+                    <option value="국민">국민</option>
+                    <option value="하나">하나</option>
+                    <option value="대구">대구</option>
+                    <option value="기업">기업</option>
+                </select>
             </div>
+            <div class="col-10">
+                <input id="m_account" name="m_bankNum" type="text" placeholder="계좌번호" class="form-control">
+            </div>
+        </div>
 
-            <div class="col-md-4">
-                <div class="card-body">
-                    <p class="card-text"> 보유 포인트 : ${point}</p>
-
-
-                    계좌번호
-                    <p class="card-text">
-                        <select id="bank" name="m_bank" class="product-category">
-                            <option value="">은행</option>
-                            <option value="농협">농협</option>
-                            <option value="신한">신한</option>
-                            <option value="우리">우리</option>
-                            <option value="국민">국민</option>
-                            <option value="하나">하나</option>
-                            <option value="대구">대구</option>
-                            <option value="기업">기업</option>
-                        </select>
-                    <input id="m_account" name="m_bankNum" type="text">
-                    </p>
-                    <p class="card-text">
-                        <select id="category" class="product-category">
-                            <option value="">직접입력</option>
-                            <option value="1000">1000</option>
-                            <option value="2000">2000</option>
-                            <option value="5000">5000</option>
-                            <option value="10000">10000</option>
-                            <option value="20000">20000</option>
-                            <option value="50000">50000</option>
-                            <option value="100000">100000</option>
-                        </select>
-                    </p>
-
-                        <input id="m_point" name="m_point" type="text">P
-
+        <h5>환전할 포인트</h5>
+        <div class="row">
+            <div class="col-3">
+                <select id="category" class="form-select">
+                    <option value="">환전할 포인트 선택</option>
+                    <option value="1000">1000</option>
+                    <option value="2000">2000</option>
+                    <option value="5000">5000</option>
+                    <option value="10000">10000</option>
+                    <option value="20000">20000</option>
+                    <option value="50000">50000</option>
+                    <option value="100000">100000</option>
+                </select>
+            </div>
+            <div class="col-2" style="text-align: center">
+                또는
+            </div>
+            <div class="col-5">
+                <div class="input-group mb-3">
+                    <input id="m_point" name="m_point" type="text" placeholder="직접 입력" class="form-control">
+                    <label class="input-group-text" for="m_point">포인트</label>
                 </div>
             </div>
         </div>
+
     </div>
 </form>
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">

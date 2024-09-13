@@ -18,20 +18,6 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
 </head>
-<style>
-
-    #product-detail {
-        width: 450px;
-        height: 500px;
-        resize: none;
-    }
-    .allDiv-box{
-        height: 600px;
-
-    }
-
-
-</style>
 <script>
     $(()=>{
 
@@ -104,60 +90,61 @@
 </header>
 <form action="/board/marketProductRegister" method="post" enctype="multipart/form-data" class="register-form">
     <h1 class="w-75 mx-auto">물품 등록</h1>
-    <div class="card mb-3 w-75 mx-auto allDiv-box">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <label for="product-picture">
-                    <img src="/img/product_upload.png" id="preview" class=" img-fluid rounded-start" alt="...">
-                </label>
-                <input type="file" id="product-picture" name="attachment" multiple hidden>
-                <input type="text" class="upload-name" value="파일선택" readonly>
-            </div>
-            <div class="col-md-4">
-                <div class="card-body">
-                    <p class="card-text">상품설명</p>
-                </div>
-                <label for="product-detail"></label><textarea name="sb_contents" id="product-detail"></textarea>
-            </div>
-            <div class="col-md-4">
-                <div class="card-body">
-                    <p class="card-text">카테고리 : <select id="category" name="sb_category" class="product-category">
-                        <option value="">카테고리</option>
-                        <c:forEach var="cList" items="${cateList}">
-                            <option value=${cList}>${cList}</option>
-                        </c:forEach>
-                    </select></p>
-                    <p class="card-text">지역 : <select name="sb_local" id="local" class="product-local">
-                        <option value="">지역선택</option>
-                        <option value="서울">서울</option>
-                        <option value="인천">인천</option>
-                        <option value="경기">경기</option>
-                        <option value="경북">경북</option>
-                        <option value="경남">경남</option>
-                        <option value="대구">대구</option>
-                        <option value="울산">울산</option>
-                        <option value="부산">부산</option>
-                        <option value="충북">충북</option>
-                        <option value="충남">충남</option>
-                        <option value="대전">대전</option>
-                        <option value="강원도">강원도</option>
-                        <option value="전북">전북</option>
-                        <option value="전남">전남</option>
-                        <option value="광주">광주</option>
-                        <option value="제주">제주</option>
-                    </select></p>
-                    <p class="card-title">상품명 : <input type="text" name="sb_title" class="product-title"></p>
-                    <p class="card-text"><small class="text-body-secondary">수량 선택 : <input type="text" id="order_count"
-                                                                                         name="sb_count"
-                                                                                         value="1">개</small></p>
-                    <p class="card-text">가격 : <input type="text" name="sb_price" class="product-price"></p>
-                    <input type="text" name="sb_timer" id="sb_timer" hidden="hidden">
+    <div class="card mb-3 p-3 w-75 mx-auto">
+        <div class="mb-3">
+            <label for="product-picture" class="form-label">상품 이미지 (여러장 첨부 가능)</label>
+            <input class="upload-name form-control" type="file" id="product-picture" name="attachment" multiple>
+        </div>
 
-                    <input type="text" value="2" name="sb_saleKind" hidden="hidden">
-                    <input type="text" value="1" name="sb_scope" hidden="hidden">
+        <div class="row mb-2">
+            <div class="col-6">
 
-                </div>
+                상품명
+                <input type="text" name="sb_title" class="product-title form-control">
             </div>
+            <div class="col-6">
+                카테고리
+                <select id="category" name="sb_category" class="product-category form-select">
+                    <option value="">카테고리</option>
+                    <c:forEach var="cList" items="${cateList}">
+                        <option value=${cList}>${cList}</option>
+                    </c:forEach>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-6">
+                가격
+                <input type="text" name="sb_price" class="product-price form-control">
+            </div>
+            <div class="col-6">
+                지역
+                <select name="sb_local" id="local" class="product-local  form-select">
+                    <option value="">지역선택</option>
+                    <option value="서울">서울</option>
+                    <option value="부산">부산</option>
+                    <option value="대구">대구</option>
+                    <option value="인천">인천</option>
+                    <option value="광주">광주</option>
+                    <option value="대전">대전</option>
+                    <option value="울산">울산</option>
+                    <option value="세종">세종</option>
+                    <option value="경기">경기</option>
+                    <option value="강원">강원</option>
+                    <option value="충북">충북</option>
+                    <option value="충남">충남</option>
+                    <option value="전북">전북</option>
+                    <option value="전남">전남</option>
+                    <option value="경북">경북</option>
+                    <option value="경남">경남</option>
+                    <option value="제주">제주</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            상품설명
+            <textarea name="sb_contents" id="product-detail" class="form-control"></textarea>
+            <input type="text" id="order_count" name="sb_count" value="1" hidden="hidden">
         </div>
 
     </div>
@@ -165,7 +152,6 @@
 </form>
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">
     <button type="button" class="btn btn-primary btn-color-thebora" id="product-register">물품등록</button>
-    <a href="/board/marketList" class="btn btn-primary btn-color-thebora" role="button">목록으로</a>
 </div>
 
 <script>

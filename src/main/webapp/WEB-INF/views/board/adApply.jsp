@@ -35,28 +35,33 @@
 </header>
 <form action="/board/adApply" method="post" enctype="multipart/form-data" class="register-form">
     <h1 class="w-75 mx-auto">광고 신청</h1>
-    <div class="card mb-3 w-75 mx-auto allDiv-box">
+    <div class="card mb-3 p-3 w-75 mx-auto">
+        <p class="card-text">
+            하루에 100포인트의 비용으로 광고를 신청하실 수 있습니다. (최대 7일)<br>
+            신청한 광고는 관리자 검토 후 승인되면 메인 화면에 게재됩니다.<br>
+            광고 상품의 내용에 따라 광고 승인이 거절될 수 있습니다.
+        </p>
 
-        <div class="row g-0">
-            <div class="col-md-4">
-                광고는 하루당 100포인트 입니다.
-
+        <p class="card-text">
+        <h5>광고 신청 상품 선택</h5>
+            <div style="width: 30%">
+                <select id="category" name="sb_num" class="form-select">
+                    <option value="">상품 목록</option>
+                    <c:forEach var="List" items="${myList}">
+                        <option value=${List.sb_num}>${List.sb_title}</option>
+                    </c:forEach>
+                </select>
             </div>
+        </p>
 
-            <div class="col-md-4">
-                <div class="card-body">
+        <p class="card-text" style="width: 3rem;">
+            <h5>광고 게재 희망 기간</h5>
+            기간 선택 시 포인트는 자동으로 계산됩니다.<br>
 
-                    <p class="card-text">
-                        <select id="category" name="sb_num" class="product-category">
-                            <option value="">게시글 목록</option>
-                            <c:forEach var="List" items="${myList}">
-                                <option value=${List.sb_num}>${List.sb_title}</option>
-                            </c:forEach>
-                        </select>
-                    </p>
-
-                    <p class="card-text">희망 기간
-                        <select id="howLong"  name="sb_date">
+            <div class="row mb-3">
+                <div class="col-4">
+                    <div class="input-group">
+                        <select id="howLong" name="sb_date" class="form-select">
                             <option value="">기간</option>
                             <option value="1">1일</option>
                             <option value="2">2일</option>
@@ -66,11 +71,19 @@
                             <option value="6">6일</option>
                             <option value="7">7일</option>
                         </select>
-                        <input id="m_point" name="m_point" type="text" readonly >P
-                    </p>
+                        <label class="input-group-text" for="howLong">일</label>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="input-group">
+                        <input class="form-control" id="m_point" name="m_point" type="text" readonly style="width: 3rem;">
+                        <label class="input-group-text" for="m_point">포인트</label>
+                    </div>
                 </div>
             </div>
-        </div>
+
+        </p>
+
     </div>
 </form>
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">

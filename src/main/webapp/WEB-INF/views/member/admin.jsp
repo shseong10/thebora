@@ -752,7 +752,7 @@
             <li onclick="goMarketBoardManager()">중고거래 삭제 게시글 관리</li>
             <li onclick="categoryList()">카테고리 관리</li>
             <li onclick="memberList()">회원 관리</li>
-            <li class="noborder"><a href="/board/auctionRegister">경매 올리기</a></li>
+            <li class="noborder"><a href="/board/auctionRegister" style="color: #000">경매 올리기</a></li>
         </ul>
     </div>
     <div id="admin-content">
@@ -836,9 +836,9 @@
         minuteIncrement: 1,
         dateFormat: "Y-m-d H:i",
         "locale": "ko",
-        minDate: new Date().fp_incr(0),
-        minTime: "9:00",
-        maxDate: new Date().fp_incr(7) // 7 days from now
+        // minDate: new Date().fp_incr(0),
+        // minTime: "9:00",
+        // maxDate: new Date().fp_incr(7) // 7 days from now
 
     });
 
@@ -867,9 +867,9 @@
         minuteIncrement: 1,
         dateFormat: "Y-m-d H:i",
         "locale": "ko",
-        minDate: new Date().fp_incr(0) ,
-        minTime: "9:00",
-        maxDate: new Date().fp_incr(7) // 7 days from now
+        // minDate: new Date().fp_incr(0) ,
+        // minTime: "9:00",
+        // maxDate: new Date().fp_incr(7) // 7 days from now
 
     });
 

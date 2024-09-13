@@ -24,40 +24,38 @@
 </header>
 <form action="/member/order" method="post" enctype="multipart/form-data" id="chargePoint">
     <h1 class="w-75 mx-auto">포인트 충전</h1>
-    <div class="card mb-3 w-75 mx-auto allDiv-box">
+    <div class="card mb-3 p-3 w-75 mx-auto">
+        <p>1포인트에 1원의 비용으로 포인트를 충전하실 수 있습니다.</p>
 
-        <div class="row g-0">
-            <div class="col-md-4">
-            포인트는 1P에 1원입니다.
-
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="input-group mb-3">
+                    <select id="category" class="form-select">
+                        <option value="">충전할 포인트 선택</option>
+                        <option value="1000">1000</option>
+                        <option value="2000">2000</option>
+                        <option value="5000">5000</option>
+                        <option value="10000">10000</option>
+                        <option value="20000">20000</option>
+                        <option value="50000">50000</option>
+                        <option value="100000">100000</option>
+                    </select>
+                </div>
             </div>
-
-            <div class="col-md-4">
-                <div class="card-body">
-
-                    <p class="card-text">
-                        <select id="category" class="product-category">
-                            <option value="">직접입력</option>
-                            <option value="1000">1000</option>
-                            <option value="2000">2000</option>
-                            <option value="5000">5000</option>
-                            <option value="10000">10000</option>
-                            <option value="20000">20000</option>
-                            <option value="50000">50000</option>
-                            <option value="100000">100000</option>
-                        </select>
-                    </p>
-
-
-                        <input id="m_point" name="item_price" type="text">P
-
+            <div class="col-2" style="text-align: center">
+                또는
+            </div>
+            <div class="col-5">
+                <div class="input-group mb-3">
+                    <input id="m_point" name="item_price" type="text" placeholder="직접 입력" class="form-control">
+                    <label class="input-group-text" for="m_point">포인트</label>
                 </div>
             </div>
         </div>
     </div>
 </form>
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-    <button type="button" class="btn btn-primary btn-color-thebora" id="charge" onclick="charge()">충전</button>
+    <button type="button" class="btn btn-primary btn-color-thebora" id="charge" onclick="charge()">충전하기</button>
 </div>
 <footer>
     <jsp:include page="../footer.jsp"></jsp:include>

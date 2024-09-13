@@ -20,20 +20,6 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 </head>
-<style>
-
-    #product-detail {
-        width: 450px;
-        height: 500px;
-        resize: none;
-    }
-
-    .allDiv-box {
-        height: 600px;
-    }
-
-
-</style>
 <script>
     $(() => {
 
@@ -97,6 +83,12 @@
             }
         })
     })
+
+    //파일 첨부 필드 대신 버튼을 클릭하면 파일 첨부 필드가 클릭되도록 함
+    function upload(){
+        document.getElementById('product-picture').click()
+    }
+
     //파일업로드 HTML요소 지정
     $(() => {
         const fileElem = document.getElementById('product-picture')
@@ -124,62 +116,74 @@
 </header>
 <form action="/board/auctionApply" method="post" enctype="multipart/form-data" class="register-form">
     <h1 class="w-75 mx-auto">경매 신청</h1>
-    <div class="card mb-3 w-75 mx-auto allDiv-box">
+    <div class="card mb-3 p-3 w-75 mx-auto">
+        <h5 class="mb-5">경매 상품은 관리자의 검토를 거쳐 게재됩니다.</h5>
 
-        <div class="row g-0">
-            <div class="col-md-4">
-                <label for="product-picture">
-                    <img src="/img/product_upload.png" id="preview" class=" img-fluid rounded-start" alt="...">
-                </label>
-                <input type="file" id="product-picture" name="attachment" multiple hidden>
-                <input type="text" class="upload-name" value="파일선택" readonly>
-            </div>
-            <div class="col-md-4">
-                <div class="card-body">
-                    <p class="card-text">상품설명</p>
-                </div>
-                <label for="product-detail"></label><textarea name="sb_contents" id="product-detail"></textarea>
-            </div>
-            <div class="col-md-4">
-                <div class="card-body">
-                    <p class="card-text">경매정보</p>
-                    <p class="card-text"><select id="category" name="sb_category" class="product-category">
-                        <option value="">카테고리</option>
-                        <c:forEach var="cList" items="${cateList}">
-                            <option value=${cList}>${cList}</option>
-                        </c:forEach>
-                    </select></p>
 
-                    <p class="card-title">상품명 <input type="text" name="sb_title" class="product-title"></p>
-                    <p class="card-text"><small class="text-body-secondary">수량 선택:<input type="text" id="order_count"
-                                                                                         name="sb_count"
-                                                                                         value="1">개</small></p>
-                    <p class="card-text">희망 시작가 <input type="text" name="sb_startPrice" class="product-startPrice">원</p>
-                    <p class="card-text">희망 입찰최소단위 <input type="text" name="sb_bid" class="product-bid">원</p>
-                    <p class="card-text">희망 즉시구매가 <input type="text" name="sb_price" class="product-price">원</p>
-                    <p class="card-text">희망 경매기간
-                        <select name="sb_timer">
-                            <option value="1">1일</option>
-                            <option value="2">2일</option>
-                            <option value="3">3일</option>
-                            <option value="4">4일</option>
-                            <option value="5">5일</option>
-                            <option value="6">6일</option>
-                            <option value="7">7일</option>
-                        </select>
-                        <input type="text" value="4" name="sb_saleKind" hidden="hidden">
-                        <input type="text" value="1" name="sb_scope" hidden="hidden">
-                        <input type="text" value="경매" name="sb_local" hidden="hidden">
+        <div class="mb-3">
+            <label for="product-picture" class="form-label">상품 이미지 (여러장 첨부 가능)</label>
+            <input class="upload-name form-control" type="file" id="product-picture" name="attachment" multiple>
+        </div>
 
-                </div>
+        <div class="row mb-2">
+            <div class="col-6">
+
+                상품명
+                <input type="text" name="sb_title" class="product-title form-control">
             </div>
+            <div class="col-6">
+                카테고리
+                <select id="category" name="sb_category" class="product-category form-select">
+                    <option value="">카테고리</option>
+                    <c:forEach var="cList" items="${cateList}">
+                        <option value=${cList}>${cList}</option>
+                    </c:forEach>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-6">
+                시작가
+                <input type="text" name="sb_startPrice" class="product-startPrice form-control">
+            </div>
+            <div class="col-6">
+                입찰최소단위
+                <input type="text" name="sb_bid" class="product-bid form-control">
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-6">
+                즉시구매가
+                <input type="text" name="sb_price" class="product-price form-control">
+            </div>
+            <div class="col-6">
+                경매기간
+                <select name="sb_timer" class="form-select">
+                    <option value="1">1일</option>
+                    <option value="2">2일</option>
+                    <option value="3">3일</option>
+                    <option value="4">4일</option>
+                    <option value="5">5일</option>
+                    <option value="6">6일</option>
+                    <option value="7">7일</option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            상품설명
+            <textarea name="sb_contents" id="product-detail" class="form-control"></textarea>
+            <input type="text" id="order_count" name="sb_count" value="1" hidden="hidden">
+            <input type="text" value="4" name="sb_saleKind" hidden="hidden">
+            <input type="text" value="1" name="sb_scope" hidden="hidden">
+            <input type="text" value="경매" name="sb_local" hidden="hidden">
         </div>
 
     </div>
 </form>
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">
     <button type="button" class="btn btn-primary btn-color-thebora" id="product-register">물품등록</button>
-    <a href="/board/auctionList" class="btn btn-primary btn-color-thebora" role="button">목록으로</a>
 </div>
 <script>
 
