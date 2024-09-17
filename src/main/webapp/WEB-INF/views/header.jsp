@@ -69,7 +69,7 @@
     </nav>
     <div class="d-flex justify-content-end">
         <div class="d-flex">
-            <ul class="nav nav-pills">
+            <ul class="nav nav-pills" id="user-nav">
                 <li class="nav-item">
                     <sec:authorize access="isAnonymous()">
                         <a class="nav-link" href="/member/login">로그인</a>
@@ -87,7 +87,7 @@
                 </li>
                 <li class="nav-item">
                     <sec:authorize access="isAuthenticated()">
-                        <button class="nav-link" onclick="btn_logout()">로그아웃</button>
+                        <a href="#" class="nav-link" onclick="btn_logout()">로그아웃</a>
                     </sec:authorize>
                 </li>
                 <li class="nav-item">
@@ -100,39 +100,23 @@
                         <a class="nav-link" aria-current="page" href="/member/admin">관리자페이지</a>
                     </sec:authorize>
                 </li>
-                <li class="nav-item dropdown">
-                    <div class="notification-target">
-                        <sec:authorize access="isAuthenticated()">
-                            <a class="nav-link" aria-expanded="false" href="/member/attendance">출석체크</a>
-                        </sec:authorize>
-                        <%--                        <span class="notification-badge">NEW</span>--%>
-                    </div>
+                <li class="nav-item position-relative">
+                    <sec:authorize access="isAuthenticated()">
+                        <a class="nav-link" aria-expanded="false" href="/member/attendance">출석체크</a>
+                    </sec:authorize>
                 </li>
-                <li class="nav-item">
-                    <div class="notification-target">
-                        <sec:authorize access="isAuthenticated()">
-                            <div class="nav-link">
-                                <a href="/member/chat" id="chatAlert" aria-expanded="false" onclick="chat()">채팅</a>
-                            </div>
-                        </sec:authorize>
-                        <%--                        <span class="notification-badge">NEW</span>--%>
-                    </div>
+                <li class="nav-item position-relative" id="set-chat-badge">
+                    <sec:authorize access="isAuthenticated()">
+                        <a class="nav-link" href="/member/chat" id="chatAlert" aria-expanded="false" onclick="chat()">채팅</a>
+                    </sec:authorize>
                 </li>
-                <li class="nav-item">
-                    <div class="notification-target">
-                        <sec:authorize access="isAuthenticated()">
-                            <div class="dropdown nav-link">
-                                <a href="#" data-bs-toggle="dropdown" aria-expanded="false" onclick="alertInfo()">알림</a>
-                                <a id="alertLink" type="button" data-bs-toggle="dropdown" aria-expanded="false"
-                                   onclick="alertInfo()">
-                                    <i class="bi bi-bell"></i>
-                                </a>
-                                <ul id="alertBtn" class="dropdown-menu">
-                                </ul>
-                            </div>
-                        </sec:authorize>
-                        <%--                        <span class="notification-badge">NEW</span>--%>
-                    </div>
+                <li class="nav-item position-relative" id="set-alert-badge">
+                    <sec:authorize access="isAuthenticated()">
+                        <a class="nav-link" href="#" onclick="alertInfo()" data-bs-toggle="dropdown" aria-expanded="false">알림<i class="bi bi-bell"></i></a>
+                        <div id="alertBtn" class="dropdown-menu p-1">
+                            <%-- 드롭다운 알림 목록 표시 부분 --%>
+                        </div>
+                    </sec:authorize>
                 </li>
             </ul>
         </div>
@@ -176,8 +160,7 @@
             $.each(resp, function (i, aList) {
                 console.log(aList.msg)
                 alertList +=
-                    `<hr>` +
-                    aList.msg
+                    aList.msg + `<hr>`;
             })
             $('#alertBtn').html(alertList);
 
@@ -215,8 +198,8 @@
     $(document).ready(function () {
         //소켓 연결
         connectWs();
-        $('#alertLink').append(localStorage.getItem("newItem"))
-        $('#chatAlert').append(localStorage.getItem("chatNewItem"))
+        $('#set-alert-badge').append(localStorage.getItem("newItem"))
+        $('#set-chat-badge').append(localStorage.getItem("chatNewItem"))
     });
 
     function connectWs() {
@@ -234,8 +217,8 @@
                 const result = JSON.parse(event.data);
                 if(result.type ==="reject"){
                     $('#toastContainer').append(result.contents);
-                    localStorage.setItem("newItem", "<span id='newIcon' class='notification-badge'>NEW</span>");
-                    $('#alertLink').append(localStorage.getItem("newItem"))
+                    localStorage.setItem("newItem", "<span id='newIcon' class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>NEW</span>");
+                    $('#set-alert-badge').append(localStorage.getItem("newItem"))
                     const toastElements = document.querySelectorAll('.choose');
                     toastElements.forEach((toastElement) => {
                         const toastBootstrap = new bootstrap.Toast(toastElement);
@@ -255,8 +238,8 @@
                 }else
                 if(result.type ==="chatAlert"){
                     $('#toastContainer').append(result.contents);
-                    localStorage.setItem("chatNewItem", "<span id='newIcon' class='notification-badge'>NEW</span>");
-                    $('#chatAlert').append(localStorage.getItem("chatNewItem"))
+                    localStorage.setItem("chatNewItem", "<span id='newIcon' class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>NEW</span>");
+                    $('#set-chat-badge').append(localStorage.getItem("chatNewItem"))
                     const toastElements = document.querySelectorAll('.choose');
                     toastElements.forEach((toastElement) => {
                         const toastBootstrap = new bootstrap.Toast(toastElement);
@@ -264,8 +247,8 @@
                     });
                 }else{
                     $('#toastContainer').append(result.contents);
-                    localStorage.setItem("newItem", "<span id='newIcon' class='notification-badge'>NEW</span>");
-                    $('#alertLink').append(localStorage.getItem("newItem"))
+                    localStorage.setItem("newItem", "<span id='newIcon' class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>NEW</span>");
+                    $('#set-alert-badge').append(localStorage.getItem("newItem"))
                     const toastElements = document.querySelectorAll('.choose');
                     toastElements.forEach((toastElement) => {
                         const toastBootstrap = new bootstrap.Toast(toastElement);

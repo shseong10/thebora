@@ -320,37 +320,48 @@ public class BoardService {
 
     public void alertMsg(AlertDto alertMsg) {
         if (alertMsg.getType().equals("apply")) {
-            alertMsg.setMsg("<li>" +
-                    "<div>" +
-                    "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
-                    alertMsg.getAlertDate() +
+            alertMsg.setMsg(
+                    "<div class='container'>" +
+                    "<div class='row p-0'>" +
+                            "<div class='col-11 p-0'>" +
+                                alertMsg.getBuyer() + "님이 " +
+                                "<strong><a href='/board/marketDetail?sb_num="+alertMsg.getSb_num()+"'>" +
+                                alertMsg.getSb_title() + "</a></strong>에 구매신청을 하였습니다.<br>" +
+                                "<small>" + alertMsg.getAlertDate() + "</small>" +
+                            "</div>" +
+                            "<div class='col-1 p-0'>" +
+                                "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
+                            "</div>" +
                     "</div>" +
-                    "<div>" +
-                    alertMsg.getBuyer() + " 님이 " + "<a href='/board/marketDetail?sb_num="+alertMsg.getSb_num()+"'style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong> 에 구매신청을 하였습니다..</a>" +
-                    "</div>" +
-                    "</li>");
+                    "</div>");
         }
         if (alertMsg.getType().equals("reject")) {
-            alertMsg.setMsg("<li>" +
-                    "<div>" +
-                    "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
-                    alertMsg.getAlertDate() +
-                    "</div>" +
-                    "<div>" +
-                    alertMsg.getSb_title() + "의 경매신청이 거절되었습니다." +
-                    "</div>" +
-                    "</li>");
+            alertMsg.setMsg(
+                    "<div class='container'>" +
+                    "<div class='row' p-0>" +
+                            "<div class='col-11 p-0'>" +
+                            "<strong>" + alertMsg.getSb_title() + "</strong>의 경매신청이 거절되었습니다.<br>" +
+                            "<small>" + alertMsg.getAlertDate() + "</small>" +
+                            "</div>" +
+                            "<div class='col-1 p-0'>" +
+                            "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>");
         }
         if (alertMsg.getType().equals("adReject")) {
-            alertMsg.setMsg("<li>" +
-                    "<div>" +
-                    "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
-                    alertMsg.getAlertDate() +
-                    "</div>" +
-                    "<div>" +
-                    alertMsg.getSb_title() + "의 광고신청이 거절되었습니다." +
-                    "</div>" +
-                    "</li>");
+            alertMsg.setMsg(
+                    "<div class='container'>" +
+                    "<div class='row p-0'>" +
+                            "<div class='col-11 p-0'>" +
+                            "<strong>" + alertMsg.getSb_title() + "</strong>의 광고신청이 거절되었습니다.<br>" +
+                            "<small>" + alertMsg.getAlertDate() + "</small>" +
+                            "</div>" +
+                            "<div class='col-1 p-0'>" +
+                            "<button type='button' class='btn-close' aria-label='Close' onclick='alertDel("+alertMsg.getSb_num()+")'></button>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>");
         }
 
         bDao.alertMsg(alertMsg);

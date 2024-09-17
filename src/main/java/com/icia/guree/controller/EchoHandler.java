@@ -74,9 +74,9 @@ public class EchoHandler extends TextWebSocketHandler {
         if (alertMsg.getType().equals("adReject")) {
             alertMsg.setAlertDate(result);
             alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +
-                    "<div class='toast-header'>" +
-                    "<button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
+                    "<div class='toast-header'><small>" +
                     result +
+                    "</small><button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
                     "</div>" +
                     "<div class='toast-body'>" +
                     alertMsg.getSb_title() + "의 광고신청이 거절되었습니다." +
@@ -96,14 +96,14 @@ public class EchoHandler extends TextWebSocketHandler {
         if (alertMsg.getType().equals("reject")) {
             alertMsg.setAlertDate(result);
             alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +
-                    "<div class='toast-header'>" +
-                    "<button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
-                    result +
-                    "</div>" +
-                    "<div class='toast-body'>" +
-                    alertMsg.getSb_title() + "의 경매신청이 거절되었습니다." +
-                    "</div>" +
-                    "</div>");
+                                "<div class='toast-header'><small>" +
+                                    result +
+                                    "</small><button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
+                                "</div>" +
+                                "<div class='toast-body'>" +
+                                    alertMsg.getSb_title() + "의 경매신청이 거절되었습니다." +
+                                "</div>" +
+                            "</div>");
             String alertContents = alertMsg.getMsg().replace("\"", "\\\"");
             String reject = "{\"type\":\"reject\",\"contents\":\""+alertContents+"\"}";
 
@@ -120,9 +120,9 @@ public class EchoHandler extends TextWebSocketHandler {
             if(alertMsg.getSeller().equals(sendPushUsername(session))){
                 sendedPushSession2.sendMessage(new TextMessage(chat));
                 alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +
-                        "<div class='toast-header'>" +
-                        "<button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
+                        "<div class='toast-header'><small>" +
                         result +
+                        "</small><button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
                         "</div>" +
                         "<div class='toast-body'>" +
                         alertMsg.getBuyer() + " 님이 메세지를 보냈습니다." +
@@ -138,9 +138,9 @@ public class EchoHandler extends TextWebSocketHandler {
             }else{
                 sendedPushSession.sendMessage(new TextMessage(chat));
                 alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +
-                        "<div class='toast-header'>" +
-                        "<button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
+                        "<div class='toast-header'><small>" +
                         result +
+                        "</small><button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
                         "</div>" +
                         "<div class='toast-body'>" +
                         alertMsg.getSeller() + " 님이 메세지를 보냈습니다." +
@@ -160,12 +160,12 @@ public class EchoHandler extends TextWebSocketHandler {
         if (alertMsg.getType().equals("apply")) {
             alertMsg.setAlertDate(result);
             alertMsg.setMsg("<div class='toast choose' role='alert' aria-live='assertive' aria-atomic='true'>" +
-                    "<div class='toast-header'>" +
-                    "<button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
+                    "<div class='toast-header'><small>" +
                     result +
+                    "</small><button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>" +
                     "</div>" +
                     "<div class='toast-body'>" +
-                    alertMsg.getBuyer() + " 님이 " + "<a href='/board/marketDetail?sb_num="+alertMsg.getSb_num()+"' style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong> 에 구매신청을 하였습니다..</a>" +
+                    alertMsg.getBuyer() + "님이 " + "<a href='/board/marketDetail?sb_num="+alertMsg.getSb_num()+"' style=\"color:black\"><strong>" + alertMsg.getSb_title() + "</strong>에 구매신청을 하였습니다.</a>" +
                     "</div>" +
                     "</div>");
             String alertContents = alertMsg.getMsg().replace("\"", "\\\"");
